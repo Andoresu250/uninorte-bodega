@@ -1,0 +1,51 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form name="newEventForm" ng-cloak ng-submit="createEvent(newevent)">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Nuevo Evento</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-set="material-icons"> close </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+            <label>Nombre</label>
+            <md-icon md-font-set="material-icons"> person </md-icon>
+            <input type="text" name="userName" ng-model="newevent.name" 
+            required>
+            <div ng-messages="newUserForm.userName.$error">
+              <div ng-message="required">Campo requerido.</div>
+              <div ng-message="minlength">Campo requerido.</div>
+            </div>
+        </md-input-container> 
+        <md-input-container class="md-block">
+            <label>Fecha</label>
+            <md-datepicker name="dateField" ng-model="newevent.date" 
+            required ></md-datepicker>
+
+            <div ng-messages="newEventForm.dateField.$error">
+              <div ng-message="valid">Ingrese una fecha valida porfavor</div>
+              <div ng-message="required">Campo requerido</div>
+              <div ng-message="mindate">Date is too early!</div>
+              <div ng-message="maxdate">Date is too late!</div>
+              <div ng-message="filtered">Only weekends are allowed!</div>
+            </div>
+        </md-input-container> 
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">      
+      <span flex></span>
+      <md-button ">
+       Cancelar
+      </md-button>
+      <md-button type="submit" ng-disabled="!newEventForm.$valid">
+        Crear Evento
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

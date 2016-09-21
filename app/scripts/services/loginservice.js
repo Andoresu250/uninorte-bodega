@@ -39,7 +39,7 @@ angular.module('bodegaUninorteApp')
             });        
         }
       },
-      islogged:function(){      
+      islogged:function(){              
         if(sessionService.get('token')){
           return true;
         }

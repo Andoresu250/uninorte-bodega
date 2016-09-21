@@ -1,0 +1,46 @@
+<md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
+
+      <md-toolbar class="md-theme-light">
+        <h1 class="md-toolbar-tools">Menu</h1>
+      </md-toolbar>
+      <md-content ng-controller="SidenavCtrl" >                
+
+        <md-list flex>       
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> dashboard </md-icon>
+            <p> Estadisticas </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> people </md-icon>
+            <p> Usuarios </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> local_grocery_store </md-icon>
+            <p> Pedidios y Eventos </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> content_paste </md-icon>
+            <p> Inventario </p>            
+          </md-list-item>      
+
+          <md-divider ></md-divider>   
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> exit_to_app </md-icon>
+            <p> Cerrar Sesión </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="close()">
+            <md-icon md-font-set="material-icons"> clear </md-icon>
+            <p> Cerrar Menu </p>            
+          </md-list-item>         
+          
+        </md-list>
+        
+      </md-content>     
+
+</md-sidenav>

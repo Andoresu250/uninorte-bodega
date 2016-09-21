@@ -2,8 +2,8 @@
   <div class="md-toolbar-tools">
     <div layout="row">
       <div hide-gt-sm flex>
-        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()" ng-hide="isOpenRight()">
-            <i class="material-icons" style="color: white;"">menu</i>
+        <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()" ng-hide="isOpenRight()">            
+            <md-icon md-font-set="material-icons" style="color: white;"> menu </md-icon>            
         </md-button>
       </div>        
     </div>    
@@ -17,32 +17,27 @@
 
     <div hide show-gt-sm>
 
+      <a ui-sref="dashboard.statistics">
+        <md-button> Estadistica </md-button>  
+      </a>
 
-      <!--
-      <md-button class="md-icon-button" aria-label="Favorite">
-        <i class="material-icons">favorite</i>
-      </md-button>
 
-      <md-button class="md-icon-button" aria-label="More">
-        <i class="material-icons">more_vert</i>
-      </md-button>
-      --> 
+      <a ui-sref="dashboard.users">
+        <md-button> Usuarios </md-button>  
+      </a>
+      
 
-      <md-button>
-            Estadisticas
-      </md-button>
+      <a ui-sref="dashboard.orders">
+        <md-button> Pedidos </md-button>  
+      </a>
 
-      <md-button>
-            Usuarios
-      </md-button>
+      <a ui-sref="dashboard.events">
+        <md-button> Eventos </md-button>  
+      </a>
 
-      <md-button>
-            Pedidos y Eventos
-      </md-button>
-
-      <md-button>
-            Inventario
-      </md-button>
+      <a ui-sref="dashboard.inventory">
+        <md-button> Inventario </md-button>  
+      </a>
 
       <md-button ng-click="logout()">
             Cerrar Sesión
@@ -56,19 +51,51 @@
 <md-sidenav class="md-sidenav-left md-whiteframe-4dp" md-component-id="left">
 
       <md-toolbar class="md-theme-light">
-        <h1 class="md-toolbar-tools">Sidenav Right</h1>
+        <h1 class="md-toolbar-tools">Menu</h1>
       </md-toolbar>
-      <md-content ng-controller="RightCtrl" layout-padding>
-        <form>
-          <md-input-container>
-            <label for="testInput">Test input</label>
-            <input type="text" id="testInput"
-                   ng-model="data" md-autofocus>
-          </md-input-container>
-        </form>
-        <md-button ng-click="close()" class="md-primary">
-          Close Sidenav Right
-        </md-button>
-      </md-content>
+      <md-content ng-controller="SidenavCtrl" >                
+
+        <md-list flex>       
+
+          <md-list-item ng-click="goTo('dashboard.statistics')">
+            <md-icon md-font-set="material-icons"> show_chart </md-icon>
+            <p> Estadisticas </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="goTo('dashboard.users')">
+            <md-icon md-font-set="material-icons"> people </md-icon>
+            <p> Usuarios </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="goTo('dashboard.orders')">
+            <md-icon md-font-set="material-icons"> local_grocery_store </md-icon>
+            <p> Pedidios</p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="goTo('dashboard.events')">
+            <md-icon md-font-set="material-icons"> event </md-icon>
+            <p> Eventos </p>            
+          </md-list-item>                   
+
+          <md-list-item ng-click="goTo('dashboard.inventory')">
+            <md-icon md-font-set="material-icons"> content_paste </md-icon>
+            <p> Inventario </p>            
+          </md-list-item>      
+
+          <md-divider ></md-divider>   
+
+          <md-list-item ng-click="null">
+            <md-icon md-font-set="material-icons"> exit_to_app </md-icon>
+            <p> Cerrar Sesión </p>            
+          </md-list-item>         
+
+          <md-list-item ng-click="close()">
+            <md-icon md-font-set="material-icons"> clear </md-icon>
+            <p> Cerrar Menu </p>            
+          </md-list-item>         
+          
+        </md-list>
+        
+      </md-content>     
 
 </md-sidenav>

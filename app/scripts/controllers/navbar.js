@@ -12,12 +12,11 @@ angular.module('bodegaUninorteApp')
 	    };
 
 	    function buildToggler(navID) {
-	      return function() {
-	        // Component lookup should always be available since we are not using `ng-if`
+	      return function() {	        
 	        $mdSidenav(navID)
 	          .toggle()
 	          .then(function () {
-	            $log.debug("toggle " + navID + " is done");
+	            //$log.debug("toggle " + navID + " is done");
 	          });
 	      }
 	    }
