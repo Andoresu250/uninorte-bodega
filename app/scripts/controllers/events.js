@@ -39,7 +39,8 @@ angular.module('bodegaUninorteApp')
 
 		//MODAL CONFIG
 
-		$scope.createEvent = function(ev) {
+
+		$scope.createEvent = function(ev) {		
 		    $mdDialog.show({
 				controller: 'EventDialogCtrl',
 				templateUrl: 'views/modals/new-event-dialog.html',
@@ -63,6 +64,44 @@ angular.module('bodegaUninorteApp')
 		    }, function() {
 				
 		    });
+		};
+
+		$scope.showEditEvent = function(ev, eventId) {
+
+			eventsService.get(eventId).
+				then(
+					function successCallback (response) {
+						$scope.editevent = response.data.data.event;
+						$mdDialog.show({
+							controller: 'EventDialogCtrl',
+							templateUrl: 'views/modals/edit-event-dialog.html',
+							parent: angular.element(document.body),
+							targetEvent: ev,
+							clickOutsideToClose:true,
+							fullscreen: true // Only for -xs, -sm breakpoints.
+					    })
+					    .then(function(event) {
+					    	
+							eventsService.edit(event).
+								then(
+									function successCallback(response) {
+										console.log(response);
+										loadEvents();
+									},
+									function errorCallback(response) {							
+										console.log(response);
+									}
+								);
+					    }, function() {
+							
+					    });
+					},
+					function errorCallback (response) {
+						
+					}
+				);
+
+		    
 		};
 
 		$scope.toggleLimitOptions = function () {

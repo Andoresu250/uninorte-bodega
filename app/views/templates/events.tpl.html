@@ -36,8 +36,8 @@
             <td md-cell>{{event.date}}</td>
             <td md-cell> 
               
-            	<md-button class="md-icon-button" ">              
-  		          <md-icon md-font-set="material-icons"> mode_edit </md-icon>		          
+            	<md-button class="md-icon-button">              
+  		          <md-icon md-font-set="material-icons" ng-click="showEditEvent($event, event.id)"> mode_edit </md-icon>		          
   		        </md-button>
               
   		        <md-button class="md-icon-button" ng-click="deleteUser()">              
@@ -67,7 +67,7 @@
 
 		    <md-fab-actions>
           
-  		      <md-button aria-label="Nuevo Usuario" class="md-fab md-raised md-mini" ng-click="showAdvanced($event)">
+  		      <md-button aria-label="Nuevo Usuario" class="md-fab md-raised md-mini" ng-click="createEvent($event)">
   		        <md-icon md-font-set="material-icons"> event_note </md-icon>
   		      </md-button>          
           

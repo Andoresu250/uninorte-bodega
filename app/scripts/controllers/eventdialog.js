@@ -13,4 +13,8 @@ angular.module('bodegaUninorteApp')
 		$scope.createEvent = function(newEvent) {
 			$mdDialog.hide(newEvent);
 		};
+
+		$scope.editEvent = function(event) {
+			$mdDialog.hide(event);
+		};
 	});

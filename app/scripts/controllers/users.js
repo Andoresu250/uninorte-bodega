@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('UsersCtrl', function ($scope, usersService, $state, $stateParams) {
+	.controller('UsersCtrl', function ($scope, usersService, $state, $stateParams, $mdDialog) {
 		$scope.usersTypes = ['admin','asesor','gerente','bodega'];
 
 		$scope.showload = true;	
@@ -41,6 +41,35 @@ angular.module('bodegaUninorteApp')
 					}
 				);
 		}	
+
+
+		//Dialog config
+
+		 $scope.deleteUser = function(ev, id, email) {
+		    
+		    var confirm = $mdDialog.confirm()
+		          .title('Esta seguro de eliminar al usuario con email: ' + email)
+		          .textContent('Una vez hecho esto no habra no prodras deshacer los cambios.')
+		          .ariaLabel('Borrar usuario')
+		          .targetEvent(ev)
+		          .ok('Elimiar')
+		          .cancel('Cancelar');
+
+		    $mdDialog.show(confirm).then(function() {
+			    usersService.delete(id).
+			    	then(
+			    		function successCallback(response) {
+			    			loadUsers();
+			    		},
+			    		function errorCallback(response) {
+			    			
+			    		}
+		    		);
+			    
+		    }, function() {
+		    	
+		    });
+		};
 
 		//Fab Config
 

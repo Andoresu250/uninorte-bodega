@@ -1,8 +1,8 @@
-<md-dialog aria-label="Nuevo Evento">
-  <form name="newEventForm" ng-cloak ng-submit="createEvent(newevent)">
+<md-dialog aria-label="Editar Evento">
+  <form name="newEventForm" ng-cloak ng-submit="editEvent(editevent)">
     <md-toolbar>
       <div class="md-toolbar-tools">
-        <h2>Nuevo Evento</h2>
+        <h2>Editar Evento</h2>
         <span flex></span>
         <md-button class="md-icon-button" ng-click="cancel()">
           <md-icon md-font-set="material-icons"> close </md-icon>
@@ -15,7 +15,7 @@
         <md-input-container class="md-block">
             <label>Nombre</label>
             <md-icon md-font-set="material-icons"> person </md-icon>
-            <input type="text" name="userName" ng-model="newevent.name" 
+            <input type="text" name="userName" ng-model="editevent.name" 
             required>
             <div ng-messages="newUserForm.userName.$error">
               <div ng-message="required">Campo requerido.</div>
@@ -24,7 +24,7 @@
         </md-input-container> 
         <md-input-container class="md-block">
             <label>Fecha</label>
-            <md-datepicker name="dateField" ng-model="newevent.date" 
+            <md-datepicker name="dateField" ng-model="editevent.date" 
             required ></md-datepicker>
 
             <div ng-messages="newEventForm.dateField.$error">
