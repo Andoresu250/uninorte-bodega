@@ -9,7 +9,7 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
+    //'ngTouch',
     'ngMaterial',
     'ngStorage',
     'ui.router',

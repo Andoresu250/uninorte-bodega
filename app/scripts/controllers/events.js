@@ -39,7 +39,7 @@ angular.module('bodegaUninorteApp')
 
 		//MODAL CONFIG
 
-		$scope.showAdvanced = function(ev) {
+		$scope.createEvent = function(ev) {
 		    $mdDialog.show({
 				controller: 'EventDialogCtrl',
 				templateUrl: 'views/modals/new-event-dialog.html',
@@ -53,7 +53,7 @@ angular.module('bodegaUninorteApp')
 				eventsService.new(newEvent).
 					then(
 						function successCallback(response) {
-							console.log(response);
+							
 							loadEvents();
 						},
 						function errorCallback(response) {							

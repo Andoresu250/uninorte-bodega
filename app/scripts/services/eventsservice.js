@@ -7,22 +7,22 @@ angular.module('bodegaUninorteApp')
         return $http({
           method: 'POST',
           url: urlConstant + 'events/',
-          data: { name: eventData.name, date: "eventData.date" },
-          headers:{ 'Authorization': sessionService.get('token') }
+          data: { name: eventData.name, date: "12-12-2016" },
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
       all: function () {
         return $http({
           method: 'GET',
           url: urlConstant + 'events/',
-          headers:{ 'Authorization': sessionService.get('token') }
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
       get: function (id) {
         return $http({
           method: 'GET',
           url: urlConstant + 'events/' + id,          
-          headers:{ 'Authorization': sessionService.get('token') }
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
       edit: function (eventData) {
@@ -30,14 +30,14 @@ angular.module('bodegaUninorteApp')
           method: 'PUT',
           url: urlConstant + 'events/' + eventData.id,        
           data: { name: eventData.name, date: eventData.date },
-          headers:{ 'Authorization': sessionService.get('token') }
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
       delete: function (id) {
         return $http({
           method: 'DELETE',
           url: urlConstant + 'events/' + id,          
-          headers:{ 'Authorization': sessionService.get('token') }
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       }
     };
