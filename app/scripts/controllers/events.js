@@ -66,6 +66,32 @@ angular.module('bodegaUninorteApp')
 		    });
 		};
 
+		$scope.cancelEvent = function(ev, id, name) {
+		    
+		    var confirm = $mdDialog.confirm()
+		          .title('Esta seguro de cancelar el evento con nombre: ' + name)
+		          .textContent('Una vez hecho esto no habra no prodras deshacer los cambios.')
+		          .ariaLabel('Cancelar evento')
+		          .targetEvent(ev)
+		          .ok('Cencelar Evento')
+		          .cancel('Cerrar');
+
+		    $mdDialog.show(confirm).then(function() {
+			    eventsService.delete(id).
+			    	then(
+			    		function successCallback(response) {
+			    			loadEvents();
+			    		},
+			    		function errorCallback(response) {
+			    			
+			    		}
+		    		);
+			    
+		    }, function() {
+		    	
+		    });
+		};
+
 		$scope.showEditEvent = function(ev, eventId) {
 
 			eventsService.get(eventId).
@@ -112,7 +138,7 @@ angular.module('bodegaUninorteApp')
 			eventsService.all().
 				then(
 					function successCallback(response){					
-						$scope.events = response.data.data.Events;
+						$scope.events = response.data.data.Events;						
 						$scope.showload = false;		
 					},
 					function errorCallback(response){

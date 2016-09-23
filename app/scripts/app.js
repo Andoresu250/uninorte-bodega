@@ -68,7 +68,7 @@ angular
 
       state("dashboard.events",{
         cache: false,
-        url: "/orders",
+        url: "/eventos",
         controller: "EventsCtrl",
         template: "<ui-view></ui-view>",
         redirectTo: 'dashboard.events.index'

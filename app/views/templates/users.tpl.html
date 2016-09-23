@@ -37,14 +37,16 @@
             <td md-cell>{{user.name}}</td>
             <td md-cell>{{user.type}}</td>
             <td md-cell> 
+
               <a ui-sref="dashboard.users.edit({userId: user.id})">
-              	<md-button class="md-icon-button" ">              
-    		          <md-icon md-font-set="material-icons"> mode_edit </md-icon>		          
-    		        </md-button>
-              </a>
-  		        <md-button class="md-icon-button" ng-click="deleteUser($event, user.id, user.email)">              
-  		          <md-icon md-font-set="material-icons"> delete_forever </md-icon>
-  		        </md-button>		        
+                <md-button class="md-icon-button">              
+                  <md-icon md-font-set="material-icons"> mode_edit </md-icon>             
+                </md-button>
+              </a> 
+              
+              <md-button class="md-icon-button" ng-click="deleteUser($event, user.id, user.email)">              
+                <md-icon md-font-set="material-icons"> delete_forever </md-icon>
+              </md-button>        
             </td>
           </tr>
         </tbody>

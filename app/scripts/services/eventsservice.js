@@ -3,11 +3,12 @@
 angular.module('bodegaUninorteApp')
   .factory('eventsService', function ($http, sessionService, urlConstant) {    
     return {
-      new: function (eventData) {
+      new: function (eventData) {        
         return $http({
           method: 'POST',
           url: urlConstant + 'events/',
-          data: { name: eventData.name, date: "12-12-2016" },
+          data: { name: eventData.name,
+                  date: "2016-01-01" },
           headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },

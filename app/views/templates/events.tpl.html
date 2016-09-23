@@ -40,7 +40,7 @@
   		          <md-icon md-font-set="material-icons" ng-click="showEditEvent($event, event.id)"> mode_edit </md-icon>		          
   		        </md-button>
               
-  		        <md-button class="md-icon-button" ng-click="deleteUser()">              
+  		        <md-button class="md-icon-button" ng-click="cancelEvent($event, event.id, event.name)">              
   		          <md-icon md-font-set="material-icons"> delete_forever </md-icon>
   		        </md-button>		        
             </td>
@@ -49,7 +49,7 @@
       </table>
     </md-table-container>
 
-    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{users.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{events.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </md-content>    
 

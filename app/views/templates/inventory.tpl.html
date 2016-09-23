@@ -1,1 +1,91 @@
-inventario
+<md-content laout="column" flex > 
+  
+  <md-card>
+    
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+      <div class="md-toolbar-tools">
+        <span>Lista de Articulos</span>
+        <div flex></div>
+        <md-button class="md-icon-button" ng-click="loadItems()">              
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    
+    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+      <div class="md-toolbar-tools">
+        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+      </div>
+    </md-toolbar>
+    
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">          	
+        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+          <tr md-row>
+
+            <th md-column md-numeric md-order-by="id"><span>Id</span></th>
+            <th md-column md-order-by="name"><span>Nombre</span></th>
+            <th md-column md-order-by="item_type_id"><span>Tipo de arituclo</span></th>
+            <th md-column md-numeric md-order-by="number"><span>Cantidad disponible</span></th>
+            <th md-column md-numeric md-order-by="price"><span>Precio</span></th>
+            <th md-column md-numeric md-order-by="recorder"><span>Re-Orden</span></th>
+            <th md-column md-numeric md-order-by="min_stock"><span>Stock minimo</span></th>
+            <th md-column><span>Acciones</span></th>                
+
+          </tr>
+        </thead>
+        <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+        <tbody md-body>
+          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+            <td md-cell>{{item.id}}</td>
+            <td md-cell>{{item.name}}</td>
+            <td md-cell>{{item.item_type_id}}</td>
+            <td md-cell>{{item.number}}</td>
+            <td md-cell>{{item.price}}</td>
+            <td md-cell>{{item.recorder}}</td>
+            <td md-cell>{{item.min_stock}}</td>
+            <td md-cell> 
+
+              <a ui-sref="dashboard.inventory.edit({itemId: item.id})">
+                <md-button class="md-icon-button">              
+                  <md-icon md-font-set="material-icons"> mode_edit </md-icon>             
+                </md-button>
+              </a> 
+              
+              <md-button class="md-icon-button" ng-click="deleteItem($event, item.id, item.name)">              
+                <md-icon md-font-set="material-icons"> delete_forever </md-icon>
+              </md-button>        
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+  </md-card>
+</md-content>    
+
+<div layout="column" ng-cloak>
+	<md-content class="md-padding" layout="column">
+
+		<div layout="row" layout-align="end end">
+		  <md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}"
+		                     ng-class="selectedMode">
+		    <md-fab-trigger>
+		      <md-button aria-label="menu" class="md-fab md-warn">
+		        <md-icon md-font-set="material-icons"> add </md-icon>
+		      </md-button>
+		    </md-fab-trigger>
+
+		    <md-fab-actions>
+          <a ui-sref="dashboard.inventory.new">
+  		      <md-button aria-label="Nuevo Articulo" class="md-fab md-raised md-mini">
+  		        <md-icon md-font-set="material-icons"> note_add </md-icon>
+  		      </md-button>          
+          </a>
+		    </md-fab-actions>
+		  </md-fab-speed-dial>
+		</div>
+
+	</md-content>  
+</div>
