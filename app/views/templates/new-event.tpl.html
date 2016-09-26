@@ -1,0 +1,81 @@
+</br>
+
+<div >
+	<div layout="column" layout-align="center center" layout-fill class="">
+		<div class="loginBox md-whiteframe-z1" layout="column">
+			<md-toolbar>
+				<div layout="row">
+					<md-icon md-font-set="material-icons" style="padding: 0px 20px" > event_available </md-icon>
+					<h2 class="md-toolbar-tools"><span>Nuevo Evento</span></h2>	
+				</div>				
+			</md-toolbar>
+			<md-content class="md-padding" layout="column">
+				
+				<form name="newEventForm" ng-submit="createEvent2(newevent)">
+					
+
+					<md-input-container class="md-input-has-placeholder md-block">
+						<label>Fecha y hora de inicio</label>
+						<md-icon md-font-set="material-icons"> event </md-icon>	
+						<input mdc-datetime-picker="" date="true" time="true" type="text" format="YYYY-MM-DD HH:mm a" short-time="true"
+						 max-date="newevent.dateTimeEnd" ng-model="newevent.dateTimeStart" class=" md-input" required 
+						name="eventdateTimeStart"
+						id="input_0">
+						<div ng-messages="newEventForm.eventdateTimeStart.$error">
+				            <div ng-message="required">Campo requerido.</div>				            
+			          	</div>
+					</md-input-container>
+
+					<md-input-container class="md-input-has-placeholder md-block">
+						<label>Fecha y hora de fin</label>
+						<md-icon md-font-set="material-icons"> event_busy </md-icon>
+						<input mdc-datetime-picker="" date="true" time="true" type="text" format="YYYY-MM-DD HH:mm a" short-time="true"
+						min-date="newevent.dateTimeStart"="newevent.dateTimeEnd" ng-model="newevent.dateTimeEnd" class=" md-input" id="input_1" required name="eventdateTimeEnd">
+						<div ng-messages="newEventForm.eventdateTimeEnd.$error">
+				            <div ng-message="required">Campo requerido.</div>				            
+			          	</div>
+					</md-input-container>
+					
+					<md-input-container class="md-block">
+				    	<label>Nombre</label>			
+				    	<md-icon md-font-set="material-icons">  </md-icon>	    	
+				    	<input type="text" name="eventName" ng-model="newevent.name" 
+				    	required>
+				    	<div ng-messages="newEventForm.eventName.$error">
+				            <div ng-message="required">Campo requerido.</div>				            
+			          	</div>
+				    </md-input-container>		
+					
+					<md-input-container class="md-block">
+				    	<label>Ubicacion</label>			
+				    	<md-icon md-font-set="material-icons"> location_city </md-icon>	    	
+				    	<input type="text" name="eventLocation" ng-model="newevent.location" 
+				    	required>
+				    	<div ng-messages="newEventForm.eventLocation.$error">
+				            <div ng-message="required">Campo requerido.</div>				            
+			          	</div>
+				    </md-input-container>		
+
+				    <md-input-container class="md-block">
+				    	<label>Lugar</label>			
+				    	<md-icon md-font-set="material-icons"> place </md-icon>	    	
+				    	<input type="text" name="eventPlace" ng-model="newevent.place" 
+				    	required>
+				    	<div ng-messages="newEventForm.eventPlace.$error">
+				            <div ng-message="required">Campo requerido.</div>				            
+			          	</div>
+				    </md-input-container>		
+				    		    
+						
+
+					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
+						<div flex></div>				
+						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!newEventForm.$valid">Crear Evento</md-button>
+					</div>
+
+				</form>
+
+			</md-content>
+		</div>
+	</div>
+</div>

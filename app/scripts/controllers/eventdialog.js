@@ -6,7 +6,7 @@ angular.module('bodegaUninorteApp')
 			$mdDialog.hide();
 		};
 
-		$scope.cancel = function() {
+		$scope.cancel = function() {			
 			$mdDialog.cancel();
 		};
 

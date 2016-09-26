@@ -53,8 +53,7 @@ angular.module('bodegaUninorteApp')
 		    	console.log(newEvent);
 				eventsService.new(newEvent).
 					then(
-						function successCallback(response) {
-							
+						function successCallback(response) {							
 							loadEvents();
 						},
 						function errorCallback(response) {							
@@ -65,6 +64,13 @@ angular.module('bodegaUninorteApp')
 				
 		    });
 		};
+
+		$scope.createEvent2 = function(newEvent) {		
+		    console.log(newEvent);		    
+		    var a = moment(newEvent.dateTimeStart, "MMM DD hh");			    
+		};
+
+
 
 		$scope.cancelEvent = function(ev, id, name) {
 		    

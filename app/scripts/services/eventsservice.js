@@ -9,7 +9,7 @@ angular.module('bodegaUninorteApp')
           url: urlConstant + 'events/',
           data: { name: eventData.name,
                   date: "2016-01-01" },
-          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'aplication/json'}
         });
       },
       all: function () {

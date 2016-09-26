@@ -10,7 +10,9 @@
       </div>
     </md-toolbar>
 
-    <md-dialog-content>
+    <md-dialog-content>     
+
+
       <div class="md-dialog-content">
         <md-input-container class="md-block">
             <label>Nombre</label>
@@ -23,11 +25,11 @@
             </div>
         </md-input-container> 
         <md-input-container class="md-block">
-            <label>Fecha</label>
-            <md-datepicker name="dateField" ng-model="newevent.date" 
+            <label>Fecha de inicio</label>
+            <md-datepicker name="initdate" ng-model="newevent.initdate" 
             required ></md-datepicker>
 
-            <div ng-messages="newEventForm.dateField.$error">
+            <div ng-messages="newEventForm.initdate.$error">
               <div ng-message="valid">Ingrese una fecha valida porfavor</div>
               <div ng-message="required">Campo requerido</div>
               <div ng-message="mindate">Date is too early!</div>
@@ -35,6 +37,33 @@
               <div ng-message="filtered">Only weekends are allowed!</div>
             </div>
         </md-input-container> 
+
+        <md-input-container class="md-block">
+            <label>Fecha de finalizacion</label>
+            <md-datepicker name="enddate" ng-model="newevent.enddate" 
+            required ></md-datepicker>
+
+            <div ng-messages="newEventForm.enddate.$error">
+              <div ng-message="valid">Ingrese una fecha valida porfavor</div>
+              <div ng-message="required">Campo requerido</div>
+              <div ng-message="mindate">Date is too early!</div>
+              <div ng-message="maxdate">Date is too late!</div>
+              <div ng-message="filtered">Only weekends are allowed!</div>
+            </div>
+        </md-input-container> 
+
+        <div class="range layout-column flex-gt-md-30">
+        <md-input-container class="md-input-has-placeholder">
+          <label>Start Date/Time</label>
+          <input mdc-datetime-picker="" date="true" time="true" type="text"
+          placeholder="Date" max-date="dateTimeEnd" ng-model="newevent.dateTimeStart" class=" md-input"
+          id="input_0">
+        </md-input-container>
+        <md-input-container class="md-input-has-placeholder">
+          <label>End Date/Time</label>
+          <input mdc-datetime-picker="" date="true" time="true" type="text"
+          placeholder="Date" min-date="dateTimeStart"="dateTimeEnd" class=" md-input" id="input_1" ng-model="newevent.dateTimeEnd">
+        </md-input-container>
       </div>
     </md-dialog-content>
 

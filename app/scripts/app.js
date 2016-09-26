@@ -9,11 +9,12 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    //'ngTouch',
+    'ngTouch',
     'ngMaterial',
     'ngStorage',
     'ui.router',
-    'md.data.table'
+    'md.data.table',
+    'ngMaterialDatePicker'
   ])
   .constant('urlConstant', 'http://localhost:8000/api/v1/')
   .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider) {
