@@ -40,37 +40,40 @@ angular.module('bodegaUninorteApp')
 		//MODAL CONFIG
 
 
-		$scope.createEvent = function(ev) {		
-		    $mdDialog.show({
-				controller: 'EventDialogCtrl',
-				templateUrl: 'views/modals/new-event-dialog.html',
-				parent: angular.element(document.body),
-				targetEvent: ev,
-				clickOutsideToClose:true,
-				fullscreen: true // Only for -xs, -sm breakpoints.
-		    })
-		    .then(function(newEvent) {
-		    	console.log(newEvent);
-				eventsService.new(newEvent).
-					then(
-						function successCallback(response) {							
-							loadEvents();
-						},
-						function errorCallback(response) {							
-							console.log(response);
-						}
-					);
-		    }, function() {
-				
-		    });
-		};
+		$scope.createEvent = function(newEvent) {		
+		    
+		    var initDate = moment(newEvent.dateTimeStart);
+		    var endDate = moment(newEvent.dateTimeEnd);
+		    newEvent.dateStart = dateToString(initDate);
+		    newEvent.timeStart = hourToString(initDate);
 
-		$scope.createEvent2 = function(newEvent) {		
+		    newEvent.dateEnd = dateToString(endDate);		    
+		    newEvent.timeEnd = hourToString(endDate);
+
+		    eventsService.new(newEvent).
+		    	then(
+		    		function successCallback(response) {
+		    			
+		    		},
+		    		function errorCallback(response) {
+		    			
+		    		}
+	    		);
 		    console.log(newEvent);		    
-		    var a = moment(newEvent.dateTimeStart, "MMM DD hh");			    
+		    
 		};
 
+		function dateToString(date) {			
+			var day = (date.date() <= 9) ? ("0" + date.date()) : date.date();
+			var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);			
+			return date.year() + "-" + month + "-" + day;
+		}
 
+		function hourToString(date) {
+			var hours = (date.hour() <= 9) ? ("0" + date.hour()) : date.hour();
+			var minutes = (date.minutes() <= 9) ? ("0" + date.minutes()) : date.minutes();			
+			return hours + ":" + minutes;
+		}
 
 		$scope.cancelEvent = function(ev, id, name) {
 		    
