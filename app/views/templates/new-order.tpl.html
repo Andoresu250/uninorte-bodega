@@ -1,1 +1,47 @@
 nuevo pedido
+
+<md-content laout="column" flex > 
+  
+  <md-card>
+    
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+      <div class="md-toolbar-tools">
+        <span>Lista de Articulos</span>
+        <div flex></div>
+        <md-button class="md-icon-button" ng-click="loadItems()">              
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    
+    <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+      <div class="md-toolbar-tools">
+        <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+      </div>
+    </md-toolbar>
+    
+    <md-table-container>
+      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">          	
+        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+          <tr md-row>
+
+            <th md-column md-order-by="id"><span>Id</span></th>
+            <th md-column md-order-by="name"><span>Nombre</span></th>            
+            <th md-column md-numeric md-order-by="number"><span>Cantidad disponible</span></th>                          
+
+          </tr>
+        </thead>
+        <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+        <tbody md-body>
+          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+            <td md-cell>{{item.id}}</td>
+            <td md-cell>{{item.name}}</td>            
+            <td md-cell>{{item.number}}</td>            
+          </tr>
+        </tbody>
+      </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+  </md-card>
+</md-content> 

@@ -44,7 +44,7 @@
 
 				    <md-input-container class="md-block">
 				    	<label>Re-Orden del articulo</label>				    	
-				    	<input type="number" name="itemReorder" ng-model="edititem.recorder" 
+				    	<input type="number" name="itemReorder" ng-model="edititem.reorder" 
 				    	min="1" required>
 				    	<div ng-messages="editItemForm.itemReorder.$error">
 				            <div ng-message="required">Campo requerido.</div>
@@ -64,7 +64,7 @@
 
 					<md-input-container class="md-block">
 						<label>Tipo de articulo</label>						
-						<md-select ng-model="edititem.item_type_id" name="edititemType" required>			          	             
+						<md-select ng-model="edititem.itemType_id" name="edititemType" required>			          	             
 						<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
 						  {{type.name}}
 						</md-option>
@@ -77,7 +77,7 @@
 
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
 						<div flex></div>				
-						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!editItemForm.$valid">Crear Articulo</md-button>
+						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!editItemForm.$valid">Guardar Articulo</md-button>
 					</div>
 
 				</form>

@@ -59,18 +59,29 @@ angular.module('bodegaUninorteApp')
 		itemsService.getItemsType().
 			then(
 				function successCallback(response) {
-					$scope.itemsTypes = response.data.data.item_types;
+					$scope.itemsTypes = response.data.data.item_types;					
 				},
 				function errorCallback(response) {
 					console.log(response);
 				}
 			);
 
+		function getType(id) {
+			for(var type of $scope.itemsTypes){
+				if(type.id == id){
+					return type.name;
+				}
+			}
+		}
+
 		function loadItems() {
 			itemsService.all().
 				then(
 					function successCallback(response){					
-						$scope.items = response.data.data.items;						
+						$scope.items = response.data.data.items;
+						for(var item of $scope.items){
+							item.type = getType(item.itemType_id);
+						}
 						$scope.showload = false;		
 					},
 					function errorCallback(response){

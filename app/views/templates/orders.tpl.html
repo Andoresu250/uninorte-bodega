@@ -1,1 +1,27 @@
 pedidos
+    
+
+<div layout="column" ng-cloak>
+	<md-content class="md-padding" layout="column">
+
+		<div layout="row" layout-align="end end">
+		  <md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}"
+		                     ng-class="selectedMode">
+		    <md-fab-trigger>
+		      <md-button aria-label="menu" class="md-fab md-warn">
+		        <md-icon md-font-set="material-icons"> add </md-icon>
+		      </md-button>
+		    </md-fab-trigger>
+
+		    <md-fab-actions>
+          <a ui-sref="dashboard.orders.new">
+  		      <md-button aria-label="Nuevo Pedido" class="md-fab md-raised md-mini">
+  		        <md-icon md-font-set="material-icons"> add_shopping_cart </md-icon>
+  		      </md-button>          
+          </a>
+		    </md-fab-actions>
+		  </md-fab-speed-dial>
+		</div>
+
+	</md-content>	
+</div>

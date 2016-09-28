@@ -3,6 +3,11 @@
   width: 500px
 }
 
+.orderBox {
+  max-width:  90%;
+  width: 1000px
+}
+
 .stretch input  {
   width: 100%
 }

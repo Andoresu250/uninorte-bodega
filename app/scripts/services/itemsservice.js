@@ -8,10 +8,10 @@ angular.module('bodegaUninorteApp')
           method: 'POST',
           url: urlConstant + 'items/',
           data: { name: itemData.name,
-                  item_type_id: itemData.item_type_id,
+                  itemType_id: itemData.itemType_id,
                   number: itemData.number,
                   price: itemData.price,
-                  recorder: itemData.reorder,
+                  reorder: itemData.reorder,
                   min_stock: itemData.min_stock },
           headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
@@ -42,10 +42,10 @@ angular.module('bodegaUninorteApp')
           method: 'PUT',
           url: urlConstant + 'items/' + itemData.id,        
           data: { name: itemData.name,
-                  item_type_id: itemData.item_type_id,
+                  itemType_id: itemData.itemType_id,
                   number: itemData.number,
                   price: itemData.price,
-                  recorder: itemData.recorder,
+                  reorder: itemData.reorder,
                   min_stock: itemData.min_stock },
           headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });

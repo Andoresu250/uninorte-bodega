@@ -24,7 +24,12 @@
           <tr md-row>
             
             <th md-column md-order-by="name"><span>Nombre</span></th>
-            <th md-column md-order-by="date"><span>Fecha</span></th>
+            <th md-column md-order-by="start_date"><span>Fecha Inicio</span></th>
+            <th md-column md-order-by="start_time"><span>Hora Inicio</span></th>
+            <th md-column md-order-by="finish_date"><span>Fecha Fin</span></th>
+            <th md-column md-order-by="finish_time"><span>Hora Fin</span></th>
+            <th md-column md-order-by="location"><span>Ubicacion</span></th>
+            <th md-column md-order-by="place"><span>Lugar</span></th>
             <th md-column><span>Acciones</span></th>                
 
           </tr>
@@ -33,13 +38,18 @@
         <tbody md-body>
           <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="event in events | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
             <td md-cell>{{event.name}}</td>
-            <td md-cell>{{event.date}}</td>
+            <td md-cell>{{event.start_date}}</td>
+            <td md-cell>{{event.start_time}}</td>
+            <td md-cell>{{event.finish_date}}</td>
+            <td md-cell>{{event.finish_time}}</td>
+            <td md-cell>{{event.location}}</td>
+            <td md-cell>{{event.place}}</td>
             <td md-cell> 
-              
-            	<md-button class="md-icon-button">              
-  		          <md-icon md-font-set="material-icons" ng-click="showEditEvent($event, event.id)"> mode_edit </md-icon>		          
-  		        </md-button>
-              
+              <a ui-sref="dashboard.events.edit({eventId: event.id})">
+              	<md-button class="md-icon-button">              
+    		          <md-icon md-font-set="material-icons"> mode_edit </md-icon>		          
+    		        </md-button>
+              </a>
   		        <md-button class="md-icon-button" ng-click="cancelEvent($event, event.id, event.name)">              
   		          <md-icon md-font-set="material-icons"> delete_forever </md-icon>
   		        </md-button>		        

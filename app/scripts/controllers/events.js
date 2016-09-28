@@ -2,7 +2,7 @@
 
 
 angular.module('bodegaUninorteApp')
-	.controller('EventsCtrl', function ($scope, eventsService, $mdDialog) {
+	.controller('EventsCtrl', function ($scope, eventsService, $mdDialog, $state, $stateParams) {
 
 		//FAB CONFIG
 		$scope.topDirections = ['left', 'up'];
@@ -37,42 +37,21 @@ angular.module('bodegaUninorteApp')
 			page: 1
 		};
 
-		//MODAL CONFIG
-
-
-		$scope.createEvent = function(newEvent) {		
-		    
-		    var initDate = moment(newEvent.dateTimeStart);
-		    var endDate = moment(newEvent.dateTimeEnd);
-		    newEvent.dateStart = dateToString(initDate);
-		    newEvent.timeStart = hourToString(initDate);
-
-		    newEvent.dateEnd = dateToString(endDate);		    
-		    newEvent.timeEnd = hourToString(endDate);
-
-		    eventsService.new(newEvent).
-		    	then(
-		    		function successCallback(response) {
-		    			
-		    		},
-		    		function errorCallback(response) {
-		    			
-		    		}
-	    		);
-		    console.log(newEvent);		    
-		    
+		$scope.toggleLimitOptions = function () {
+			$scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
+		};
+		
+		$scope.logItem = function (item) {
+			console.log(item.name, 'was selected');
 		};
 
-		function dateToString(date) {			
-			var day = (date.date() <= 9) ? ("0" + date.date()) : date.date();
-			var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);			
-			return date.year() + "-" + month + "-" + day;
-		}
+		$scope.logOrder = function (order) {
+			console.log('order: ', order);
+		};
 
-		function hourToString(date) {
-			var hours = (date.hour() <= 9) ? ("0" + date.hour()) : date.hour();
-			var minutes = (date.minutes() <= 9) ? ("0" + date.minutes()) : date.minutes();			
-			return hours + ":" + minutes;
+		$scope.logPagination = function (page, limit) {
+			console.log('page: ', page);
+			console.log('limit: ', limit);
 		}
 
 		$scope.cancelEvent = function(ev, id, name) {
@@ -101,46 +80,69 @@ angular.module('bodegaUninorteApp')
 		    });
 		};
 
-		$scope.showEditEvent = function(ev, eventId) {
-
-			eventsService.get(eventId).
+		if($stateParams.eventId !== undefined){
+			eventsService.get($stateParams.eventId).
 				then(
-					function successCallback (response) {
-						$scope.editevent = response.data.data.event;
-						$mdDialog.show({
-							controller: 'EventDialogCtrl',
-							templateUrl: 'views/modals/edit-event-dialog.html',
-							parent: angular.element(document.body),
-							targetEvent: ev,
-							clickOutsideToClose:true,
-							fullscreen: true // Only for -xs, -sm breakpoints.
-					    })
-					    .then(function(event) {
-					    	
-							eventsService.edit(event).
-								then(
-									function successCallback(response) {
-										console.log(response);
-										loadEvents();
-									},
-									function errorCallback(response) {							
-										console.log(response);
-									}
-								);
-					    }, function() {
-							
-					    });
+					function successCallback(response) {
+						var editEvent = response.data.data.event;
+						var dateTimeStart = moment(editEvent.start_date + " " + editEvent.start_time, "YYYY-MM-DD hh:mm a");						
+						var dateTimeEnd = moment(editEvent.finish_date + " " + editEvent.finish_time, "YYYY-MM-DD hh:mm a");						
+						editEvent.dateTimeStart = dateTimeStart;
+						editEvent.dateTimeEnd = dateTimeEnd;
+						$scope.editEvent = editEvent;
 					},
-					function errorCallback (response) {
+					function errorCallback(response) {
 						
 					}
 				);
+		}	
 
+		$scope.saveEvent = function(editEvent) {
+			var initDate = moment(editEvent.dateTimeStart);
+		    var endDate = moment(editEvent.dateTimeEnd);
+
+		    editEvent.start_date = dateToString(initDate);
+		    editEvent.start_time = hourToString(initDate);
+
+		    editEvent.finish_date = dateToString(endDate);		    
+		    editEvent.finish_time = hourToString(endDate);
+
+		    eventsService.edit(editEvent).
+		    	then(
+		    		function successCallback(response) {
+    					$state.go('dashboard.events.index');
+		    		},
+		    		function errorCallback(response) {
+		    			console.log(response);
+		    			
+		    		}
+	    		);
+
+		}
+
+
+		$scope.createEvent = function(newEvent) {				    
+			
+		    var initDate = moment(newEvent.dateTimeStart);
+		    var endDate = moment(newEvent.dateTimeEnd);
+
+		    newEvent.start_date = dateToString(initDate);
+		    newEvent.start_time = hourToString(initDate);
+
+		    newEvent.finish_date = dateToString(endDate);		    
+		    newEvent.finish_time = hourToString(endDate);
+
+		    eventsService.new(newEvent).
+		    	then(
+		    		function successCallback(response) {
+    					$state.go('dashboard.events.index');
+		    		},
+		    		function errorCallback(response) {
+		    			console.log(response);
+		    			
+		    		}
+	    		);		    		    
 		    
-		};
-
-		$scope.toggleLimitOptions = function () {
-			$scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
 		};
 
 		function loadEvents() {
@@ -161,17 +163,16 @@ angular.module('bodegaUninorteApp')
 
 		$scope.loadEvents = loadEvents;
 
-
-		$scope.logItem = function (item) {
-			console.log(item.name, 'was selected');
-		};
-
-		$scope.logOrder = function (order) {
-			console.log('order: ', order);
-		};
-
-		$scope.logPagination = function (page, limit) {
-			console.log('page: ', page);
-			console.log('limit: ', limit);
+		function dateToString(date) {			
+			var day = (date.date() <= 9) ? ("0" + date.date()) : date.date();
+			var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);			
+			return date.year() + "-" + month + "-" + day;
 		}
+
+		function hourToString(date) {
+			var hours = (date.hour() <= 9) ? ("0" + date.hour()) : date.hour();
+			var minutes = (date.minutes() <= 9) ? ("0" + date.minutes()) : date.minutes();			
+			return hours + ":" + minutes + ":00";
+		}
+		
 	});

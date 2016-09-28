@@ -35,7 +35,13 @@ angular.module('bodegaUninorteApp')
               $location.path('/login');    
             }, function errorCallback(response) {
               console.log('error al logout');
-              console.log(response);
+              sessionService.destroy('token');      
+              $localStorage.auth = {
+                  token: null,
+                  selected: null
+              };  
+              $cookieStore.put('token', undefined);
+              $location.path('/login'); 
             });        
         }
       },

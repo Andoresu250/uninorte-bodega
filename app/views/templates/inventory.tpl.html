@@ -25,10 +25,10 @@
 
             <th md-column md-numeric md-order-by="id"><span>Id</span></th>
             <th md-column md-order-by="name"><span>Nombre</span></th>
-            <th md-column md-order-by="item_type_id"><span>Tipo de arituclo</span></th>
+            <th md-column md-order-by="type"><span>Tipo de arituclo</span></th>
             <th md-column md-numeric md-order-by="number"><span>Cantidad disponible</span></th>
             <th md-column md-numeric md-order-by="price"><span>Precio</span></th>
-            <th md-column md-numeric md-order-by="recorder"><span>Re-Orden</span></th>
+            <th md-column md-numeric md-order-by="reorder"><span>Re-Orden</span></th>
             <th md-column md-numeric md-order-by="min_stock"><span>Stock minimo</span></th>
             <th md-column><span>Acciones</span></th>                
 
@@ -39,10 +39,10 @@
           <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
             <td md-cell>{{item.id}}</td>
             <td md-cell>{{item.name}}</td>
-            <td md-cell>{{item.item_type_id}}</td>
+            <td md-cell>{{item.type}}</td>
             <td md-cell>{{item.number}}</td>
-            <td md-cell>{{item.price}}</td>
-            <td md-cell>{{item.recorder}}</td>
+            <td md-cell>{{item.price | currency}}</td>
+            <td md-cell>{{item.reorder}}</td>
             <td md-cell>{{item.min_stock}}</td>
             <td md-cell> 
 
