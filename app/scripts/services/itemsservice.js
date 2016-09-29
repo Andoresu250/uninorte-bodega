@@ -23,6 +23,27 @@ angular.module('bodegaUninorteApp')
           headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
+      getAll: function () {
+        $http({
+          method: 'GET',
+          url: urlConstant + 'items/',
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
+        }).then(
+          function successCallback (response) {            
+            return response.data.data.items;
+          },
+          function errorCallback (response) {
+            return [];
+          }
+        );
+      },
+      getByType: function (typeId) {
+        return $http({
+          method: 'GET',
+          url: urlConstant + 'items/',
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
+        })
+      },
       get: function (id) {
         return $http({
           method: 'GET',
