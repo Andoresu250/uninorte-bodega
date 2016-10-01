@@ -12,6 +12,13 @@
 			<md-content class="md-padding" layout="column">
 				
 				<form name="neworderForm" ng-submit="createOrder(neworder)">
+
+					<md-input-container class="md-block">
+					    <label>Fecha pedido</label>
+					    <input mdc-datetime-picker="" date="true" time="false" type="text"
+					    placeholder="Date" max-date="dateTimeEnd" ng-model="neworder.date" class=" md-input"
+					    id="input_0" ng-disabled="true">
+				  	</md-input-container>
 				
 					<md-input-container class="md-block">
 				    	<label>Nombre del solicitante</label>
@@ -56,7 +63,7 @@
 					      <div class="md-toolbar-tools">
 					        <span>Lista de Articulos</span>
 					        <div flex></div>
-					        <md-button class="md-icon-button" ng-click="loadItems()">              
+					        <md-button class="md-icon-button" ng-click="loadItems(neworder.orderType)">              
 					          <md-icon md-font-set="material-icons"> refresh </md-icon>
 					        </md-button>
 					      </div>
@@ -118,7 +125,7 @@
 					  </md-card>
 					</md-content> 
 
-					<md-content laout="column" flex > 
+					<md-content laout="column" flex ng-show="neworder.items.length > 0"> 
   
 					  <md-card>
 					    
@@ -137,6 +144,7 @@
 					            <th md-column md-order-by="id"><span>Id</span></th>
 					            <th md-column md-order-by="name"><span>Nombre</span></th>            
 					            <th md-column ><span>Cantidad solicitada</span></th>
+					            <th md-column ng-if="neworder.orderType === 1"><span>Fecha de devolucion</span></th>
 					            <th md-column ><span>Cantidad restante</span></th>
 
 					          </tr>
@@ -145,11 +153,10 @@
 					        <tbody md-body>
 					          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in neworder.items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
 					            <td md-cell>{{item.id}}</td>
-					            <td md-cell>{{item.name}}</td>   
-					            <td md-cell>
+					            <td md-cell>{{item.name}}</td><td md-cell>
 					            	<md-input-container class="md-block">								    				    	
-								    	<input type="number" name="orderItemNumber" ng-model="item.orderNumber" 
-								    	min="1" ng-max="item.number" required>
+								    	<input type="number" name="orderItemNumber" ng-model="item.orderNumber" placeholder="Cantidad solicitada" 
+								    	min="1" ng-max="item.number" aria-label="order item number" required>
 								    	<div ng-messages="neworderForm.orderItemNumber.$error">
 								            <div ng-message="required">Campo requerido.</div>
 								            <div ng-message="min">Solo valores mayores a 0.</div>
@@ -157,6 +164,13 @@
 							          	</div>
 								    </md-input-container>
 					            </td>         
+					            <td md-cell ng-if="neworder.orderType === 1">
+					            	<md-input-container class="md-block">									    
+									    <input mdc-datetime-picker="" date="true" time="false" type="text"
+									    placeholder="Fecha" ng-model="item.returnDate" class=" md-input"
+									    id="input_0" required>
+								  	</md-input-container>
+					            </td>
 					            <td md-cell>{{item.number - item.orderNumber}}</td>            
 					          </tr>
 					        </tbody>
@@ -173,11 +187,6 @@
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
 						<div flex></div>				
 						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!neworderForm.$valid">Crear Usuario</md-button>
-					</div>
-
-					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
-						<div flex></div>				
-						<md-button type="submit" class="md-raised md-primary" ng-click="test(neworder)">Lmao Usuario</md-button>
 					</div>
 
 				</form>

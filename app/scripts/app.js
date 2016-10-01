@@ -96,26 +96,26 @@ angular
       state("dashboard.orders",{
         cache: false,
         url: "/orders",
-        controller: "OrdersCtrl",
+        //controller: "OrdersCtrl",
         template: "<ui-view></ui-view>",
         redirectTo: 'dashboard.orders.index'
       }).
       state("dashboard.orders.index",{
         cache: false,
         url: "/all",
-        controller: "OrdersCtrl",
+        //controller: "OrdersCtrl",
         templateUrl: "views/orders.html"
       }).
       state("dashboard.orders.new",{
         cache: false,
         url: "/new",
-        controller: "OrdersCtrl",
+        //controller: "OrdersCtrl",
         templateUrl: "views/new-order.html"
       }).
       state("dashboard.orders.edit",{
         cache: false,
         url: "/{orderId}",
-        controller: "OrdersCtrl",
+        //controller: "OrdersCtrl",
         templateUrl: "views/edit-order.html"
       }).
 

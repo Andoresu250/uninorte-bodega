@@ -1,12 +1,12 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('OrdersCtrl', function ($scope, eventsService, itemsService, $mdDialog, $state, $stateParams) {
-
+	.controller('OrdersCtrl', function ($scope, eventsService, itemsService, ordersService, $mdDialog, $state, $stateParams) {		
 
 		$scope.neworder = {};
 		$scope.neworder.orderType = undefined;
 		$scope.neworder.orderType = 1;
+		$scope.neworder.date = moment();
 		$scope.neworder.items = [];
 
 		//FAB CONFIG
@@ -43,6 +43,16 @@ angular.module('bodegaUninorteApp')
 			page: 1
 		};
 
+		ordersService.all().
+			then(
+				function successCallback(response) {
+					console.log(response.data.data.orders);
+				},
+				function errorCallback(response) {
+					console.log(response);	
+				}
+			);
+
 		$scope.resetOrder = function() {			
 			$scope.neworder.items = [];
 			loadItems($scope.neworder.orderType);
@@ -55,7 +65,7 @@ angular.module('bodegaUninorteApp')
 					function successCallback (response) {                               
 						$scope.items = [];
 						response.data.data.items.map(function (item) {
-							if(item.itemType_id == typeId){
+							if(item.item_type_id == typeId){
 								$scope.items.push(item);
 							}
 						});                        
@@ -106,9 +116,7 @@ angular.module('bodegaUninorteApp')
 	        // is newly selected
 	        else {          
 	          	$scope.neworder.items.push(angular.copy(item));
-	        }   
-
-	        console.log($scope.neworder.items);     
+	        }   	          
      	};
 
      	
@@ -127,6 +135,32 @@ angular.module('bodegaUninorteApp')
      	$scope.test = function (neworder) {
      		console.log(neworder);
      	}
+
+     	$scope.createOrder = function (newOrder) {     		
+     		for(var item of newOrder.items){
+     			item.returnDate = (item.returnDate == undefined) ? ("") : dateToString(moment(newOrder.returnDate));
+     		}
+     		newOrder.date = dateToString(moment(newOrder.date));
+     		ordersService.new(newOrder).
+     			then(
+     				function successfullCallback(response) {
+     					$state.go('dashboard.orders');
+     				},
+     				function errorCallback(response) {
+     					console.log(response);
+     				}
+ 				);
+
+     		console.log(newOrder);
+     	}
+
+
+
+     	function dateToString(date) {			
+			var day = (date.date() <= 9) ? ("0" + date.date()) : date.date();
+			var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);			
+			return date.year() + "-" + month + "-" + day;
+		}
 
      	//AutoComplete
 

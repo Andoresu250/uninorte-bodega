@@ -12,7 +12,8 @@ angular.module('bodegaUninorteApp')
 			loginService.login(data).then(
 				function successCallBack (response) {
 					var token = response.data.token;
-					loginService.setToken(token, data.remember_me);
+					var type = response.data.type;					
+					loginService.setToken(token, type ,data.remember_me);
 					$location.path('/dashboard');
 					if (!$rootScope.$$phase){
 					 	$rootScope.$apply();

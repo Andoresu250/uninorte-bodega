@@ -59,16 +59,19 @@ angular.module('bodegaUninorteApp')
         } 
         
       },
-      setToken: function (token, remember_me) {
+      setToken: function (token, type ,remember_me) {
         if(remember_me){
           $localStorage.auth = {
             token: token,
+            type: type,
             selected: remember_me
           };            
         }else{
           $cookieStore.put('token', token);           
+          $cookieStore.put('type', type);           
         }
         sessionService.set('token', token);
+        sessionService.set('type', type);
       }
     };
   });

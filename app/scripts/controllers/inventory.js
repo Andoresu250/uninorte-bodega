@@ -78,9 +78,9 @@ angular.module('bodegaUninorteApp')
 			itemsService.all().
 				then(
 					function successCallback(response){					
-						$scope.items = response.data.data.items;
+						$scope.items = response.data.data.items;						
 						for(var item of $scope.items){
-							item.type = getType(item.itemType_id);
+							item.type = getType(item.item_type_id);
 						}
 						$scope.showload = false;		
 					},
