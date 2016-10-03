@@ -108,7 +108,7 @@
 					        <tbody md-body>
 					          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
 					            <td md-cell>
-					            	<md-checkbox ng-checked="isItem(item) > -1" ng-click="addItemToOrder(item)">
+					            	<md-checkbox ng-checked="isItem(item, neworder) > -1" ng-click="test()">
 					                	{{item.id}} 
 					              	</md-checkbox>
 					            </td>
@@ -186,7 +186,7 @@
 
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
 						<div flex></div>				
-						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!neworderForm.$valid">Crear Usuario</md-button>
+						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!neworderForm.$valid || neworder.items.length < 1">Crear Pedido</md-button>
 					</div>
 
 				</form>

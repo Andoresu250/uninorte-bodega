@@ -17,12 +17,12 @@
 
     <div hide show-gt-sm>
 
-      <a ui-sref="dashboard.statistics">
+      <a ui-sref="dashboard.statistics" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
         <md-button> Estadistica </md-button>  
       </a>
 
 
-      <a ui-sref="dashboard.users">
+      <a ui-sref="dashboard.users" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
         <md-button> Usuarios </md-button>  
       </a>
       
@@ -31,11 +31,11 @@
         <md-button> Pedidos </md-button>  
       </a>
 
-      <a ui-sref="dashboard.events">
+      <a ui-sref="dashboard.events" ng-hide="role === 'bodega'">
         <md-button> Eventos </md-button>  
       </a>
 
-      <a ui-sref="dashboard.inventory">
+      <a ui-sref="dashboard.inventory" ng-hide="role === 'asesor' || role === 'gerente'">
         <md-button> Inventario </md-button>  
       </a>
 
@@ -57,12 +57,12 @@
 
         <md-list flex>       
 
-          <md-list-item ng-click="goTo('dashboard.statistics')">
+          <md-list-item ng-click="goTo('dashboard.statistics')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
             <md-icon md-font-set="material-icons"> show_chart </md-icon>
             <p> Estadisticas </p>            
           </md-list-item>         
 
-          <md-list-item ng-click="goTo('dashboard.users')">
+          <md-list-item ng-click="goTo('dashboard.users')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
             <md-icon md-font-set="material-icons"> people </md-icon>
             <p> Usuarios </p>            
           </md-list-item>         
@@ -72,12 +72,12 @@
             <p> Pedidios</p>            
           </md-list-item>         
 
-          <md-list-item ng-click="goTo('dashboard.events')">
+          <md-list-item ng-click="goTo('dashboard.events')" ng-hide="role === 'bodega'">
             <md-icon md-font-set="material-icons"> event </md-icon>
             <p> Eventos </p>            
           </md-list-item>                   
 
-          <md-list-item ng-click="goTo('dashboard.inventory')">
+          <md-list-item ng-click="goTo('dashboard.inventory')" ng-hide="role === 'asesor' || role === 'gerente'">
             <md-icon md-font-set="material-icons"> content_paste </md-icon>
             <p> Inventario </p>            
           </md-list-item>      

@@ -26,22 +26,28 @@ angular.module('bodegaUninorteApp')
               'Authorization': sessionService.get('token')
             }
           }).then(function successCallback(response) {                          
-              sessionService.destroy('token');      
+              sessionService.destroy('token');
+              sessionService.destroy('type');      
               $localStorage.auth = {
                   token: null,
-                  selected: null
+                  selected: null,
+                  type: null
               };      
               $cookieStore.put('token', undefined);
+              $cookieStore.put('type', undefined);
               $location.path('/login');    
             }, function errorCallback(response) {
               console.log('error al logout');
-              sessionService.destroy('token');      
+              sessionService.destroy('token');
+              sessionService.destroy('type');      
               $localStorage.auth = {
                   token: null,
-                  selected: null
-              };  
+                  selected: null,
+                  type: null
+              };      
               $cookieStore.put('token', undefined);
-              $location.path('/login'); 
+              $cookieStore.put('type', undefined);
+              $location.path('/login');    
             });        
         }
       },

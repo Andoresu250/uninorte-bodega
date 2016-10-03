@@ -1,0 +1,37 @@
+<md-dialog aria-label="Agregar">
+  <form name="addform" ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Agregar unidades en inventario al articulo</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-set="material-icons"> close </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">        
+        <md-input-container class="md-block">
+              <label>Cantidad del articulo</label>              
+              <input type="number" name="itemNumber" ng-model="addnumber" 
+              min="1" required>
+              <div ng-messages="addform.itemNumber.$error">
+                    <div ng-message="required">Campo requerido.</div>
+                    <div ng-message="min">Minimo una unidad.</div>
+              </div>
+            </md-input-container>
+        </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">      
+      <span flex></span>
+      <md-button ng-click="cancel()">
+       Cancelar
+      </md-button>
+      <md-button ng-click="add(addnumber)" ng-disabled="!addform.$valid">
+        Agregar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

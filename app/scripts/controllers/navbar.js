@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('NavbarCtrl', function ($scope, $timeout, $mdSidenav, $log, loginService) {
+	.controller('NavbarCtrl', function ($scope, $timeout, sessionService,$mdSidenav, $log, loginService) {
+
+		$scope.role = sessionService.get("type");
+
 		$scope.logout = function () {
 			loginService.logout();
 		}

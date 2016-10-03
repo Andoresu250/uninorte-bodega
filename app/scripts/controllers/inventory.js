@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('InventoryCtrl', function ($scope, itemsService, $state, $stateParams, $mdDialog) {
+	.controller('InventoryCtrl', function ($scope, itemsService, sessionService ,$state, $stateParams, $mdDialog) {
 
+		$scope.role = sessionService.get("type");
 
     	//Fab Config
 
@@ -38,6 +39,43 @@ angular.module('bodegaUninorteApp')
 			limit: 5,
 			page: 1
 		};
+
+		$scope.openAddNumber = function(ev, item) {
+		    $mdDialog.show({
+		      controller: 'InventoryCtrl',
+		      templateUrl: '/views/modals/add-item-number-dialog.html',
+		      parent: angular.element(document.body),
+		      targetEvent: ev,
+		      clickOutsideToClose:true,
+		      fullscreen: true // Only for -xs, -sm breakpoints.
+		    })
+		    .then(function(answer) {
+		    	item.number += answer;
+		      	itemsService.edit(item).
+		      		then(
+		      			function successfullCallback(response) {
+		      				loadItems();
+		      			},
+		      			function errorCallback(response) {
+		      				
+		      			}
+	      			);
+		    }, function() {
+		      
+		    });
+		  };
+
+	  	$scope.hide = function() {
+	      $mdDialog.hide();
+	    };
+
+	    $scope.cancel = function() {
+	      $mdDialog.cancel();
+	    };
+
+	    $scope.add = function(number) {
+	      $mdDialog.hide(number);
+	    };
 
 		$scope.toggleLimitOptions = function () {
 			$scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];

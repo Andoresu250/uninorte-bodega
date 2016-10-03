@@ -103,7 +103,7 @@ angular
       state("dashboard.orders.index",{
         cache: false,
         url: "/all",
-        //controller: "OrdersCtrl",
+        controller: "OrdersCtrl",
         templateUrl: "views/orders.html"
       }).
       state("dashboard.orders.new",{
@@ -112,9 +112,15 @@ angular
         //controller: "OrdersCtrl",
         templateUrl: "views/new-order.html"
       }).
+      state("dashboard.orders.view",{
+        cache: false,
+        url: "/view/{orderId}",
+        //controller: "OrdersCtrl",
+        templateUrl: "views/view-order.html"
+      }).
       state("dashboard.orders.edit",{
         cache: false,
-        url: "/{orderId}",
+        url: "/edit/{orderId}",
         //controller: "OrdersCtrl",
         templateUrl: "views/edit-order.html"
       }).
@@ -154,9 +160,11 @@ angular
     try{
         if($cookieStore.get('token') !== undefined){
             sessionService.set('token', $cookieStore.get('token'));
+            sessionService.set('type', $cookieStore.get('type'));
         }else{
           if($localStorage.auth.token !== null){
             sessionService.set('token', $localStorage.auth.token);
+            sessionService.set('type', $localStorage.auth.type);
           }
         }        
     }catch(err){

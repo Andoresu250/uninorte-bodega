@@ -71,6 +71,19 @@ angular.module('bodegaUninorteApp')
           headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
         });
       },
+      add: function (itemData) {
+        return $http({
+          method: 'PUT',
+          url: urlConstant + 'items/' + itemData.id,        
+          data: { name: itemData.name,
+                  item_type_id: itemData.item_type_id,
+                  number: itemData.number,
+                  price: itemData.price,
+                  reorder: itemData.reorder,
+                  min_stock: itemData.min_stock },
+          headers:{ 'Authorization': sessionService.get('token') , 'Accept': 'Aplication/json'}
+        });
+      },
       delete: function (id) {
         return $http({
           method: 'DELETE',

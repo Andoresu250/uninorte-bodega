@@ -30,7 +30,7 @@
             <th md-column md-order-by="finish_time"><span>Hora Fin</span></th>
             <th md-column md-order-by="location"><span>Ubicacion</span></th>
             <th md-column md-order-by="place"><span>Lugar</span></th>
-            <th md-column><span>Acciones</span></th>                
+            <th md-column ng-hide="role === 'asesor'"><span>Acciones</span></th>                
 
           </tr>
         </thead>
@@ -44,8 +44,8 @@
             <td md-cell>{{event.finish_time}}</td>
             <td md-cell>{{event.location}}</td>
             <td md-cell>{{event.place}}</td>
-            <td md-cell> 
-              <a ui-sref="dashboard.events.edit({eventId: event.id})">
+            <td md-cell ng-hide="role === 'asesor'"> 
+              <a ui-sref="dashboard.events.edit({eventId: event.id})" >
               	<md-button class="md-icon-button">              
     		          <md-icon md-font-set="material-icons"> mode_edit </md-icon>		          
     		        </md-button>

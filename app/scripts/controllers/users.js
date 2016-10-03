@@ -2,7 +2,7 @@
 
 angular.module('bodegaUninorteApp')
 	.controller('UsersCtrl', function ($scope, usersService, $state, $stateParams, $mdDialog) {
-		$scope.usersTypes = ['admin','asesor','gerente','bodega'];
+		$scope.usersTypes = ['admin','director','gerente','bodega','asesor'];
 
 		$scope.showload = true;	
 		

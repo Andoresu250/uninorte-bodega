@@ -1,13 +1,61 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('OrdersCtrl', function ($scope, eventsService, itemsService, ordersService, $mdDialog, $state, $stateParams) {		
+	.controller('OrdersCtrl', function ($scope, eventsService, itemsService, sessionService ,ordersService, $mdDialog, $state, $stateParams) {		
+
+		$scope.role = sessionService.get("type");
+
+		if($stateParams.orderId !== undefined){
+			ordersService.get($stateParams.orderId).
+				then(
+					function successCallback(response) {						
+						$scope.order = response.data.data.order;
+						$scope.order.orderType = 1;
+						$scope.order.orderTypeName = "Retornable";						
+						try{
+							if(response.data.data.order.items[0].pivot.date === ""){
+								$scope.order.orderType = 2;	
+								$scope.order.orderTypeName = "No Retornable";
+							}							
+						}catch(err){
+
+						}
+						$scope.order.items.map(function (item) { 
+							item.orderNumber = item.pivot.number; 
+							if ($scope.order.orderType === 1){
+								item.returnDate = moment(item.pivot.date);
+							}
+						});
+						
+						console.log($scope.order);					
+					},
+					function errorCallback(response) {
+						
+					}
+				);
+		}		
+
+
+		$scope.deleteOrder = function(orderId){
+			ordersService.delete(orderId).
+				then(
+					function successfullCallback(response) {
+						console.log(response);
+						loadOrders();	
+					},
+					function errorCallback(response) {
+						console.log(response);
+					}	
+				);
+		}
 
 		$scope.neworder = {};
 		$scope.neworder.orderType = undefined;
 		$scope.neworder.orderType = 1;
 		$scope.neworder.date = moment();
 		$scope.neworder.items = [];
+		$scope.order = {};
+		$scope.order.items = [];
 
 		//FAB CONFIG
 
@@ -39,19 +87,140 @@ angular.module('bodegaUninorteApp')
 
 		$scope.query = {
 			order: 'name',
-			limit: 5,
+			limit: 20,
 			page: 1
 		};
 
-		ordersService.all().
+
+		function loadOrders() {
+			ordersService.all().
 			then(
 				function successCallback(response) {
-					console.log(response.data.data.orders);
+					$scope.all = response.data.data.orders;
+					var pendingOrders = [];
+					var rejectOrders = [];
+					var approveOrders = [];
+					var deliverOrders = [];
+					var cancelOrders = [];
+
+					for(var order of $scope.all){						
+						switch(order.order_status){
+							case "Pendiente":								
+								pendingOrders.push(order);
+								break;
+							case "Rechazado":
+								rejectOrders.push(order);
+								break;
+							case "Aprobado":
+								approveOrders.push(order);
+								break;
+							case "Entregado":
+								deliverOrders.push(order);
+								break;
+							case "Cancelado":
+								cancelOrders.push(order);
+								break;							
+						}
+					}
+
+					$scope.pendingOrders = pendingOrders;
+					$scope.rejectOrders  = rejectOrders; 
+					$scope.approveOrders = approveOrders;
+					$scope.deliverOrders = deliverOrders;
+					$scope.cancelOrders  = cancelOrders; 
+
 				},
 				function errorCallback(response) {
 					console.log(response);	
 				}
-			);
+			);	
+		}
+
+		/*function getOrdersByStatus(statusId) {
+			ordersService.search(statusId).
+				then(
+					function successfullCallback(response) {
+						$scope.orders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						
+					}
+				);
+		}
+
+		function getApproveOrders() {			
+			ordersService.search(3).
+				then(
+					function successfullCallback(response) {
+						$scope.approveOrders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						
+					}
+				);						
+		}
+
+		function getDeliverOrders() {			
+			ordersService.search(4).
+				then(
+					function successfullCallback(response) {
+						$scope.deliverOrders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						
+					}
+				);						
+		}
+
+		function getCancelOrders() {			
+			ordersService.search(5).
+				then(
+					function successfullCallback(response) {
+						$scope.cancelOrders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						
+					}
+				);						
+		}
+
+		function getRejectOrders() {			
+			ordersService.search(2).
+				then(
+					function successfullCallback(response) {
+						$scope.rejectOrders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						
+					}
+				);						
+		}*/
+
+		/*function getPendingOrders() {					
+			ordersService.search(1).
+				then(
+					function successfullCallback(response) {
+						$scope.pendingOrders = response.data.data.orders;
+					},
+					function errorCallback(response) {
+						console.log(response);	
+					}
+				);						
+		}*/
+
+
+		//getApproveOrders();
+		//getApproveOrders();
+		//getCancelOrders();
+		//getRejectOrders();
+		//getPendingOrders();
+
+
+		$scope.loadOrders = loadOrders;
+
+		loadOrders();
+
+
 
 		$scope.resetOrder = function() {			
 			$scope.neworder.items = [];
@@ -107,34 +276,29 @@ angular.module('bodegaUninorteApp')
 
 		$scope.loadEvents = loadEvents;		
 
-		$scope.addItemToOrder = function (item) {        
-	        var idx = $scope.isItem(item);
-	        // is currently selected
+		$scope.addItemToOrder = function (item, order) {        
+	        var idx = $scope.isItem(item, order);	        
+	        // is currently selected	        
 	        if (idx > -1) {          
-          		$scope.neworder.items.splice(idx, 1);
+          		order.items.splice(idx, 1);
 	        }
 	        // is newly selected
 	        else {          
-	          	$scope.neworder.items.push(angular.copy(item));
+	          	order.items.push(angular.copy(item));
 	        }   	          
-     	};
+     	};     	
 
-     	
-
-     	function isItem (item) {
-     		for (var i = 0; i < $scope.neworder.items.length; i++) {
-          		if($scope.neworder.items[i].id === item.id){
+     	function isItem (item, order) {      		
+     		for (var i = 0; i < order.items.length; i++) {
+          		if(order.items[i].id === item.id){
 	            	return i
 	          	}          
 	        }
 	        return -1;	
      	}
+		
 
-     	$scope.isItem = isItem;
-
-     	$scope.test = function (neworder) {
-     		console.log(neworder);
-     	}
+     	$scope.isItem = isItem;     	
 
      	$scope.createOrder = function (newOrder) {     		
      		for(var item of newOrder.items){
@@ -154,6 +318,55 @@ angular.module('bodegaUninorteApp')
      		console.log(newOrder);
      	}
 
+     	$scope.approveOrder = function (orderId) {
+     		ordersService.approve(orderId).
+     			then(
+     				function successCallback(response) {
+ 						$state.go('dashboard.orders');
+ 					},
+ 					function errorCallback(response) {
+ 						
+ 					}
+ 				);
+     	}
+
+     	$scope.deliverOrder = function (orderId) {
+     		ordersService.deliver(orderId).
+     			then(
+     				function successCallback(response) {
+ 						$state.go('dashboard.orders');
+ 					},
+ 					function errorCallback(response) {
+ 						
+ 					}
+ 				);
+     	}
+
+     	$scope.cancelOrder = function (orderId) {
+     		ordersService.cancel(orderId).
+     			then(
+     				function successCallback(response) {
+ 						$state.go('dashboard.orders');
+ 					},
+ 					function errorCallback(response) {
+ 						
+ 					}
+ 				);
+     	}
+
+     	$scope.rejectOrder = function (orderId) {
+     		ordersService.reject(orderId).
+     			then(
+     				function successCallback(response) {
+ 						$state.go('dashboard.orders');
+ 					},
+ 					function errorCallback(response) {
+ 						
+ 					}
+ 				);
+     	}
+
+
 
 
      	function dateToString(date) {			
@@ -161,6 +374,8 @@ angular.module('bodegaUninorteApp')
 			var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);			
 			return date.year() + "-" + month + "-" + day;
 		}
+
+
 
      	//AutoComplete
 

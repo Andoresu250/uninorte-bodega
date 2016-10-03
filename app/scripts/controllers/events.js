@@ -2,7 +2,9 @@
 
 
 angular.module('bodegaUninorteApp')
-	.controller('EventsCtrl', function ($scope, eventsService, $mdDialog, $state, $stateParams) {
+	.controller('EventsCtrl', function ($scope, eventsService, sessionService ,$mdDialog, $state, $stateParams) {
+
+		$scope.role = sessionService.get("type");
 
 		//FAB CONFIG
 		$scope.topDirections = ['left', 'up'];
