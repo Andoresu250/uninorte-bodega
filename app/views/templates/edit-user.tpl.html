@@ -1,78 +1,79 @@
 </br>
 
-<div >
+<div layout="row" layout-sm="column" layout-align="space-around">
+	<md-progress-circular md-mode="indeterminate" ng-show="loandignData"></md-progress-circular>
+</div>
+
+
+<div ng-hide="loandignData">
 	<div layout="column" layout-align="center center" layout-fill class="">
 		<div class="loginBox md-whiteframe-z1" layout="column">
 			<md-toolbar>
 				<div layout="row">
-					<md-icon md-font-set="material-icons" style="padding: 0px 20px" > mode_edit </md-icon>
-					<h2 class="md-toolbar-tools"><span>Editar Usuario</span></h2>	
-				</div>				
+					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> mode_edit </md-icon>
+					<h2 class="md-toolbar-tools"><span>Editar Usuario</span></h2>
+				</div>
 			</md-toolbar>
 			<md-content class="md-padding" layout="column">
-				
+
 				<form name="editUserForm" ng-submit="saveUser(editUser)">
-				
+
 					<md-input-container class="md-block">
-				    	<label>Nombre</label>
-				    	<md-icon md-font-set="material-icons"> person </md-icon>
-				    	<input type="text" name="userName" ng-model="editUser.name" 
-				    	required>
-				    	<div ng-messages="editUserForm.userName.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="minlength">Campo requerido.</div>
-			          	</div>
-				    </md-input-container>
+						<label>Nombre</label>
+						<md-icon md-font-set="material-icons"> person </md-icon>
+						<input type="text" name="userName" ng-model="editUser.name" required>
+						<div ng-messages="editUserForm.userName.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="minlength">Campo requerido.</div>
+						</div>
+					</md-input-container>
 
-				    <md-input-container class="md-block">
-				    	<label>Email</label>
-				    	<md-icon md-font-set="material-icons"> email </md-icon>
-				    	<input type="email" name="userEmail" ng-model="editUser.email"
-				    	ng-pattern="/^.+@.+\..+$/" required>
-				    	<div ng-messages="editUserForm.userEmail.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="pattern">Email invalido.</div>
-			          	</div>
-				    </md-input-container>
+					<md-input-container class="md-block">
+						<label>Email</label>
+						<md-icon md-font-set="material-icons"> email </md-icon>
+						<input type="email" name="userEmail" ng-model="editUser.email" ng-pattern="/^.+@.+\..+$/" required>
+						<div ng-messages="editUserForm.userEmail.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="pattern">Email invalido.</div>
+						</div>
+					</md-input-container>
 
-				    <md-input-container class="md-block">
-				    	<label>Contraseña</label>
-				    	<md-icon md-font-set="material-icons"> lock_open </md-icon>
-				    	<input type="password" name="userPassword" ng-model="editUser.password"
-				    	minlength="6" required>
-				    	<div ng-messages="editUserForm.userPassword.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="minlength">Contraseña muy corta.</div>
-			          	</div>
-				    </md-input-container>					
-					
-				    <md-input-container class="md-block">
-				    	<label>Confirmar Contraseña</label>
-				    	<md-icon md-font-set="material-icons"> lock </md-icon>
-				    	<input type="password" name="passwordConfirmation" ng-model="editUser.repassword"
-				    	ng-pattern="{{editUser.password}}" required>
-				    	<div ng-messages="editUserForm.passwordConfirmation.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="pattern">La contraseña no coincide.</div>
-			          	</div>
-				    </md-input-container>				    
+					<md-input-container class="md-block">
+						<label>Contraseña</label>
+						<md-icon md-font-set="material-icons"> lock_open </md-icon>
+						<input type="password" name="userPassword" ng-model="editUser.password" minlength="6" required>
+						<div ng-messages="editUserForm.userPassword.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="minlength">Contraseña muy corta.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Confirmar Contraseña</label>
+						<md-icon md-font-set="material-icons"> lock </md-icon>
+						<input type="password" name="passwordConfirmation" ng-model="editUser.repassword" ng-pattern="{{editUser.password}}" required>
+						<div ng-messages="editUserForm.passwordConfirmation.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="pattern">La contraseña no coincide.</div>
+						</div>
+					</md-input-container>
 
 					<md-input-container class="md-block">
 						<label>Tipo de usuario</label>
 						<md-icon md-font-set="material-icons"> fingerprint </md-icon>
-						<md-select ng-model="editUser.type" name="editUserType" required>			          	             
-						<md-option ng-repeat="type in usersTypes" ng-value="type">
-						  {{type}}
-						</md-option>
+						<md-select ng-model="editUser.type" name="editUserType" required>
+							<md-option ng-repeat="type in usersTypes" ng-value="type">
+								{{type}}
+							</md-option>
 						</md-select>
 						<div ng-messages="editUserForm.editUserType.$error">
-			            	<div ng-message="required">Campo requerido.</div>				            
-		          		</div>
-			        </md-input-container>
-						
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
 
-					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
-						<div flex></div>				
+
+					<div layout="row" layout-aling="center center" style="padding-top:20px;">
+						<div flex></div>
 						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="">Guardar Cambios</md-button>
 					</div>
 

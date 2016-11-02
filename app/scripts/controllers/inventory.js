@@ -57,11 +57,11 @@ angular.module('bodegaUninorteApp')
 		      				loadItems();
 		      			},
 		      			function errorCallback(response) {
-		      				
+
 		      			}
 	      			);
 		    }, function() {
-		      
+
 		    });
 		  };
 
@@ -97,7 +97,7 @@ angular.module('bodegaUninorteApp')
 		itemsService.getItemsType().
 			then(
 				function successCallback(response) {
-					$scope.itemsTypes = response.data.data.item_types;					
+					$scope.itemsTypes = response.data.data.item_types;
 				},
 				function errorCallback(response) {
 					console.log(response);
@@ -113,14 +113,15 @@ angular.module('bodegaUninorteApp')
 		}
 
 		function loadItems() {
+			$scope.showload = true;
 			itemsService.all().
 				then(
-					function successCallback(response){					
+					function successCallback(response){
 						$scope.items = response.data.data.items;						
 						for(var item of $scope.items){
 							item.type = getType(item.item_type_id);
 						}
-						$scope.showload = false;		
+						$scope.showload = false;
 					},
 					function errorCallback(response){
 						console.log(response);
@@ -133,7 +134,7 @@ angular.module('bodegaUninorteApp')
 
 		loadItems();
 
-		$scope.createItem = function (item) {			
+		$scope.createItem = function (item) {
 			itemsService.new(item).
 				then(
 					function successCallback(response) {
@@ -152,10 +153,10 @@ angular.module('bodegaUninorteApp')
 						$scope.edititem = response.data.data.item;
 					},
 					function errorCallback(response) {
-						
+
 					}
 				);
-		}	
+		}
 
 		$scope.saveItem = function (item) {
 			itemsService.edit(item).
@@ -167,10 +168,10 @@ angular.module('bodegaUninorteApp')
 						console.log(response);
 					}
 				);
-		}	
+		}
 
 		$scope.deleteItem = function(ev, id, name) {
-		    
+
 		    var confirm = $mdDialog.confirm()
 		          .title('Esta seguro de eliminar el item con nombre: ' + name)
 		          .textContent('Una vez hecho esto no habra no prodras deshacer los cambios.')
@@ -186,12 +187,12 @@ angular.module('bodegaUninorteApp')
 			    			loadItems();
 			    		},
 			    		function errorCallback(response) {
-			    			
+
 			    		}
 		    		);
-			    
+
 		    }, function() {
-		    	
+
 		    });
 		};
 

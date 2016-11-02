@@ -16,9 +16,12 @@ angular
     'md.data.table',
     'ngMaterialDatePicker'
   ])
-  .constant('urlConstant', 'http://localhost:8000/api/v1/')
-  .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider) {
+  .constant('urlConstant', 'http://localhost:3000/api/v1/')
+  .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
+    $mdThemingProvider.theme('default')
+    .primaryPalette('red')
+    .accentPalette('blue');    
 
     $urlRouterProvider.otherwise("/login");
 
@@ -27,7 +30,7 @@ angular
         cache: false,
         url: "/login",
         templateUrl: 'views/login.html',
-        controller: 'LoginCtrl'        
+        controller: 'LoginCtrl'
       }).
       state("dashboard",{
         cache: false,
@@ -153,9 +156,9 @@ angular
 
       ;
 
-    
+
   })
-  .run(function(sessionService, $localStorage, $cookieStore, $rootScope, $state, loginService){    
+  .run(function(sessionService, $localStorage, $cookieStore, $rootScope, $state, loginService){
 
     try{
         if($cookieStore.get('token') !== undefined){
@@ -166,13 +169,13 @@ angular
             sessionService.set('token', $localStorage.auth.token);
             sessionService.set('type', $localStorage.auth.type);
           }
-        }        
+        }
     }catch(err){
-        
+
     }
 
     $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
-                                                   , fromState, fromParams) 
+                                                   , fromState, fromParams)
     {
         var isLogin = toState.name === "login";
         if(isLogin && loginService.islogged()){
@@ -181,16 +184,16 @@ angular
         }
 
         if(isLogin && !loginService.islogged()){
-           return; // no need to redirect 
+           return; // no need to redirect
         }
 
-        // now, redirect only not authenticated       
+        // now, redirect only not authenticated
 
         if(!loginService.islogged()) {
           e.preventDefault(); // stop current execution
           $state.go('login'); // go to login
         }else {
-            
+
         }
     });
 

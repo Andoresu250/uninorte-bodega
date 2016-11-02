@@ -1,82 +1,80 @@
 </br>
 
-<div >
+<div>
 	<div layout="column" layout-align="center center" layout-fill class="">
 		<div class="orderBox md-whiteframe-z1" layout="column">
 			<md-toolbar>
 				<div layout="row">
-					<md-icon md-font-set="material-icons" style="padding: 0px 20px" > add_shopping_cart </md-icon>
-					<h2 class="md-toolbar-tools"><span>Nuevo Pedido</span></h2>	
-				</div>				
+					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> add_shopping_cart </md-icon>
+					<h2 class="md-toolbar-tools"><span>Nuevo Pedido</span></h2>
+				</div>
 			</md-toolbar>
 			<md-content class="md-padding" layout="column">
-				
+
 				<form name="neworderForm" ng-submit="createOrder(neworder)">
 
 					<md-input-container class="md-block">
-					    <label>Fecha pedido</label>
-					    <input mdc-datetime-picker="" date="true" time="false" type="text"
-					    placeholder="Date" max-date="dateTimeEnd" ng-model="neworder.date" class=" md-input"
-					    id="input_0" ng-disabled="true">
-				  	</md-input-container>
-				
-					<md-input-container class="md-block">
-				    	<label>Nombre del solicitante</label>
-				    	<!--<md-icon md-font-set="material-icons"> person </md-icon>-->
-				    	<input type="text" name="orderName" ng-model="neworder.name"
-				    	required>
-				    	<div ng-messages="neworderForm.orderName.$error">
-				            <div ng-message="required">Campo requerido.</div>				            
-			          	</div>
-				    </md-input-container>
+						<label>Fecha pedido</label>
+						<input mdc-datetime-picker="" date="true" time="false" type="text" placeholder="Date" max-date="dateTimeEnd" ng-model="neworder.date" class=" md-input" id="input_0" ng-disabled="true">
+					</md-input-container>
 
-				    <md-input-container class="md-block">
-						<label>Evento</label>						
-						<md-select ng-model="neworder.event" name="newOrderEvent" required>			          	             
-						<md-option ng-repeat="event in events" ng-value="event.id">
-						  {{event.name}}
-						</md-option>
+					<md-input-container class="md-block">
+						<label>Nombre del solicitante</label>
+						<!--<md-icon md-font-set="material-icons"> person </md-icon>-->
+						<input type="text" name="orderName" ng-model="neworder.name" required>
+						<div ng-messages="neworderForm.orderName.$error">
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Evento</label>
+						<md-select ng-model="neworder.event" name="newOrderEvent" required>
+							<md-option ng-repeat="event in events" ng-value="event.id">
+								{{event.name}}
+							</md-option>
 						</md-select>
 						<div ng-messages="neworderForm.newOrderEvent.$error">
-			            	<div ng-message="required">Campo requerido.</div>				            
-		          		</div>
-			        </md-input-container>
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
 
-				    <md-input-container class="md-block">
-						<label>Tipo de Pedido</label>						
-						<md-select ng-model="neworder.orderType" name="newOrderType" ng-change="resetOrder()" required>			          	             
-						<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
-						  {{type.name}}
-						</md-option>
+					<md-input-container class="md-block">
+						<label>Tipo de Pedido</label>
+						<input type="hidden" ng-model="neworder.type" ng-value="">
+						<md-select ng-model="neworder.orderType" name="newOrderType" ng-change="resetOrder()" required>
+							<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
+								{{type.name}}
+							</md-option>
 						</md-select>
 						<div ng-messages="neworderForm.newOrderType.$error">
-			            	<div ng-message="required">Campo requerido.</div>				            
-		          		</div>
-			        </md-input-container>			    					
-				    
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
 
-			        <md-content laout="column" flex > 
-  
-					  <md-card>
-					    
-					    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
-					      <div class="md-toolbar-tools">
-					        <span>Lista de Articulos</span>
-					        <div flex></div>
-					        <md-button class="md-icon-button" ng-click="loadItems(neworder.orderType)">              
-					          <md-icon md-font-set="material-icons"> refresh </md-icon>
-					        </md-button>
-					      </div>
-					    </md-toolbar>
 
-					    <md-toolbar class="md-table-toolbar md-default" >
+					<md-content laout="column" flex>
 
-					    	<md-input-container class="md-block">
-						    	<label>Buscar Articulo</label>						    	
-						    	<input type="text" name="orderName" ng-model="itemName">						    	
-						    </md-input-container>
+						<md-card>
 
-					        <!--<md-autocomplete
+							<md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+								<div class="md-toolbar-tools">
+									<span>Lista de Articulos</span>
+									<div flex></div>
+									<md-button class="md-icon-button" ng-click="loadItems(neworder.orderType)">
+										<md-icon md-font-set="material-icons"> refresh </md-icon>
+									</md-button>
+								</div>
+							</md-toolbar>
+
+							<md-toolbar class="md-table-toolbar md-default">
+
+								<md-input-container class="md-block">
+									<label>Buscar Articulo</label>
+									<input type="text" name="orderName" ng-model="itemName">
+								</md-input-container>
+
+								<!--<md-autocomplete
 					          ng-disabled="false"
 					          md-no-cache="false"
 					          md-selected-item="selectedItem"
@@ -89,103 +87,103 @@
 					          placeholder="Buscar articulo">
 					        <md-item-template>
 					          <span md-highlight-text="ctrl.searchText" md-highlight-flags="^i">{{item.display}}</span>
-					        </md-item-template>					   --> 
-					      
-					    </md-toolbar>
-					    
-					    <md-table-container>
-					      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">          	
-					        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
-					          <tr md-row>
+					        </md-item-template>					   -->
 
-					            <th md-column md-order-by="id"><span>Id</span></th>
-					            <th md-column md-order-by="name"><span>Nombre</span></th>            
-					            <th md-column md-numeric md-order-by="number"><span>Cantidad disponible</span></th>
+							</md-toolbar>
 
-					          </tr>
-					        </thead>
-					        <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
-					        <tbody md-body>
-					          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
-					            <td md-cell>
-					            	<md-checkbox ng-checked="isItem(item, neworder) > -1" ng-click="test()">
-					                	{{item.id}} 
-					              	</md-checkbox>
-					            </td>
-					            <td md-cell>{{item.name}}</td>            
-					            <td md-cell>{{item.number}}</td>            
-					          </tr>
-					        </tbody>
-					      </table>
-					    </md-table-container>
+							<md-table-container>
+								<table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">
+									<thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+										<tr md-row>
 
-					    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
-					    </md-table-pagination>
+											<th md-column md-order-by="id"><span>Id</span></th>
+											<th md-column md-order-by="name"><span>Nombre</span></th>
+											<th md-column md-numeric md-order-by="number"><span>Cantidad disponible</span></th>
+											<th md-column md-numeric md-order-by="number"><span>Cantidad comprometida</span></th>
 
-					  </md-card>
-					</md-content> 
+										</tr>
+									</thead>
+									<md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+									<tbody md-body>
+										<tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+											<td md-cell>
+												<md-checkbox ng-checked="isItem(item, neworder) > -1" ng-click="addItemToOrder(item, neworder)">
+													{{item.id}}
+												</md-checkbox>
+											</td>
+											<td md-cell>{{item.name}}</td>
+											<td md-cell>{{item.number - item.number_on_hold}}</td>
+											<td md-cell>{{item.number_on_hold}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
 
-					<md-content laout="column" flex ng-show="neworder.items.length > 0"> 
-  
-					  <md-card>
-					    
-					    <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
-					      <div class="md-toolbar-tools">
-					        <span>Articulos del pedido</span>
-					        <div flex></div>					        
-					      </div>
-					    </md-toolbar>
-					    
-					    <md-table-container>
-					      <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">          	
-					        <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
-					          <tr md-row>
+							<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
+							</md-table-pagination>
 
-					            <th md-column md-order-by="id"><span>Id</span></th>
-					            <th md-column md-order-by="name"><span>Nombre</span></th>            
-					            <th md-column ><span>Cantidad solicitada</span></th>
-					            <th md-column ng-if="neworder.orderType === 1"><span>Fecha de devolucion</span></th>
-					            <th md-column ><span>Cantidad restante</span></th>
+						</md-card>
+					</md-content>
 
-					          </tr>
-					        </thead>
-					        <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
-					        <tbody md-body>
-					          <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in neworder.items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
-					            <td md-cell>{{item.id}}</td>
-					            <td md-cell>{{item.name}}</td><td md-cell>
-					            	<md-input-container class="md-block">								    				    	
-								    	<input type="number" name="orderItemNumber" ng-model="item.orderNumber" placeholder="Cantidad solicitada" 
-								    	min="1" ng-max="item.number" aria-label="order item number" required>
-								    	<div ng-messages="neworderForm.orderItemNumber.$error">
-								            <div ng-message="required">Campo requerido.</div>
-								            <div ng-message="min">Solo valores mayores a 0.</div>
-								            <div ng-message="max">Solo hay {{item.number}} unidades disponibles.</div>
-							          	</div>
-								    </md-input-container>
-					            </td>         
-					            <td md-cell ng-if="neworder.orderType === 1">
-					            	<md-input-container class="md-block">									    
-									    <input mdc-datetime-picker="" date="true" time="false" type="text"
-									    placeholder="Fecha" ng-model="item.returnDate" class=" md-input"
-									    id="input_0" required>
-								  	</md-input-container>
-					            </td>
-					            <td md-cell>{{item.number - item.orderNumber}}</td>            
-					          </tr>
-					        </tbody>
-					      </table>
-					    </md-table-container>
+					<md-content laout="column" flex ng-show="neworder.items.length > 0">
 
-					    <md-table-pagination md-limit="query.limit"  md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
-					    </md-table-pagination>
-					    
-					  </md-card>
-					</md-content> 
-						
+						<md-card>
 
-					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
-						<div flex></div>				
+							<md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+								<div class="md-toolbar-tools">
+									<span>Articulos del pedido</span>
+									<div flex></div>
+								</div>
+							</md-toolbar>
+
+							<md-table-container>
+								<table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">
+									<thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+										<tr md-row>
+
+											<th md-column md-order-by="id"><span>Id</span></th>
+											<th md-column md-order-by="name"><span>Nombre</span></th>
+											<th md-column><span>Cantidad solicitada</span></th>
+											<th md-column ng-if="neworder.orderType === 1"><span>Fecha de devolucion</span></th>
+											<th md-column><span>Cantidad restante</span></th>
+
+										</tr>
+									</thead>
+									<md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+									<tbody md-body>
+										<tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in neworder.items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+											<td md-cell>{{item.id}}</td>
+											<td md-cell>{{item.name}}</td>
+											<td md-cell>
+												<md-input-container class="md-block">
+													<input type="number" name="orderItemNumber" ng-model="item.orderNumber" placeholder="Cantidad solicitada" min="1" ng-max="item.number - item.number_on_hold" aria-label="order item number" required>
+													<div ng-messages="neworderForm.orderItemNumber.$error">
+														<div ng-message="required">Campo requerido.</div>
+														<div ng-message="min">Solo valores mayores a 0.</div>
+														<div ng-message="max">Solo hay {{item.number - item.number_on_hold}} unidades disponibles.</div>
+													</div>
+												</md-input-container>
+											</td>
+											<td md-cell ng-if="neworder.orderType === 1">
+												<md-input-container class="md-block">
+													<input mdc-datetime-picker="" date="true" time="false" type="text" placeholder="Fecha" ng-model="item.returnDate" class=" md-input" id="input_0" required>
+												</md-input-container>
+											</td>
+											<td md-cell>{{item.number - item.number_on_hold - item.orderNumber}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+
+							<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
+							</md-table-pagination>
+
+						</md-card>
+					</md-content>
+
+
+					<div layout="row" layout-aling="center center" style="padding-top:20px;">
+						<div flex></div>
 						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!neworderForm.$valid || neworder.items.length < 1">Crear Pedido</md-button>
 					</div>
 
@@ -195,4 +193,3 @@
 		</div>
 	</div>
 </div>
-

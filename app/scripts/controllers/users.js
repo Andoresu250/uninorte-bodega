@@ -4,31 +4,33 @@ angular.module('bodegaUninorteApp')
 	.controller('UsersCtrl', function ($scope, usersService, $state, $stateParams, $mdDialog) {
 		$scope.usersTypes = ['admin','director','gerente','bodega','asesor'];
 
-		$scope.showload = true;	
-		
-		$scope.createUser = function (user) {			
+		$scope.showload = true;
+
+		$scope.createUser = function (user) {
 			usersService.new(user).
 				then(
 					function successCallback(response) {
 						$state.go('dashboard.users.index');
 					},
 					function errorCallback(response) {
-						
+
 					}
 				);
 		}
 
 		if($stateParams.userId !== undefined){
+			$scope.loandignData = true;
 			usersService.get($stateParams.userId).
 				then(
 					function successCallback(response) {
 						$scope.editUser = response.data.data.user;
+						$scope.loandignData = false;
 					},
 					function errorCallback(response) {
-						
+						$scope.loandignData = false;
 					}
 				);
-		}	
+		}
 
 		$scope.saveUser = function (user) {
 			usersService.edit(user).
@@ -40,13 +42,13 @@ angular.module('bodegaUninorteApp')
 						console.log(response);
 					}
 				);
-		}	
+		}
 
 
 		//Dialog config
 
 		 $scope.deleteUser = function(ev, id, email) {
-		    
+
 		    var confirm = $mdDialog.confirm()
 		          .title('Esta seguro de eliminar al usuario con email: ' + email)
 		          .textContent('Una vez hecho esto no habra no prodras deshacer los cambios.')
@@ -62,12 +64,12 @@ angular.module('bodegaUninorteApp')
 			    			loadUsers();
 			    		},
 			    		function errorCallback(response) {
-			    			
+
 			    		}
 		    		);
-			    
+
 		    }, function() {
-		    	
+
 		    });
 		};
 
@@ -114,9 +116,9 @@ angular.module('bodegaUninorteApp')
 		function loadUsers() {
 			usersService.all().
 				then(
-					function successCallback(response){					
+					function successCallback(response){
 						$scope.users = response.data.data.Users;
-						$scope.showload = false;		
+						$scope.showload = false;
 					},
 					function errorCallback(response){
 						console.log(response);
