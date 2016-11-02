@@ -50,32 +50,33 @@ angular.module('bodegaUninorteApp')
 		      fullscreen: true // Only for -xs, -sm breakpoints.
 		    })
 		    .then(function(answer) {
-		    	item.number += answer;
-		      	itemsService.edit(item).
+		    	item.number = answer;
+		      	itemsService.add(item).
 		      		then(
 		      			function successfullCallback(response) {
+									console.log(response)
 		      				loadItems();
 		      			},
 		      			function errorCallback(response) {
-
+									console.log(response)
 		      			}
 	      			);
 		    }, function() {
 
 		    });
-		  };
+	  };
 
-	  	$scope.hide = function() {
-	      $mdDialog.hide();
-	    };
+		$scope.hide = function() {
+      $mdDialog.hide();
+    };
 
-	    $scope.cancel = function() {
-	      $mdDialog.cancel();
-	    };
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
 
-	    $scope.add = function(number) {
-	      $mdDialog.hide(number);
-	    };
+    $scope.add = function(number) {
+      $mdDialog.hide(number);
+    };
 
 		$scope.toggleLimitOptions = function () {
 			$scope.limitOptions = $scope.limitOptions ? undefined : [5, 10, 15];
@@ -117,7 +118,7 @@ angular.module('bodegaUninorteApp')
 			itemsService.all().
 				then(
 					function successCallback(response){
-						$scope.items = response.data.data.items;						
+						$scope.items = response.data.data.items;
 						for(var item of $scope.items){
 							item.type = getType(item.item_type_id);
 						}
