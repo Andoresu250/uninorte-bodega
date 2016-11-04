@@ -54,7 +54,6 @@
 
 									</tr>
 								</thead>
-								<md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
 								<tbody md-body>
 									<tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="item in order.items | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
 										<td md-cell>{{item.id}}</td>

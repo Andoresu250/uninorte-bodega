@@ -41,7 +41,7 @@
 					<md-input-container class="md-block">
 						<label>Contraseña</label>
 						<md-icon md-font-set="material-icons"> lock_open </md-icon>
-						<input type="password" name="userPassword" ng-model="editUser.password" minlength="6" required>
+						<input type="password" name="userPassword" ng-model="editUser.password" minlength="6">
 						<div ng-messages="editUserForm.userPassword.$error">
 							<div ng-message="required">Campo requerido.</div>
 							<div ng-message="minlength">Contraseña muy corta.</div>
@@ -51,7 +51,7 @@
 					<md-input-container class="md-block">
 						<label>Confirmar Contraseña</label>
 						<md-icon md-font-set="material-icons"> lock </md-icon>
-						<input type="password" name="passwordConfirmation" ng-model="editUser.repassword" ng-pattern="{{editUser.password}}" required>
+						<input type="password" name="passwordConfirmation" ng-model="editUser.repassword" ng-pattern="{{editUser.password}}">
 						<div ng-messages="editUserForm.passwordConfirmation.$error">
 							<div ng-message="required">Campo requerido.</div>
 							<div ng-message="pattern">La contraseña no coincide.</div>

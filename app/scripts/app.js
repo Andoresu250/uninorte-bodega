@@ -21,7 +21,7 @@ angular
 
     $mdThemingProvider.theme('default')
     .primaryPalette('red')
-    .accentPalette('blue');    
+    .accentPalette('blue');
 
     $urlRouterProvider.otherwise("/login");
 
@@ -109,10 +109,27 @@ angular
         controller: "OrdersCtrl",
         templateUrl: "views/orders.html"
       }).
+      state("dashboard.orders.return",{
+        cache: false,
+        url: "/return",
+        template: "<ui-view></ui-view>",
+        redirectTo: 'dashboard.orders.return.index'
+      }).
+      state("dashboard.orders.return.index",{
+        cache: false,
+        url: "/all",
+        controller: "ReturnCtrl",
+        templateUrl: "views/return.html"
+      }).
+      state("dashboard.orders.return.view",{
+        cache: false,
+        url: "/view/{orderId}",
+        controller: "ReturnCtrl",
+        templateUrl: "views/view-return.html"
+      }).
       state("dashboard.orders.new",{
         cache: false,
         url: "/new",
-        //controller: "OrdersCtrl",
         templateUrl: "views/new-order.html"
       }).
       state("dashboard.orders.view",{

@@ -1,0 +1,23 @@
+<md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+<div ng-cloak ng-init="loadOrders()">
+  <md-content>
+    <md-tabs md-dynamic-height md-stretch-tabs="always" md-border-bottom>
+      <md-tab>
+        <md-tab-label>
+          <md-icon md-font-set="material-icons">timelapse</md-icon> <span hide show-gt-sm>Pedidos con devoluciones pendientes</span>
+        </md-tab-label>
+        <md-tab-body>
+          <return-directive orders="ordersPending" name="'Pedidos con devoluciones pendientes'"></return-directive>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+        <md-tab-label>
+          <md-icon md-font-set="material-icons"> done_all </md-icon> <span hide show-gt-sm>Pedidos Regresados completamente</span>
+        </md-tab-label>
+        <md-tab-body>
+          <return-directive orders="ordersDone" name="'Pedidos Regresados completamente'"></return-directive>
+        </md-tab-body>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+</div>

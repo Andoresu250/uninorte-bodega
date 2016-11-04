@@ -63,26 +63,10 @@
   </md-card>
 </md-content>
 
-<div layout="column" ng-cloak>
-  <md-content class="md-padding fix-fab" layout="column">
-
-    <div layout="row" layout-align="end end">
-      <md-fab-speed-dial md-open="isOpen" md-direction="{{selectedDirection}}" ng-class="selectedMode">
-        <md-fab-trigger>
-          <md-button aria-label="menu" class="md-fab md-accent">
-            <md-icon md-font-set="material-icons"> add </md-icon>
-          </md-button>
-        </md-fab-trigger>
-
-        <md-fab-actions>
-          <a ui-sref="dashboard.events.new">
-            <md-button aria-label="Nuevo Evento" class="md-fab md-raised md-mini">
-              <md-icon md-font-set="material-icons"> event_note </md-icon>
-            </md-button>
-          </a>
-        </md-fab-actions>
-      </md-fab-speed-dial>
-    </div>
-
-  </md-content>
-</div>
+<md-content>
+  <a ui-sref="dashboard.events.new">
+    <md-button class="md-fab md-fab-bottom-right" ng-click="">
+      <md-icon md-font-set="material-icons"> event_note </md-icon>
+    </md-button>
+  </a>
+</md-content>

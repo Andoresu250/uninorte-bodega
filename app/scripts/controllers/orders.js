@@ -12,7 +12,6 @@ angular.module('bodegaUninorteApp')
       then(
         function successCallback(response) {
           $scope.order = response.data.data.order;
-          console.log(response.data.data.order);
           $scope.order.orderType = ($scope.order.type !== "consumible") ? 1 : 2;
           $scope.order.orderTypeName = ($scope.order.type !== "consumible") ? "Retornable" : "No Retornable";
           $scope.order.items.map(function(item) {
@@ -23,7 +22,6 @@ angular.module('bodegaUninorteApp')
           });
           $scope.loandignData = false;
           loadItems($scope.order.orderType);
-          console.log($scope.order);
         },
         function errorCallback(response) {
           $scope.loandignData = false;
@@ -221,6 +219,7 @@ angular.module('bodegaUninorteApp')
     function loadItems(typeId) {
       $scope.showload = true;
       $scope.items = [];
+      $scope.neworder.type = (typeId === 1) ? ("retornable") : ("consumible");
       itemsService.getByType(typeId).
       then(
         function successCallback(response) {
@@ -246,7 +245,7 @@ angular.module('bodegaUninorteApp')
     then(
       function successCallback(response) {
         $scope.itemsTypes = response.data.data.item_types;
-        $scope.neworder.type = ($scope.itemsTypes[0].type === "Retornable") ? ("retornable") : ("consumible");
+        $scope.neworder.type = ($scope.itemsTypes[0].name === "Retornable") ? ("retornable") : ("consumible");
       },
       function errorCallback(response) {
         console.log(response);
@@ -297,7 +296,7 @@ angular.module('bodegaUninorteApp')
 
     $scope.createOrder = function(newOrder) {
       for (var item of newOrder.items) {
-        item.returnDate = (item.returnDate == undefined) ? ("") : dateToString(moment(newOrder.returnDate));
+        item.returnDate = (item.returnDate == undefined) ? ("") : dateToString(moment(item.returnDate));
       }
       newOrder.date = dateToString(moment(newOrder.date));
       ordersService.new(newOrder).
@@ -310,7 +309,6 @@ angular.module('bodegaUninorteApp')
         }
       );
 
-      console.log(newOrder);
     }
 
     $scope.approveOrder = function(orderId) {
@@ -324,8 +322,6 @@ angular.module('bodegaUninorteApp')
           });
         },
         function errorCallback(response) {
-          //console.log(response.data)
-          console.log("redireccionando");
           $state.go('dashboard.orders.view', {
             orderId: orderId
           }, {

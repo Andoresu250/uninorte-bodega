@@ -6,7 +6,6 @@ angular.module('bodegaUninorteApp')
     return {
 
       new: function(orderData) {
-        $http.defaults.headers.common.Authorization = sessionService.get('token');
         return $http({
           method: 'POST',
           url: urlConstant + 'orders/',
@@ -30,11 +29,23 @@ angular.module('bodegaUninorteApp')
         });
       },
       all: function() {
-        $http.defaults.headers.common.Authorization = sessionService.get('token');
         return $http({
           method: 'GET',
           url: urlConstant + 'orders/',
-          headers: {}
+          headers: {
+            'Authorization': sessionService.get('token'),
+            'Accept': 'aplication/json'
+          }
+        });
+      },
+      allReturns: function () {
+        return $http({
+          method: 'GET',
+          url: urlConstant + 'orders/',
+          headers: {
+            'Authorization': sessionService.get('token'),
+            'Accept': 'aplication/json'
+          }
         });
       },
       get: function(id) {
@@ -122,11 +133,26 @@ angular.module('bodegaUninorteApp')
       },
       search: function(status_id) {
         return $http({
-          methop: 'POST',
+          method: 'POST',
           url: urlConstant + 'orders/search?status_id=1',
           headers: {
             'Authorization': sessionService.get('token'),
             'Accept': 'aplication/json'
+          }
+        });
+      },
+      addReturn: function (orderId, item_id, number) {
+        console.log(orderId + " " + item_id + " " + number);
+        return $http({
+          method: 'POST',
+          url: urlConstant + 'orders/' + orderId + '/devolucion',
+          headers: {
+            'Authorization': sessionService.get('token'),
+            'Accept': 'aplication/json'
+          },
+          data: {
+            item_id: item_id,
+            number: number
           }
         });
       }

@@ -119,6 +119,7 @@ angular.module('bodegaUninorteApp')
 				then(
 					function successCallback(response){
 						$scope.items = response.data.data.items;
+						console.log(response.data.data.items[0] );
 						for(var item of $scope.items){
 							item.type = getType(item.item_type_id);
 						}
