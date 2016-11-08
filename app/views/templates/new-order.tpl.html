@@ -183,6 +183,12 @@
 
 
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">
+						<a ui-sref="dashboard.orders.index">
+							<md-button class="md-raised md-accent">
+								<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+								Volver
+							</md-button>
+						</a>
 						<div flex></div>
 						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!neworderForm.$valid || neworder.items.length < 1">Crear Pedido</md-button>
 					</div>

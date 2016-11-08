@@ -1,10 +1,9 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-  .controller('OrdersCtrl', function($scope, eventsService, itemsService, sessionService, ordersService, $mdDialog, $state, $stateParams) {
+  .controller('OrdersCtrl', function($scope, eventsService, itemsService, sessionService, ordersService, $mdDialog, $state, $stateParams, toastService) {
 
     $scope.role = sessionService.get("type");
-    $scope.showload = true;
 
     if ($stateParams.orderId !== undefined) {
       $scope.loandignData = true;
@@ -25,12 +24,14 @@ angular.module('bodegaUninorteApp')
         },
         function errorCallback(response) {
           $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
-
-
-
 
     $scope.neworder = {};
     $scope.neworder.orderType = undefined;
@@ -74,8 +75,13 @@ angular.module('bodegaUninorteApp')
       page: 1
     };
 
+    $scope.asd = function () {
+      return 2;
+    }
+
 
     function loadOrders() {
+      $scope.all = [];
       $scope.showload = true;
       ordersService.all().
       then(
@@ -119,11 +125,17 @@ angular.module('bodegaUninorteApp')
         function errorCallback(response) {
           console.log(response);
           $scope.showload = false;
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
 
-    /*function getOrdersByStatus(statusId) {
+    function getOrdersByStatus(statusId) {
     	ordersService.search(statusId).
     		then(
     			function successfullCallback(response) {
@@ -181,33 +193,25 @@ angular.module('bodegaUninorteApp')
 
     			}
     		);
-    }*/
+    }
 
-    /*function getPendingOrders() {
+    function getPendingOrders() {
     	ordersService.search(1).
     		then(
     			function successfullCallback(response) {
     				$scope.pendingOrders = response.data.data.orders;
+            console.log($scope.pendingOrders);
     			},
     			function errorCallback(response) {
     				console.log(response);
     			}
     		);
-    }*/
+    }
 
 
-    //getApproveOrders();
-    //getApproveOrders();
-    //getCancelOrders();
-    //getRejectOrders();
-    //getPendingOrders();
-
+    //getApproveOrders(); getApproveOrders(); getCancelOrders(); getRejectOrders(); getPendingOrders();
 
     $scope.loadOrders = loadOrders;
-
-    loadOrders();
-
-
 
     $scope.resetOrder = function() {
       $scope.neworder.items = [];
@@ -234,6 +238,12 @@ angular.module('bodegaUninorteApp')
         function errorCallback(response) {
           $scope.items = [];
           $scope.showload = false;
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -249,6 +259,12 @@ angular.module('bodegaUninorteApp')
       },
       function errorCallback(response) {
         console.log(response);
+        $scope.loandignData = false;
+        var msg = "";
+        for(var error of response.data){
+          msg += error + " ";
+        }
+        toastService.show(msg);
       }
     );
 
@@ -262,11 +278,15 @@ angular.module('bodegaUninorteApp')
         function errorCallback(response) {
           console.log(response);
           $scope.showload = false;
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
-
-    loadEvents();
 
     $scope.loadEvents = loadEvents;
 
@@ -303,9 +323,17 @@ angular.module('bodegaUninorteApp')
       then(
         function successfullCallback(response) {
           $state.go('dashboard.orders');
+          $scope.loandignData = false;
+          toastService.show("Pedido creado satisfactoriamente");
         },
         function errorCallback(response) {
           console.log(response);
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
 
@@ -320,6 +348,8 @@ angular.module('bodegaUninorteApp')
           }, {
             reload: true
           });
+          $scope.loandignData = false;
+          toastService.show("Pedido aprobado satisfactoriamente");
         },
         function errorCallback(response) {
           $state.go('dashboard.orders.view', {
@@ -327,6 +357,12 @@ angular.module('bodegaUninorteApp')
           }, {
             reload: true
           });
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -336,9 +372,16 @@ angular.module('bodegaUninorteApp')
       then(
         function successCallback(response) {
           $state.go('dashboard.orders');
+          $scope.loandignData = false;
+          toastService.show("Pedido entregado satisfactoriamente");
         },
         function errorCallback(response) {
-
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -348,9 +391,16 @@ angular.module('bodegaUninorteApp')
       then(
         function successCallback(response) {
           $state.go('dashboard.orders');
+          $scope.loandignData = false;
+          toastService.show("Pedido cancelado satisfactoriamente");
         },
         function errorCallback(response) {
-
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -360,9 +410,16 @@ angular.module('bodegaUninorteApp')
       then(
         function successCallback(response) {
           $state.go('dashboard.orders');
+          $scope.loandignData = false;
+          toastService.show("Pedido rechazado satisfactoriamente");
         },
         function errorCallback(response) {
-
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -373,9 +430,17 @@ angular.module('bodegaUninorteApp')
         function successfullCallback(response) {
           console.log(response);
           loadOrders();
+          $scope.loandignData = false;
+          toastService.show("Pedido eliminado satisfactoriamente");
         },
         function errorCallback(response) {
           console.log(response);
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }
@@ -384,6 +449,8 @@ angular.module('bodegaUninorteApp')
       ordersService.edit(order).
       then(
         function successfullCallback(response) {
+          $scope.loandignData = false;
+          toastService.show("Pedido guardado satisfactoriamente");
           ordersService.approve(order.id).
           then(
             function successCallback(response) {
@@ -392,19 +459,30 @@ angular.module('bodegaUninorteApp')
               }, {
                 reload: true
               });
+              $scope.loandignData = false;
+              toastService.show("Pedido aprobado satisfactoriamente");
             },
             function errorCallback(response) {
-              //console.log(response.data);
-              console.log("redireccionando");
               $state.go('dashboard.orders.view', {
                 orderId: order.order.id
               }, {
                 reload: true
               });
+              $scope.loandignData = false;
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
             });
         },
         function errorCallback(response) {
-          console.log(response.data)
+          $scope.loandignData = false;
+          var msg = "";
+          for(var error of response.data){
+            msg += error + " ";
+          }
+          toastService.show(msg);
         }
       );
     }

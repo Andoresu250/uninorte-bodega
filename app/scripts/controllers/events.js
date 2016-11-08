@@ -2,24 +2,12 @@
 
 
 angular.module('bodegaUninorteApp')
-	.controller('EventsCtrl', function ($scope, eventsService, sessionService ,$mdDialog, $state, $stateParams) {
+	.controller('EventsCtrl', function ($scope, eventsService, sessionService ,$mdDialog, $state, $stateParams, toastService) {
 
 		$scope.role = sessionService.get("type");
 
-		//FAB CONFIG
-		$scope.topDirections = ['left', 'up'];
-		$scope.bottomDirections = ['down', 'right'];
-
-		$scope.isOpen = false;
-
-		$scope.availableModes = ['md-fling', 'md-scale'];
-		$scope.selectedMode = 'md-fling';
-
-		$scope.availableDirections = ['up', 'down', 'left', 'right'];
-		$scope.selectedDirection = 'up';
-
 		//TABLE CONFIG
-    	$scope.selected = [];
+  	$scope.selected = [];
 		$scope.limitOptions = [15];
 
 		$scope.options = {
@@ -71,9 +59,14 @@ angular.module('bodegaUninorteApp')
 			    	then(
 			    		function successCallback(response) {
 			    			loadEvents();
+								toastService.show("Evento cancelado satisfactoriamente");
 			    		},
 			    		function errorCallback(response) {
-
+								var msg = "";
+								for(var error of response.data){
+									msg += error + " ";
+								}
+								toastService.show(msg);
 			    		}
 		    		);
 
@@ -97,12 +90,20 @@ angular.module('bodegaUninorteApp')
 					},
 					function errorCallback(response) {
 						$scope.loandignData = false;
+						var msg = "";
+						for(var error of response.data){
+							msg += error + " ";
+						}
+						toastService.show(msg);
 					}
 				);
 		}
 
 		$scope.saveEvent = function(editEvent) {
-			var initDate = moment(editEvent.dateTimeStart);
+
+				$scope.loandignData = true;
+
+				var initDate = moment(editEvent.dateTimeStart);
 		    var endDate = moment(editEvent.dateTimeEnd);
 
 		    editEvent.start_date = dateToString(initDate);
@@ -114,10 +115,18 @@ angular.module('bodegaUninorteApp')
 		    eventsService.edit(editEvent).
 		    	then(
 		    		function successCallback(response) {
+							$scope.loandignData = false;
     					$state.go('dashboard.events.index');
+							toastService.show("Evento guardado satisfactoriamente");
 		    		},
 		    		function errorCallback(response) {
 		    			console.log(response);
+							$scope.loandignData = false;
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
 
 		    		}
 	    		);
@@ -126,6 +135,8 @@ angular.module('bodegaUninorteApp')
 
 
 		$scope.createEvent = function(newEvent) {
+
+				$scope.loandignData = true;
 
 		    var initDate = moment(newEvent.dateTimeStart);
 		    var endDate = moment(newEvent.dateTimeEnd);
@@ -139,10 +150,18 @@ angular.module('bodegaUninorteApp')
 		    eventsService.new(newEvent).
 		    	then(
 		    		function successCallback(response) {
+							$scope.loandignData = false;
     					$state.go('dashboard.events.index');
+							toastService.show("Evento creado satisfactoriamente");
 		    		},
 		    		function errorCallback(response) {
 		    			console.log(response);
+							$scope.loandignData = false;
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
 
 		    		}
 	    		);
@@ -151,6 +170,7 @@ angular.module('bodegaUninorteApp')
 
 		function loadEvents() {
 			$scope.showload = true;
+			$scope.events = [];
 			eventsService.all().
 				then(
 					function successCallback(response){
@@ -160,11 +180,14 @@ angular.module('bodegaUninorteApp')
 					function errorCallback(response){
 						console.log(response);
 						$scope.showload = false;
+						var msg = "";
+						for(var error of response.data){
+							msg += error + " ";
+						}
+						toastService.show(msg);
 					}
 				);
 		}
-
-		loadEvents();
 
 		$scope.loadEvents = loadEvents;
 

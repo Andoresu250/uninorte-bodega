@@ -48,7 +48,7 @@ angular
         cache: false,
         url: "/users",
         controller: "UsersCtrl",
-        template: "<ui-view></ui-view>",
+        template: "<ui-view layout='column' flex></ui-view>",
         redirectTo: 'dashboard.users.index'
       }).
       state("dashboard.users.index",{
@@ -74,7 +74,7 @@ angular
         cache: false,
         url: "/eventos",
         controller: "EventsCtrl",
-        template: "<ui-view></ui-view>",
+        template: "<ui-view layout='column' flex></ui-view>",
         redirectTo: 'dashboard.events.index'
       }).
       state("dashboard.events.index",{

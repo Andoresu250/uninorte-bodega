@@ -3,20 +3,7 @@
 angular.module('bodegaUninorteApp')
 	.controller('InventoryCtrl', function ($scope, itemsService, sessionService ,$state, $stateParams, $mdDialog) {
 
-		$scope.role = sessionService.get("type");
-
-    	//Fab Config
-
-		$scope.topDirections = ['left', 'up'];
-		$scope.bottomDirections = ['down', 'right'];
-
-		$scope.isOpen = false;
-
-		$scope.availableModes = ['md-fling', 'md-scale'];
-		$scope.selectedMode = 'md-fling';
-
-		$scope.availableDirections = ['up', 'down', 'left', 'right'];
-		$scope.selectedDirection = 'up';
+		$scope.role = sessionService.get("type"); 
 
 		//Table config
 
@@ -119,7 +106,6 @@ angular.module('bodegaUninorteApp')
 				then(
 					function successCallback(response){
 						$scope.items = response.data.data.items;
-						console.log(response.data.data.items[0] );
 						for(var item of $scope.items){
 							item.type = getType(item.item_type_id);
 						}

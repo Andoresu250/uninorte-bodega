@@ -1,82 +1,83 @@
 </br>
 
-<div >
+<div>
 	<div layout="column" layout-align="center center" layout-fill class="">
 		<div class="loginBox md-whiteframe-z1" layout="column">
 			<md-toolbar>
 				<div layout="row">
-					<md-icon md-font-set="material-icons" style="padding: 0px 20px" > note_add </md-icon>
-					<h2 class="md-toolbar-tools"><span>Nuevo Articulo</span></h2>	
-				</div>				
+					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> note_add </md-icon>
+					<h2 class="md-toolbar-tools"><span>Nuevo Articulo</span></h2>
+				</div>
 			</md-toolbar>
 			<md-content class="md-padding" layout="column">
-				
+
 				<form name="newItemForm" ng-submit="createItem(newitem)">
-				
-					<md-input-container class="md-block">
-				    	<label>Nombre</label>				    	
-				    	<input type="text" name="itemName" ng-model="newitem.name" 
-				    	required>
-				    	<div ng-messages="newItemForm.itemName.$error">
-				            <div ng-message="required">Campo requerido.</div>				            
-			          	</div>
-				    </md-input-container>		
-
-				    <md-input-container class="md-block">
-				    	<label>Cantidad del articulo</label>				    	
-				    	<input type="number" name="itemNumber" ng-model="newitem.number" 
-				    	min="1" required>
-				    	<div ng-messages="newItemForm.itemNumber.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="min">Minimo una unidad.</div>
-			          	</div>
-				    </md-input-container>	
-
-				    <md-input-container class="md-block">
-				    	<label>Precio del articulo</label>				    	
-				    	<input type="number" name="itemPrice" ng-model="newitem.price" 
-				    	min="1" required>
-				    	<div ng-messages="newItemForm.itemPrice.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="min">Solo costos mayores a 0.</div>
-			          	</div>
-				    </md-input-container>	
-
-				    <md-input-container class="md-block">
-				    	<label>Re-Orden del articulo</label>				    	
-				    	<input type="number" name="itemReorder" ng-model="newitem.reorder" 
-				    	min="1" required>
-				    	<div ng-messages="newItemForm.itemReorder.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="min">Solo valores mayores a 0.</div>
-			          	</div>
-				    </md-input-container>	  
-
-				    <md-input-container class="md-block">
-				    	<label>Stock minimo del articulo</label>				    	
-				    	<input type="number" name="itemMinStock" ng-model="newitem.min_stock" 
-				    	min="1" required>
-				    	<div ng-messages="newItemForm.itemMinStock.$error">
-				            <div ng-message="required">Campo requerido.</div>
-				            <div ng-message="min">Solo valores mayores a 0.</div>
-			          	</div>
-				    </md-input-container>	  
 
 					<md-input-container class="md-block">
-						<label>Tipo de articulo</label>						
-						<md-select ng-model="newitem.item_type_id" name="newitemType" required>			          	             
-						<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
-						  {{type.name}}
-						</md-option>
+						<label>Nombre</label>
+						<input type="text" name="itemName" ng-model="newitem.name" required>
+						<div ng-messages="newItemForm.itemName.$error">
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Cantidad del articulo</label>
+						<input type="number" name="itemNumber" ng-model="newitem.number" min="1" required>
+						<div ng-messages="newItemForm.itemNumber.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="min">Minimo una unidad.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Precio del articulo</label>
+						<input type="number" name="itemPrice" ng-model="newitem.price" min="1" required>
+						<div ng-messages="newItemForm.itemPrice.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="min">Solo costos mayores a 0.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Re-Orden del articulo</label>
+						<input type="number" name="itemReorder" ng-model="newitem.reorder" min="1" required>
+						<div ng-messages="newItemForm.itemReorder.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="min">Solo valores mayores a 0.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Stock minimo del articulo</label>
+						<input type="number" name="itemMinStock" ng-model="newitem.min_stock" min="1" required>
+						<div ng-messages="newItemForm.itemMinStock.$error">
+							<div ng-message="required">Campo requerido.</div>
+							<div ng-message="min">Solo valores mayores a 0.</div>
+						</div>
+					</md-input-container>
+
+					<md-input-container class="md-block">
+						<label>Tipo de articulo</label>
+						<md-select ng-model="newitem.item_type_id" name="newitemType" required>
+							<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
+								{{type.name}}
+							</md-option>
 						</md-select>
 						<div ng-messages="newItemForm.newitemType.$error">
-			            	<div ng-message="required">Campo requerido.</div>				            
-		          		</div>
-			        </md-input-container>
-						
+							<div ng-message="required">Campo requerido.</div>
+						</div>
+					</md-input-container>
 
-					<div layout="row" layout-aling="center center" style="padding-top:20px;">				
-						<div flex></div>				
+
+					<div layout="row" layout-aling="center center" style="padding-top:20px;">
+						<a ui-sref="dashboard.inventory.index">
+							<md-button class="md-raised md-accent">
+								<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+								Volver
+							</md-button>
+						</a>
+						<div flex></div>
 						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!newItemForm.$valid">Crear Articulo</md-button>
 					</div>
 

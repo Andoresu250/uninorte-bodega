@@ -1,6 +1,6 @@
 .loginBox {
-  max-width: 90%;
-  width: 500px
+  max-width: 100%;
+  width: 500px;
 }
 
 .orderBox {
@@ -52,4 +52,8 @@ md-checkbox {
   bottom: 20px;
   left: auto;
   position: fixed;
+}
+
+md-toast {
+  padding-top: 50px !important;
 }

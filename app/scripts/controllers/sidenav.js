@@ -5,10 +5,11 @@ angular.module('bodegaUninorteApp')
 
 		$scope.goTo = function (state) {
 			$state.go(state);
+			$scope.close();
 		}
-			
 
-		$scope.close = function () {	      
+
+		$scope.close = function () {
 	      $mdSidenav('left').close()
 	        .then(function () {
 	          //$log.debug("close is done");
