@@ -5,7 +5,44 @@ angular.module('bodegaUninorteApp')
 
     $scope.role = sessionService.get("type");
 
-    if ($stateParams.orderId !== undefined) {
+    $scope.goToEdit = function (orderid) {
+      $state.go('dashboard.orders.edit', {orderId : orderid});
+    }
+
+    $scope.viewOrder = function () {
+      $scope.configTable();
+      $scope.loandignData = true;
+      ordersService.get($stateParams.orderId).
+      then(
+        function successCallback(response) {
+          $scope.order = response.data.data.order;
+          $scope.order.orderType = ($scope.order.type !== "consumible") ? 1 : 2;
+          $scope.order.orderTypeName = ($scope.order.type !== "consumible") ? "Retornable" : "No Retornable";
+          $scope.order.items.map(function(item) {
+            item.orderNumber = item.pivot.number;
+            if ($scope.order.orderType === 1) {
+              item.returnDate = moment(item.pivot.date);
+            }
+          });
+          $scope.loandignData = false;
+        },
+        function errorCallback(response) {
+          $scope.loandignData = false;
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
+          }
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
+        }
+      );
+    }
+
+    $scope.editOrder = function () {
       $scope.loandignData = true;
       ordersService.get($stateParams.orderId).
       then(
@@ -24,194 +61,246 @@ angular.module('bodegaUninorteApp')
         },
         function errorCallback(response) {
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
 
-    $scope.neworder = {};
-    $scope.neworder.orderType = undefined;
-    $scope.neworder.orderType = 1;
-    $scope.neworder.date = moment();
-    $scope.neworder.items = [];
-    $scope.order = {};
-    $scope.order.items = [];
-
-    //FAB CONFIG
-
-    $scope.topDirections = ['left', 'up'];
-    $scope.bottomDirections = ['down', 'right'];
-
-    $scope.isOpen = false;
-
-    $scope.availableModes = ['md-fling', 'md-scale'];
-    $scope.selectedMode = 'md-fling';
-
-    $scope.availableDirections = ['up', 'down', 'left', 'right'];
-    $scope.selectedDirection = 'up';
-
-    //TABLE CONFIG
-    $scope.selected = [];
-    $scope.limitOptions = [15];
-
-    $scope.options = {
-      rowSelection: false,
-      multiSelect: false,
-      autoSelect: false,
-      decapitate: false,
-      largeEditDialog: true,
-      boundaryLinks: true,
-      limitSelect: false,
-      pageSelect: false
-    };
-
-    $scope.query = {
-      order: 'name',
-      limit: 20,
-      page: 1
-    };
-
-    $scope.asd = function () {
-      return 2;
+    $scope.initNewOrder = function () {
+      $scope.getItemsType();
+      $scope.configTable();
+      $scope.neworder = {};
+      $scope.neworder.orderType = undefined;
+      $scope.neworder.orderType = 1;
+      $scope.neworder.date = moment();
+      $scope.neworder.items = [];
+      $scope.order = {};
+      $scope.order.items = [];
+      loadItems($scope.neworder.orderType);
     }
 
+    $scope.initOrder = function () {
+      $scope.configTable();
+      $scope.order = {};
+      $scope.order.items = [];
+      loadItems($scope.order.orderType);
+    }
 
-    function loadOrders() {
+    $scope.configTable = function () {
+      //TABLE CONFIG
+      $scope.selected = [];
+      $scope.limitOptions = [15];
+
+      $scope.options = {
+        rowSelection: false,
+        multiSelect: false,
+        autoSelect: false,
+        decapitate: false,
+        largeEditDialog: true,
+        boundaryLinks: true,
+        limitSelect: false,
+        pageSelect: false
+      };
+
+      $scope.query = {
+        order: 'name',
+        limit: 20,
+        page: 1
+      };
+    }
+
+    $scope.loadAllOrders = function() {
+      getAllOrders();
+      getApproveOrders();
+      getDeliverOrders();
+      getCancelOrders();
+      getRejectOrders();
+      getPendingOrders();
+    }
+
+    $scope.loadOrders = function(){
+      getOrdersByStatus();
+    }
+
+    function getOrdersByStatus() {
+      $scope.orders = [];
+      $scope.loading = true;
+      ordersService.search($scope.statusid).
+    		then(
+    			function successfullCallback(response) {
+    				$scope.orders = response.data.data.orders;
+            $scope.loading = false;
+    			},
+    			function errorCallback(response) {
+            $scope.loading = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
+    			}
+    		);
+    }
+
+    function getAllOrders() {
       $scope.all = [];
-      $scope.showload = true;
+      $scope.loadingAll = true;
       ordersService.all().
       then(
         function successCallback(response) {
           $scope.all = response.data.data.orders;
-          var pendingOrders = [];
-          var rejectOrders = [];
-          var approveOrders = [];
-          var deliverOrders = [];
-          var cancelOrders = [];
-
-          for (var order of $scope.all) {
-            switch (order.order_status) {
-              case "Pendiente":
-                pendingOrders.push(order);
-                break;
-              case "Rechazado":
-                rejectOrders.push(order);
-                break;
-              case "Aprobado":
-                approveOrders.push(order);
-                break;
-              case "Entregado":
-                deliverOrders.push(order);
-                break;
-              case "Cancelado":
-                cancelOrders.push(order);
-                break;
-            }
-          }
-
-          $scope.pendingOrders = pendingOrders;
-          $scope.rejectOrders = rejectOrders;
-          $scope.approveOrders = approveOrders;
-          $scope.deliverOrders = deliverOrders;
-          $scope.cancelOrders = cancelOrders;
-
-          $scope.showload = false;
-
+          $scope.loadingAll = false;
         },
         function errorCallback(response) {
-          console.log(response);
-          $scope.showload = false;
-          $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          $scope.loadingAll = false;
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
 
-    function getOrdersByStatus(statusId) {
-    	ordersService.search(statusId).
-    		then(
-    			function successfullCallback(response) {
-    				$scope.orders = response.data.data.orders;
-    			},
-    			function errorCallback(response) {
-
-    			}
-    		);
-    }
-
     function getApproveOrders() {
-    	ordersService.search(3).
+      $scope.approveOrders = [];
+      $scope.loadingApproved = true;
+    	ordersService.search("3").
     		then(
     			function successfullCallback(response) {
+            $scope.loadingApproved = false;
     				$scope.approveOrders = response.data.data.orders;
     			},
     			function errorCallback(response) {
-
+            $scope.loadingApproved = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
     			}
     		);
     }
-
     function getDeliverOrders() {
-    	ordersService.search(4).
+      $scope.deliverOrders = [];
+      $scope.loadingDelivered = true;
+    	ordersService.search("4").
     		then(
     			function successfullCallback(response) {
+            $scope.loadingDelivered = false;
     				$scope.deliverOrders = response.data.data.orders;
     			},
     			function errorCallback(response) {
-
+            $scope.loadingDelivered = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
     			}
     		);
     }
-
     function getCancelOrders() {
-    	ordersService.search(5).
+      $scope.cancelOrders = [];
+      $scope.loadingCancel = true;
+    	ordersService.search("5").
     		then(
     			function successfullCallback(response) {
+            $scope.loadingCancel = false;
     				$scope.cancelOrders = response.data.data.orders;
     			},
     			function errorCallback(response) {
-
+            $scope.loadingCancel = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
     			}
     		);
     }
-
     function getRejectOrders() {
-    	ordersService.search(2).
+      $scope.rejectOrders = [];
+      $scope.loadingReject = true;
+    	ordersService.search("2").
     		then(
     			function successfullCallback(response) {
+            $scope.loadingReject = false;
     				$scope.rejectOrders = response.data.data.orders;
     			},
     			function errorCallback(response) {
-
+            $scope.loadingReject = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
     			}
     		);
     }
-
     function getPendingOrders() {
-    	ordersService.search(1).
+      $scope.pendingOrders = [];
+      $scope.loadingPending = true;
+    	ordersService.search("1").
     		then(
     			function successfullCallback(response) {
+            $scope.loadingPending = false;
     				$scope.pendingOrders = response.data.data.orders;
-            console.log($scope.pendingOrders);
     			},
     			function errorCallback(response) {
-    				console.log(response);
+            $scope.loadingPending = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
     			}
     		);
     }
-
-
-    //getApproveOrders(); getApproveOrders(); getCancelOrders(); getRejectOrders(); getPendingOrders();
-
-    $scope.loadOrders = loadOrders;
 
     $scope.resetOrder = function() {
       $scope.neworder.items = [];
@@ -239,51 +328,65 @@ angular.module('bodegaUninorteApp')
           $scope.items = [];
           $scope.showload = false;
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
 
     $scope.loadItems = loadItems;
-    loadItems($scope.neworder.orderType);
 
-    itemsService.getItemsType().
-    then(
-      function successCallback(response) {
-        $scope.itemsTypes = response.data.data.item_types;
-        $scope.neworder.type = ($scope.itemsTypes[0].name === "Retornable") ? ("retornable") : ("consumible");
-      },
-      function errorCallback(response) {
-        console.log(response);
-        $scope.loandignData = false;
-        var msg = "";
-        for(var error of response.data){
-          msg += error + " ";
+    $scope.getItemsType = function () {
+      itemsService.getItemsType().
+      then(
+        function successCallback(response) {
+          $scope.itemsTypes = response.data.data.item_types;
+          $scope.neworder.type = ($scope.itemsTypes[0].name === "Retornable") ? ("retornable") : ("consumible");
+        },
+        function errorCallback(response) {
+          $scope.loandignData = false;
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
+          }
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
-        toastService.show(msg);
-      }
-    );
+      );
+    }
 
     function loadEvents() {
+      $scope.loandignData = true;
       eventsService.all().
       then(
         function successCallback(response) {
           $scope.events = response.data.data.Events;
-          $scope.showload = false;
+          $scope.loandignData = false;
         },
         function errorCallback(response) {
-          console.log(response);
-          $scope.showload = false;
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -311,7 +414,6 @@ angular.module('bodegaUninorteApp')
       return -1;
     }
 
-
     $scope.isItem = isItem;
 
     $scope.createOrder = function(newOrder) {
@@ -327,7 +429,6 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido creado satisfactoriamente");
         },
         function errorCallback(response) {
-          console.log(response);
           $scope.loandignData = false;
           var msg = "";
           for(var error of response.data){
@@ -358,11 +459,16 @@ angular.module('bodegaUninorteApp')
             reload: true
           });
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -376,12 +482,16 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido entregado satisfactoriamente");
         },
         function errorCallback(response) {
-          $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -395,12 +505,16 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido cancelado satisfactoriamente");
         },
         function errorCallback(response) {
-          $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -415,11 +529,16 @@ angular.module('bodegaUninorteApp')
         },
         function errorCallback(response) {
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -428,19 +547,22 @@ angular.module('bodegaUninorteApp')
       ordersService.delete(orderId).
       then(
         function successfullCallback(response) {
-          console.log(response);
-          loadOrders();
+          $scope.loadOrders();
           $scope.loandignData = false;
           toastService.show("Pedido eliminado satisfactoriamente");
         },
         function errorCallback(response) {
-          console.log(response);
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
@@ -469,63 +591,38 @@ angular.module('bodegaUninorteApp')
                 reload: true
               });
               $scope.loandignData = false;
-              var msg = "";
-              for(var error of response.data){
-                msg += error + " ";
+              if(response.data != null){
+                var msg = "";
+                for(var error of response.data){
+                  msg += error + " ";
+                }
+                toastService.show(msg);
               }
-              toastService.show(msg);
+              if(response.status == -1){
+                toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+              }
             });
         },
         function errorCallback(response) {
           $scope.loandignData = false;
-          var msg = "";
-          for(var error of response.data){
-            msg += error + " ";
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
           }
-          toastService.show(msg);
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
         }
       );
     }
-
-
-
 
     function dateToString(date) {
       var day = (date.date() <= 9) ? ("0" + date.date()) : date.date();
       var month = (date.month() + 1 <= 9) ? ("0" + (date.month() + 1)) : (date.month() + 1);
       return date.year() + "-" + month + "-" + day;
     }
-
-
-
-    //AutoComplete
-
-    /*$scope.states        = loadAllItemsAutoComplete();
-	    $scope.selectedItem  = null;
-	    $scope.searchText    = null;
-	    $scope.querySearch   = querySearch;
-
-	    function querySearch (query) {
-	      var results = query ? $scope.states.filter( createFilterFor(query) ) : $scope.states;
-	      return results;
-	    }
-
-	    function createFilterFor(query) {
-	      var lowercaseQuery = angular.lowercase(query);
-
-	      return function filterFn(state) {
-	        return (state.value.indexOf(lowercaseQuery) === 0);
-	      };
-
-	    }
-
-	    function loadAllItemsAutoComplete () {
-	    	return itemsService.getAll().map(function (item) {
-	    		return{
-	    			value: item.name.toLowerCase(),
-	    			display: item.name
-	    		}
-	    	});
-	    }*/
 
   });

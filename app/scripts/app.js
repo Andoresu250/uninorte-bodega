@@ -100,7 +100,7 @@ angular
         cache: false,
         url: "/orders",
         //controller: "OrdersCtrl",
-        template: "<ui-view></ui-view>",
+        template: "<ui-view  layout='column' flex></ui-view>",
         redirectTo: 'dashboard.orders.index'
       }).
       state("dashboard.orders.index",{
@@ -149,7 +149,7 @@ angular
         cache: false,
         url: "/inventory",
         controller: "InventoryCtrl",
-        template: "<ui-view></ui-view>",
+        template: "<ui-view layout='column' flex></ui-view>",
         redirectTo: 'dashboard.inventory.index'
       }).
       state("dashboard.inventory.index",{

@@ -10,11 +10,13 @@ angular.module('bodegaUninorteApp')
   .directive('ordersstatusDirective', function () {
     return {
 
-      templateUrl: 'views/templates/orders.tpl.html',      
+      templateUrl: 'views/templates/orders.tpl.html',
       controller: 'OrdersCtrl',
       scope: {
-      	orders: '=',
-        name : '='
+        statusid : '=',
+      	orders : '=',
+        name : '=',
+        loading : '='
       }
     };
   });

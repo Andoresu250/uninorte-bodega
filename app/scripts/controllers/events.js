@@ -62,11 +62,16 @@ angular.module('bodegaUninorteApp')
 								toastService.show("Evento cancelado satisfactoriamente");
 			    		},
 			    		function errorCallback(response) {
-								var msg = "";
-								for(var error of response.data){
-									msg += error + " ";
+								if(response.data != null){
+									var msg = "";
+									for(var error of response.data){
+										msg += error + " ";
+									}
+									toastService.show(msg);
 								}
-								toastService.show(msg);
+								if(response.status == -1){
+									toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+								}
 			    		}
 		    		);
 
@@ -90,11 +95,16 @@ angular.module('bodegaUninorteApp')
 					},
 					function errorCallback(response) {
 						$scope.loandignData = false;
-						var msg = "";
-						for(var error of response.data){
-							msg += error + " ";
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
 						}
-						toastService.show(msg);
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}
@@ -122,12 +132,16 @@ angular.module('bodegaUninorteApp')
 		    		function errorCallback(response) {
 		    			console.log(response);
 							$scope.loandignData = false;
-							var msg = "";
-							for(var error of response.data){
-								msg += error + " ";
+							if(response.data != null){
+								var msg = "";
+								for(var error of response.data){
+									msg += error + " ";
+								}
+								toastService.show(msg);
 							}
-							toastService.show(msg);
-
+							if(response.status == -1){
+								toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+							}
 		    		}
 	    		);
 
@@ -157,11 +171,16 @@ angular.module('bodegaUninorteApp')
 		    		function errorCallback(response) {
 		    			console.log(response);
 							$scope.loandignData = false;
-							var msg = "";
-							for(var error of response.data){
-								msg += error + " ";
+							if(response.data != null){
+								var msg = "";
+								for(var error of response.data){
+									msg += error + " ";
+								}
+								toastService.show(msg);
 							}
-							toastService.show(msg);
+							if(response.status == -1){
+								toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+							}
 
 		    		}
 	    		);
@@ -178,13 +197,17 @@ angular.module('bodegaUninorteApp')
 						$scope.showload = false;
 					},
 					function errorCallback(response){
-						console.log(response);
 						$scope.showload = false;
-						var msg = "";
-						for(var error of response.data){
-							msg += error + " ";
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
 						}
 						toastService.show(msg);
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}

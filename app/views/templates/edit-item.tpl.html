@@ -1,12 +1,21 @@
+<div ng-init="getItemsType();"></div>
+<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData">
+	<div>
+		<div layout="row" layout-sm="column" layout-align="space-around">
+			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+	</div>
+</div>
+
 </br>
 
-<div>
+<div ng-hide="loandignData">
 	<div layout="column" layout-align="center center" layout-fill class="">
 		<div class="loginBox md-whiteframe-z1" layout="column">
 			<md-toolbar>
 				<div layout="row">
-					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> note_add </md-icon>
-					<h2 class="md-toolbar-tools"><span>Nuevo Articulo</span></h2>
+					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> mode_edit </md-icon>
+					<h2 class="md-toolbar-tools"><span>Editar Articulo</span></h2>
 				</div>
 			</md-toolbar>
 			<md-content class="md-padding" layout="column">

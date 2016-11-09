@@ -15,16 +15,19 @@ angular.module('bodegaUninorteApp')
 					//$scope.loading = false;
 					var token = response.data.token;
 					var type = response.data.type;
-					loginService.setToken(token, type ,data.remember_me);					
+					loginService.setToken(token, type ,data.remember_me);
 					$state.go('dashboard.orders');
-					if (!$rootScope.$$phase){
+					/*if (!$rootScope.$$phase){
 					 	$rootScope.$apply();
-					}
+					}*/
 				},
 				function errorCallBack (response) {
 					$scope.loading = false;
 					if(response.status == 400){
 							toastService.show("Contraseña o email incorrectos");
+					}
+					if(response.status == -1){
+						toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
 					}
 				}
 			);

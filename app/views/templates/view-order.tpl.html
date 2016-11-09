@@ -1,3 +1,5 @@
+<div ng-init="viewOrder()"></div>
+
 </br>
 
 <div layout="row" layout-sm="column" layout-align="space-around">
@@ -67,7 +69,7 @@
 							</table>
 						</md-table-container>
 
-						<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
+						<md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{order.items.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
 						</md-table-pagination>
 
 					</md-card>
@@ -75,10 +77,21 @@
 
 				<div layout="row" ng-if="order.order_status === 'Pendiente' || order.order_status === 'Aprobado' " ng-hide="role === 'asesor'">
 
-					<md-button class="md-raised md-primary" flex="33" ng-click="approveOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">Aprobar pedido</md-button>
-					<md-button class="md-raised md-primary" flex="33" ng-click="rejectOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">Rechazar pedido</md-button>
-					<md-button class="md-raised md-primary" flex="33" ng-click="cancelOrder(order.id)">Cancelar pedido</md-button>
-					<md-button class="md-raised md-primary" flex="33" ng-click="deliverOrder(order.id)" ng-show="role === 'bodega'">Entregar pedido</md-button>
+					<md-button class="md-raised" md-colors="{background : 'green'}" flex="33" ng-click="approveOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
+						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> check </md-icon>
+						Aprobar pedido</md-button>
+					<md-button class="md-raised" md-colors="{background : 'amber'}" flex="33" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'" ng-click="goToEdit(order.id)">
+						<md-icon md-font-set="material-icons" style="padding: 0px 5px; "> mode_edit </md-icon>
+						Editar pedido</md-button>
+					<md-button class="md-raised" md-colors="{background : 'red'}" flex="33" ng-click="rejectOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
+						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> clear </md-icon>
+						Rechazar pedido</md-button>
+					<md-button class="md-raised" md-colors="{background : 'deep-orange'}" flex="33" ng-click="cancelOrder(order.id)">
+						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> block </md-icon>
+						Cancelar pedido</md-button>
+					<md-button class="md-raised" md-colors="{background : 'blue'}" flex="33" ng-click="deliverOrder(order.id)" ng-show="role === 'bodega'">
+						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> done_all </md-icon>
+						Entregar pedido</md-button>
 
 				</div>
 

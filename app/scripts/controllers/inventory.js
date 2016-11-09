@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('InventoryCtrl', function ($scope, itemsService, sessionService ,$state, $stateParams, $mdDialog) {
+	.controller('InventoryCtrl', function ($scope, itemsService, sessionService ,$state, $stateParams, $mdDialog, toastService) {
 
-		$scope.role = sessionService.get("type"); 
+		$scope.role = sessionService.get("type");
 
 		//Table config
 
@@ -41,11 +41,20 @@ angular.module('bodegaUninorteApp')
 		      	itemsService.add(item).
 		      		then(
 		      			function successfullCallback(response) {
-									console.log(response)
 		      				loadItems();
+									toastService.show("Cantidad aumentada satisfactoriamente");
 		      			},
 		      			function errorCallback(response) {
-									console.log(response)
+									if(response.data != null){
+										var msg = "";
+										for(var error of response.data){
+											msg += error + " ";
+										}
+										toastService.show(msg);
+									}
+									if(response.status == -1){
+										toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+									}
 		      			}
 	      			);
 		    }, function() {
@@ -82,15 +91,30 @@ angular.module('bodegaUninorteApp')
 			console.log('limit: ', limit);
 		}
 
-		itemsService.getItemsType().
-			then(
-				function successCallback(response) {
-					$scope.itemsTypes = response.data.data.item_types;
-				},
-				function errorCallback(response) {
-					console.log(response);
-				}
-			);
+		$scope.getItemsType = function () {
+			$scope.loandignData = true;
+			itemsService.getItemsType().
+				then(
+					function successCallback(response) {
+						$scope.loandignData = false;
+						$scope.itemsTypes = response.data.data.item_types;
+					},
+					function errorCallback(response) {
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
+					}
+				);
+		}
+
 
 		function getType(id) {
 			for(var type of $scope.itemsTypes){
@@ -101,6 +125,7 @@ angular.module('bodegaUninorteApp')
 		}
 
 		function loadItems() {
+			$scope.items = [];
 			$scope.showload = true;
 			itemsService.all().
 				then(
@@ -112,48 +137,91 @@ angular.module('bodegaUninorteApp')
 						$scope.showload = false;
 					},
 					function errorCallback(response){
-						console.log(response);
 						$scope.showload = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}
 
 		$scope.loadItems = loadItems;
 
-		loadItems();
-
 		$scope.createItem = function (item) {
+			$scope.loandignData = true;
 			itemsService.new(item).
 				then(
 					function successCallback(response) {
 						$state.go('dashboard.inventory.index');
+						toastService.show("Articulo creado satisfactoriamente");
 					},
 					function errorCallback(response) {
-						console.log(response);
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}
 
 		if($stateParams.itemId !== undefined){
+			$scope.loandignData = true;
 			itemsService.get($stateParams.itemId).
 				then(
 					function successCallback(response) {
 						$scope.edititem = response.data.data.item;
+						$scope.loandignData = false;
 					},
 					function errorCallback(response) {
-
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}
 
 		$scope.saveItem = function (item) {
+			$scope.loandignData = true;
 			itemsService.edit(item).
 				then(
 					function successCallback(response) {
 						$state.go('dashboard.inventory.index');
+						toastService.show("Articulo guardado satisfactoriamente");
 					},
 					function errorCallback(response) {
-						console.log(response);
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
 					}
 				);
 		}
@@ -173,9 +241,19 @@ angular.module('bodegaUninorteApp')
 			    	then(
 			    		function successCallback(response) {
 			    			loadItems();
+								toastService.show("Articulo dado de baja satisfactoriamente");
 			    		},
 			    		function errorCallback(response) {
-
+								if(response.data != null){
+									var msg = "";
+									for(var error of response.data){
+										msg += error + " ";
+									}
+									toastService.show(msg);
+								}
+								if(response.status == -1){
+									toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+								}
 			    		}
 		    		);
 

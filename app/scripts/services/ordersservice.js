@@ -134,7 +134,7 @@ angular.module('bodegaUninorteApp')
       search: function(status_id) {
         return $http({
           method: 'POST',
-          url: urlConstant + 'orders/search?status_id=1',
+          url: urlConstant + 'orders/search?status_id=' + status_id,
           headers: {
             'Authorization': sessionService.get('token'),
             'Accept': 'aplication/json'
