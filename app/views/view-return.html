@@ -1,8 +1,12 @@
-</br>
-
-<div layout="row" layout-sm="column" layout-align="space-around">
-  <md-progress-circular md-mode="indeterminate" ng-show="loandignData"></md-progress-circular>
+<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData">
+  <div>
+    <div layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
 </div>
+
+</br>
 
 <div ng-hide="loandignData">
   <div layout="column" layout-align="center center" layout-fill class="">
@@ -79,6 +83,16 @@
 
           </md-card>
         </md-content>
+
+        <div layout="row" layout-aling="center center" style="padding-top:20px;">
+          <a ui-sref="dashboard.orders.return.index">
+            <md-button class="md-raised md-accent">
+              <md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+              Volver
+            </md-button>
+          </a>
+          <div flex></div>
+        </div>
 
       </md-content>
     </div>

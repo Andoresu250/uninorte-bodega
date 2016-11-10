@@ -8,6 +8,11 @@
   width: 1000px;
 }
 
+.statisticsBox {
+  max-width: 90%;
+  width: 90%;
+}
+
 .stretch input {
   width: 100%
 }
@@ -56,4 +61,21 @@ md-checkbox {
 
 md-toast {
   padding-top: 50px !important;
+}
+
+md-grid-tile md-grid-tile-footer {
+  background: rgba(0, 0, 0, 0.68) !important;
+  height: 36px;
+}
+
+md-grid-tile-footer figcaption {
+  width: 100%;
+}
+
+md-grid-tile-footer figcaption h3 {
+  margin: 0;
+  font-weight: 700;
+  width: 100%;
+  text-align: center;
+  margin-left: -2px !important;
 }

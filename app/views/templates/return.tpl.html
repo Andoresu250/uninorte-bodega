@@ -6,11 +6,13 @@
       <div class="md-toolbar-tools">
         <span>{{name}}</span>
         <div flex></div>
-        <md-button class="md-icon-button" ng-click="loadOrders()">
+        <md-button class="md-icon-button" ng-click="getOrders()">
           <md-icon md-font-set="material-icons"> refresh </md-icon>
         </md-button>
       </div>
     </md-toolbar>
+
+    <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
 
     <md-table-container>
       <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">

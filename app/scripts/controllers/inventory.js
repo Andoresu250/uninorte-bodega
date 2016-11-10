@@ -129,7 +129,7 @@ angular.module('bodegaUninorteApp')
 			$scope.showload = true;
 			itemsService.all().
 				then(
-					function successCallback(response){
+					function successCallback(response){						
 						$scope.items = response.data.data.items;
 						for(var item of $scope.items){
 							item.type = getType(item.item_type_id);
@@ -159,6 +159,7 @@ angular.module('bodegaUninorteApp')
 			itemsService.new(item).
 				then(
 					function successCallback(response) {
+						$scope.loandignData = false;
 						$state.go('dashboard.inventory.index');
 						toastService.show("Articulo creado satisfactoriamente");
 					},
@@ -183,6 +184,7 @@ angular.module('bodegaUninorteApp')
 			itemsService.get($stateParams.itemId).
 				then(
 					function successCallback(response) {
+						$scope.loandignData = false;
 						$scope.edititem = response.data.data.item;
 						$scope.loandignData = false;
 					},
@@ -207,6 +209,7 @@ angular.module('bodegaUninorteApp')
 			itemsService.edit(item).
 				then(
 					function successCallback(response) {
+						$scope.loandignData = false;
 						$state.go('dashboard.inventory.index');
 						toastService.show("Articulo guardado satisfactoriamente");
 					},

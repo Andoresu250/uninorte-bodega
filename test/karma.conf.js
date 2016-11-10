@@ -35,6 +35,8 @@ module.exports = function(config) {
       'bower_components/angular-material-data-table/dist/md-data-table.js',
       'bower_components/momentjs/moment.js',
       'bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.min.js',
+      'bower_components/chart.js/dist/Chart.js',
+      'bower_components/angular-chart.js/dist/angular-chart.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

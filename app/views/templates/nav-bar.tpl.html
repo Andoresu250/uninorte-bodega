@@ -1,7 +1,7 @@
 <md-toolbar class="md-hue-2">
   <div class="md-toolbar-tools">
     <div layout="row">
-      <div hide-gt-sm flex>
+      <div hide-gt-md flex>
         <md-button class="md-icon-button" aria-label="Settings" ng-click="toggleRight()" ng-hide="isOpenRight()">
           <md-icon md-font-set="material-icons" style="color: white;"> menu </md-icon>
         </md-button>
@@ -15,7 +15,7 @@
     <span flex></span>
 
 
-    <div hide show-gt-sm>
+    <div hide show-gt-md>
 
       <a ui-sref="dashboard.statistics" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
         <md-button> Estadistica </md-button>

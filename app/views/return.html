@@ -1,5 +1,4 @@
-<md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
-<div ng-cloak ng-init="loadOrders()">
+<div ng-cloak ng-init="initTable();loadOrders();">
   <md-content>
     <md-tabs md-dynamic-height md-stretch-tabs="always" md-border-bottom>
       <md-tab>
@@ -7,7 +6,7 @@
           <md-icon md-font-set="material-icons">timelapse</md-icon> <span hide show-gt-sm>Pedidos con devoluciones pendientes</span>
         </md-tab-label>
         <md-tab-body>
-          <return-directive orders="ordersPending" name="'Pedidos con devoluciones pendientes'"></return-directive>
+          <return-directive orders="ordersPending" name="'Pedidos con devoluciones pendientes'" showload="showloadPending" type="1"></return-directive>
         </md-tab-body>
       </md-tab>
       <md-tab>
@@ -15,7 +14,61 @@
           <md-icon md-font-set="material-icons"> done_all </md-icon> <span hide show-gt-sm>Pedidos Regresados completamente</span>
         </md-tab-label>
         <md-tab-body>
-          <return-directive orders="ordersDone" name="'Pedidos Regresados completamente'"></return-directive>
+          <return-directive orders="ordersDone" name="'Pedidos Regresados completamente'" showload="showloadDone" type="2"></return-directive>
+        </md-tab-body>
+      </md-tab>
+      <md-tab>
+        <md-tab-label>
+          <md-icon md-font-set="material-icons"> timeline </md-icon> <span hide show-gt-sm>Historico de devoluciones</span>
+        </md-tab-label>
+        <md-tab-body>
+          <md-content layout="column" flex>
+
+            <md-card>
+
+              <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                <div class="md-toolbar-tools">
+                  <span>{{name}}</span>
+                  <div flex></div>
+                  <md-button class="md-icon-button" ng-click="getDevolution()">
+                    <md-icon md-font-set="material-icons"> refresh </md-icon>
+                  </md-button>
+                </div>
+              </md-toolbar>
+
+              <md-progress-linear md-mode="indeterminate" ng-show="showloadDevolution"></md-progress-linear>
+
+              <md-table-container>
+                <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">
+                  <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                    <tr md-row>
+                      <th md-column md-order-by="order.id"><span>Id pedido</span></th>
+                      <th md-column md-order-by="order.name_client"><span>Nombre Solicitante</span></th>
+                      <th md-column md-order-by="date_in"><span>Fecha</span></th>
+                      <th md-column md-order-by="item.name"><span>Articulo</span></th>
+                      <th md-column md-order-by="number"><span>Cantidad devuelta</span></th>
+                      <th md-column><span>Comentarios</span></th>
+
+                    </tr>
+                  </thead>
+                  <tbody md-body>
+                    <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="devolution in devolutions | filter: itemName | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+                      <td md-cell>{{devolution.order.id}}</td>
+                      <td md-cell>{{devolution.order.name_client}}</td>
+                      <td md-cell>{{devolution.date_in}}</td>
+                      <td md-cell>{{devolution.item.name}}</td>
+                      <td md-cell>{{devolution.number}}</td>
+                      <td md-cell>{{devolution.comment}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </md-table-container>
+
+              <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{devolutions.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
+              </md-table-pagination>
+
+            </md-card>
+          </md-content>
         </md-tab-body>
       </md-tab>
     </md-tabs>

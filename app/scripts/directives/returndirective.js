@@ -7,7 +7,9 @@ angular.module('bodegaUninorteApp')
       controller: 'ReturnCtrl',
       scope: {
       	orders: '=',
-        name : '='
+        name : '=',
+        type : '=',
+        showload : '='
       }
     };
   });

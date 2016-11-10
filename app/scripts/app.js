@@ -14,7 +14,8 @@ angular
     'ngStorage',
     'ui.router',
     'md.data.table',
-    'ngMaterialDatePicker'
+    'ngMaterialDatePicker',
+    'chart.js'
   ])
   .constant('urlConstant', 'http://localhost:3000/api/v1/')
   .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
@@ -112,7 +113,7 @@ angular
       state("dashboard.orders.return",{
         cache: false,
         url: "/return",
-        template: "<ui-view></ui-view>",
+        template: "<ui-view layout='column' flex></ui-view>",
         redirectTo: 'dashboard.orders.return.index'
       }).
       state("dashboard.orders.return.index",{

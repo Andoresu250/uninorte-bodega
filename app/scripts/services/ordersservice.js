@@ -41,7 +41,7 @@ angular.module('bodegaUninorteApp')
       allReturns: function () {
         return $http({
           method: 'GET',
-          url: urlConstant + 'orders/',
+          url: urlConstant + 'devoluciones/',
           headers: {
             'Authorization': sessionService.get('token'),
             'Accept': 'aplication/json'
@@ -141,8 +141,7 @@ angular.module('bodegaUninorteApp')
           }
         });
       },
-      addReturn: function (orderId, item_id, number) {
-        console.log(orderId + " " + item_id + " " + number);
+      addReturn: function (orderId, item_id, number) {        
         return $http({
           method: 'POST',
           url: urlConstant + 'orders/' + orderId + '/devolucion',

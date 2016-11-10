@@ -1,1 +1,202 @@
-Estadisticas
+<div ng-init="loading = false;ready = false;initTable(); loadAllData();"></div>
+
+</br>
+
+<div flex layout="column" layout-align="center center" class="text-center" ng-show="loading">
+  <div>
+    <div layout="row" layout-sm="column" layout-align="space-around">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+  </div>
+</div>
+
+<div layout="column" layout-align="top center" class="text-center" ng-show="ready">
+
+  <div class="statisticsBox md-whiteframe-z1">
+    <md-toolbar>
+      <div layout="row">
+        <md-icon md-font-set="material-icons" style="padding: 0px 20px"> timeline </md-icon>
+        <h2 class="md-toolbar-tools"><span>Estadisticas</span></h2>
+      </div>
+    </md-toolbar>
+    <form name="statisticsForm" ng-submit="search(data)">
+      <md-content layout-padding>
+
+        <div hide show-gt-xs layout="row">
+          <md-input-container class="md-input-has-placeholder md-block" flex="50">
+            <label>Fecha inicial</label>
+            <md-icon md-font-set="material-icons"> event_available </md-icon>
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" required name="eventdateTimeStart" id="input_0">
+            <div ng-messages="statisticsForm.eventdateTimeStart.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-input-has-placeholder md-block" flex="50">
+            <label>Fecha final</label>
+            <md-icon md-font-set="material-icons"> event_busy </md-icon>
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" required name="eventdateTimeEnd">
+            <div ng-messages="statisticsForm.eventdateTimeEnd.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <div hide-gt-xs>
+          <md-input-container class="md-input-has-placeholder md-block">
+            <label>Fecha inicial</label>
+            <md-icon md-font-set="material-icons"> event_available </md-icon>
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" required name="eventdateTimeStart" id="input_0">
+            <div ng-messages="statisticsForm.eventdateTimeStart.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+
+          <md-input-container class="md-input-has-placeholder md-block">
+            <label>Fecha final</label>
+            <md-icon md-font-set="material-icons"> event_busy </md-icon>
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" required name="eventdateTimeEnd">
+            <div ng-messages="statisticsForm.eventdateTimeEnd.$error">
+              <div ng-message="required">Campo requerido.</div>
+            </div>
+          </md-input-container>
+        </div>
+
+        <div layout="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Articulo</label>
+            <md-icon md-font-set="material-icons"> find_replace </md-icon>
+            <input ng-model="data.item_name" required>
+          </md-input-container>
+        </div>
+
+        <!--<div layout="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>ID Articulo</label>
+            <md-icon md-font-set="material-icons"> find_replace </md-icon>
+            <input type="number" ng-model="data.item_id" required>
+          </md-input-container>
+        </div>-->
+
+        <div layout="row">
+          <md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!statisticsForm.$valid" flex="100">
+            <md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> search </md-icon>
+            Buscar</md-button>
+        </div>
+
+        <div layout="row">
+          <md-button class="md-raised md-accent" flex="100" ng-click="loadAllData()">
+            <md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> search </md-icon>
+            Obtener todos los datos</md-button>
+        </div>
+
+      </md-content>
+    </form>
+  </div>
+
+  </br>
+
+  <div class="statisticsBox md-whiteframe-z1">
+    <md-toolbar>
+      <div layout="row">
+        <md-icon md-font-set="material-icons" style="padding: 0px 20px"> short_text </md-icon>
+        <h2 class="md-toolbar-tools"><span>Datos</span></h2>
+      </div>
+    </md-toolbar>
+    <md-content layout-padding>
+      <md-table-container>
+        <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected">
+          <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+            <tr md-row>
+
+              <th md-column md-numeric md-order-by="item_id"><span>id</span></th>
+              <th md-column md-order-by="name_item"><span>Nombre</span></th>
+              <th md-column md-numeric md-order-by="aprobado"><span>Aprobados</span></th>
+              <th md-column md-numeric md-order-by="cancelado"><span>Cancelados</span></th>
+              <th md-column md-numeric md-order-by="entregado"><span>Entregados</span></th>
+              <th md-column md-numeric md-order-by="rechazado"><span>Rechazados</span></th>
+
+            </tr>
+          </thead>
+          <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+          <tbody md-body>
+            <tr md-row md-select="dessert" md-on-select="logItem" md-auto-select="options.autoSelect" ng-repeat="historic in historics | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page - 1) * query.limit">
+              <td md-cell>{{historic.item_id}}</td>
+              <td md-cell>{{historic.name_item}}</td>
+              <td md-cell>{{historic.aprobado}}</td>
+              <td md-cell>{{historic.cancelado}}</td>
+              <td md-cell>{{historic.entregado}}</td>
+              <td md-cell>{{historic.rechazado}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </md-table-container>
+
+      <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{historics.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+    </md-content>
+  </div>
+
+  </br>
+
+  <div class="statisticsBox md-whiteframe-z1">
+    <md-toolbar>
+      <div layout="row">
+        <md-icon md-font-set="material-icons" style="padding: 0px 20px"> multiline_chart </md-icon>
+        <h2 class="md-toolbar-tools"><span>Graficas</span></h2>
+      </div>
+    </md-toolbar>
+    <md-content layout-padding>
+
+      <md-card>
+        <md-card-header>
+          <md-card-avatar>
+          </md-card-avatar>
+          <md-card-header-text>
+            <span class="md-title"><h1><center>Graficas por articulo</center></h1></span>
+            <!--<span class="md-subhead">Material</span>-->
+          </md-card-header-text>
+        </md-card-header>
+
+        <md-grid-list md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4" md-row-height-gt-md="1:1" md-row-height="4:3" md-gutter="8px" md-gutter-gt-sm="4px">
+          <md-grid-tile ng-repeat="chart in charts" md-rowspan="1" md-colspan="1" md-colspan-sm="1" md-colspan-xs="1">
+            <canvas ng-id="{{chart.name}}" class="chart chart-pie" chart-data="chart.data" chart-labels="chart.labels" chart-options="options" chart-colors="chart.color"></canvas>
+            <md-grid-tile-footer>
+              <h3>{{chart.name}}</h3>
+            </md-grid-tile-footer>
+          </md-grid-tile>
+        </md-grid-list>
+
+        <md-card-title>
+          <md-card-title-text>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+        </md-card-content>
+      </md-card>
+
+      <md-card>
+        <md-card-header>
+          <md-card-avatar>
+          </md-card-avatar>
+          <md-card-header-text>
+            <span class="md-title"><h1><center>Graficas por cantidad</center></h1></span>
+            <!--<span class="md-subhead">Material</span>-->
+          </md-card-header-text>
+        </md-card-header>
+        <canvas ng-id="{{globalChart.name}}" class="chart chart-pie" chart-data="globalChart.data" chart-labels="globalChart.labels" chart-options="options" chart-colors="globalChart.color"></canvas>
+        <md-card-title>
+          <md-card-title-text>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content>
+        </md-card-content>
+      </md-card>
+
+
+
+
+    </md-content>
+
+  </div>
+
+</div>

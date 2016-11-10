@@ -417,6 +417,7 @@ angular.module('bodegaUninorteApp')
     $scope.isItem = isItem;
 
     $scope.createOrder = function(newOrder) {
+      $scope.loandignData = true;
       for (var item of newOrder.items) {
         item.returnDate = (item.returnDate == undefined) ? ("") : dateToString(moment(item.returnDate));
       }
@@ -441,6 +442,7 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.approveOrder = function(orderId) {
+      $scope.loandignData = true;
       ordersService.approve(orderId).
       then(
         function successCallback(response) {
@@ -474,6 +476,7 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.deliverOrder = function(orderId) {
+      $scope.loandignData = true;
       ordersService.deliver(orderId).
       then(
         function successCallback(response) {
@@ -482,6 +485,7 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido entregado satisfactoriamente");
         },
         function errorCallback(response) {
+          $scope.loandignData = false;
           if(response.data != null){
             var msg = "";
             for(var error of response.data){
@@ -497,6 +501,7 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.cancelOrder = function(orderId) {
+      $scope.loandignData = true;
       ordersService.cancel(orderId).
       then(
         function successCallback(response) {
@@ -505,6 +510,7 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido cancelado satisfactoriamente");
         },
         function errorCallback(response) {
+          $scope.loandignData = false;
           if(response.data != null){
             var msg = "";
             for(var error of response.data){
@@ -520,6 +526,7 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.rejectOrder = function(orderId) {
+      $scope.loandignData = true;
       ordersService.reject(orderId).
       then(
         function successCallback(response) {
@@ -544,6 +551,7 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.deleteOrder = function(orderId) {
+      $scope.loandignData = true;
       ordersService.delete(orderId).
       then(
         function successfullCallback(response) {
@@ -568,10 +576,10 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.saveOrder = function(order) {
+      $scope.loandignData = true;
       ordersService.edit(order).
       then(
-        function successfullCallback(response) {
-          $scope.loandignData = false;
+        function successfullCallback(response) {          
           toastService.show("Pedido guardado satisfactoriamente");
           ordersService.approve(order.id).
           then(

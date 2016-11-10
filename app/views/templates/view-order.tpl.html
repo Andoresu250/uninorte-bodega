@@ -2,8 +2,12 @@
 
 </br>
 
-<div layout="row" layout-sm="column" layout-align="space-around">
-	<md-progress-circular md-mode="indeterminate" ng-show="loandignData"></md-progress-circular>
+<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData">
+	<div>
+		<div layout="row" layout-sm="column" layout-align="space-around">
+			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+	</div>
 </div>
 
 <div ng-hide="loandignData">
@@ -75,24 +79,37 @@
 					</md-card>
 				</md-content>
 
-				<div layout="row" ng-if="order.order_status === 'Pendiente' || order.order_status === 'Aprobado' " ng-hide="role === 'asesor'">
+				<div layout="row">
 
-					<md-button class="md-raised" md-colors="{background : 'green'}" flex="33" ng-click="approveOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
-						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> check </md-icon>
-						Aprobar pedido</md-button>
-					<md-button class="md-raised" md-colors="{background : 'amber'}" flex="33" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'" ng-click="goToEdit(order.id)">
-						<md-icon md-font-set="material-icons" style="padding: 0px 5px; "> mode_edit </md-icon>
-						Editar pedido</md-button>
-					<md-button class="md-raised" md-colors="{background : 'red'}" flex="33" ng-click="rejectOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
-						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> clear </md-icon>
-						Rechazar pedido</md-button>
-					<md-button class="md-raised" md-colors="{background : 'deep-orange'}" flex="33" ng-click="cancelOrder(order.id)">
-						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> block </md-icon>
-						Cancelar pedido</md-button>
-					<md-button class="md-raised" md-colors="{background : 'blue'}" flex="33" ng-click="deliverOrder(order.id)" ng-show="role === 'bodega'">
-						<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> done_all </md-icon>
-						Entregar pedido</md-button>
+					<a ui-sref="dashboard.orders.index">
+						<md-button class="md-raised md-accent">
+							<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+							Volver
+						</md-button>
+					</a>
+					<div ng-if="order.order_status === 'Pendiente' || order.order_status === 'Aprobado' " ng-hide="role === 'asesor'">
+						<md-button class="md-raised" md-colors="{background : 'green'}" flex="33" ng-click="approveOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
+							<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> check </md-icon>
+							Aprobar pedido</md-button>
+						<md-button class="md-raised" md-colors="{background : 'amber'}" flex="33" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'" ng-click="goToEdit(order.id)">
+							<md-icon md-font-set="material-icons" style="padding: 0px 5px; "> mode_edit </md-icon>
+							Editar pedido</md-button>
+						<md-button class="md-raised" md-colors="{background : 'red'}" flex="33" ng-click="rejectOrder(order.id)" ng-if="order.order_status === 'Pendiente'" ng-hide="role === 'bodega'">
+							<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> clear </md-icon>
+							Rechazar pedido</md-button>
+						<md-button class="md-raised" md-colors="{background : 'deep-orange'}" flex="33" ng-click="cancelOrder(order.id)">
+							<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> block </md-icon>
+							Cancelar pedido</md-button>
+						<md-button class="md-raised" md-colors="{background : 'blue'}" flex="33" ng-click="deliverOrder(order.id)" ng-show="role === 'bodega'">
+							<md-icon md-font-set="material-icons" style="padding: 0px 5px; color: white !important;"> done_all </md-icon>
+							Entregar pedido</md-button>
+					</div>
 
+				</div>
+
+				<div layout="row" layout-aling="center center" style="padding-top:20px;">
+
+					<div flex></div>
 				</div>
 
 			</md-content>
