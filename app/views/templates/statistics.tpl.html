@@ -26,16 +26,15 @@
           <md-input-container class="md-input-has-placeholder md-block" flex="50">
             <label>Fecha inicial</label>
             <md-icon md-font-set="material-icons"> event_available </md-icon>
-            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" required name="eventdateTimeStart" id="input_0">
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" name="eventdateTimeStart" id="input_0">
             <div ng-messages="statisticsForm.eventdateTimeStart.$error">
-              <div ng-message="required">Campo requerido.</div>
             </div>
           </md-input-container>
 
           <md-input-container class="md-input-has-placeholder md-block" flex="50">
             <label>Fecha final</label>
             <md-icon md-font-set="material-icons"> event_busy </md-icon>
-            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" required name="eventdateTimeEnd">
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" name="eventdateTimeEnd">
             <div ng-messages="statisticsForm.eventdateTimeEnd.$error">
               <div ng-message="required">Campo requerido.</div>
             </div>
@@ -46,7 +45,7 @@
           <md-input-container class="md-input-has-placeholder md-block">
             <label>Fecha inicial</label>
             <md-icon md-font-set="material-icons"> event_available </md-icon>
-            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" required name="eventdateTimeStart" id="input_0">
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" max-date="data.date_end" ng-model="data.date_in" class=" md-input" name="eventdateTimeStart" id="input_0">
             <div ng-messages="statisticsForm.eventdateTimeStart.$error">
               <div ng-message="required">Campo requerido.</div>
             </div>
@@ -55,7 +54,7 @@
           <md-input-container class="md-input-has-placeholder md-block">
             <label>Fecha final</label>
             <md-icon md-font-set="material-icons"> event_busy </md-icon>
-            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" required name="eventdateTimeEnd">
+            <input mdc-datetime-picker="" date="true" time="false" type="text" format="YYYY-MM-DD" short-time="false" min-date="data.date_in"="newevent.dateTimeEnd" ng-model="data.date_end" class=" md-input" id="input_1" name="eventdateTimeEnd">
             <div ng-messages="statisticsForm.eventdateTimeEnd.$error">
               <div ng-message="required">Campo requerido.</div>
             </div>
@@ -66,7 +65,7 @@
           <md-input-container class="md-block" flex-gt-sm>
             <label>Articulo</label>
             <md-icon md-font-set="material-icons"> find_replace </md-icon>
-            <input ng-model="data.item_name" required>
+            <input ng-model="data.item_name">
           </md-input-container>
         </div>
 
@@ -114,7 +113,6 @@
               <th md-column md-numeric md-order-by="aprobado"><span>Aprobados</span></th>
               <th md-column md-numeric md-order-by="cancelado"><span>Cancelados</span></th>
               <th md-column md-numeric md-order-by="entregado"><span>Entregados</span></th>
-              <th md-column md-numeric md-order-by="rechazado"><span>Rechazados</span></th>
 
             </tr>
           </thead>
@@ -126,7 +124,6 @@
               <td md-cell>{{historic.aprobado}}</td>
               <td md-cell>{{historic.cancelado}}</td>
               <td md-cell>{{historic.entregado}}</td>
-              <td md-cell>{{historic.rechazado}}</td>
             </tr>
           </tbody>
         </table>

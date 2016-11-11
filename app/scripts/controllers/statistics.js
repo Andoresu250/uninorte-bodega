@@ -42,9 +42,8 @@ angular.module('bodegaUninorteApp')
 			$scope.historics = [];
 			$scope.charts = [];
 			$scope.globalChart = {
-				data: [0,0,0,0],
-				//labels : ["aprobado", "cancelado", "entregado", "rechazado"]
-				labels : ["aprobado", "cancelado"],
+				data: [0,0,0],
+				labels : ["aprobado", "cancelado", "entregado"],
 				color : ['#4CAF50', '#C62828', '#2196F3', '#FF5722']
 			};
 			statisticsService.get(d).
@@ -53,18 +52,23 @@ angular.module('bodegaUninorteApp')
 						$scope.loading = false;
 						$scope.ready = true;
 						$scope.historics = response.data.data.historic_all;
-						console.log($scope.historics);
 						for(var his of $scope.historics){
+							if(his.aprobado == null){
+								his.aprobado = 0;
+							}
+							if(his.cancelado == null){
+								his.cancelado = 0;
+							}
+							if(his.entregado == null){
+								his.entregado = 0;
+							}
 							$scope.globalChart.data[0] += parseInt(his.aprobado);
 							$scope.globalChart.data[1] += parseInt(his.cancelado);
-							//$scope.globalChart.data[0] += his.entregado;
-							//$scope.globalChart.data[0] += his.rechazado;
+							$scope.globalChart.data[0] += parseInt(his.entregado);
 							$scope.charts.push({
 								name: his.name_item,
-								//data: [his.aprobado, his.cancelado, his.entregado, his.rechazado],
-								//labels : ["aprobado", "cancelado", "entregado", "rechazado"]
-								data: [his.aprobado, his.cancelado],
-								labels : ["aprobado", "cancelado"],
+								labels : ["aprobado", "cancelado", "entregado"],
+								data: [his.aprobado, his.cancelado, his.entregado],
 								color : ['#4CAF50', '#C62828', '#2196F3', '#FF5722']
 							});
 						}
@@ -93,9 +97,9 @@ angular.module('bodegaUninorteApp')
 			$scope.historics = [];
 			$scope.charts = [];
 			$scope.globalChart = {
-				data: [0,0,0,0],
-				//labels : ["aprobado", "cancelado", "entregado", "rechazado"]
-				labels : ["aprobado", "cancelado"],
+				data: [0,0,0],
+				labels : ["aprobado", "cancelado", "entregado"],
+				//labels : ["aprobado", "cancelado"],
 				color : ['#4CAF50', '#C62828', '#2196F3', '#FF5722']
 			};
 			statisticsService.all().
@@ -104,17 +108,30 @@ angular.module('bodegaUninorteApp')
 						$scope.loading = false;
 						$scope.ready = true;
 						$scope.historics = response.data.data.historic_all;
+						console.log($scope.historics);
 						for(var his of $scope.historics){
+							if(his.aprobado == null){
+								his.aprobado = 0;
+							}
+							if(his.cancelado == null){
+								his.cancelado = 0;
+							}
+							if(his.entregado == null){
+								his.entregado = 0;
+							}
+							/*if(his.rechazado == null){
+								his.rechazado = 0;
+							}*/
 							$scope.globalChart.data[0] += parseInt(his.aprobado);
 							$scope.globalChart.data[1] += parseInt(his.cancelado);
-							//$scope.globalChart.data[0] += his.entregado;
-							//$scope.globalChart.data[0] += his.rechazado;
+							$scope.globalChart.data[2] += parseInt(his.entregado);
+							//$scope.globalChart.data[3] += parseInt(his.rechazado);
 							$scope.charts.push({
 								name: his.name_item,
-								//data: [his.aprobado, his.cancelado, his.entregado, his.rechazado],
-								//labels : ["aprobado", "cancelado", "entregado", "rechazado"]
-								data: [his.aprobado, his.cancelado],
-								labels : ["aprobado", "cancelado"],
+								data: [his.aprobado, his.cancelado, his.entregado],
+								labels : ["aprobado", "cancelado", "entregado"],
+								//data: [his.aprobado, his.cancelado],
+								//labels : ["aprobado", "cancelado"],
 								color : ['#4CAF50', '#C62828', '#2196F3', '#FF5722']
 							});
 						}
