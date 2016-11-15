@@ -58,6 +58,7 @@ angular.module('bodegaUninorteApp')
             response.data.data.orders.map(function (order) {
               items = getReturnableItems(order);
               if(order.order_status === "Entregado" && order.type !== "consumible" && items.length != 0){
+                order.complete = false;
                 $scope.ordersPending.items = items;
                 $scope.ordersPending.push(order);
               }
@@ -90,12 +91,39 @@ angular.module('bodegaUninorteApp')
             response.data.data.orders.map(function (order) {
               items = getReturnableItems(order);
               if(order.order_status === "Entregado" && order.type !== "consumible" && items.length == 0){
+                order.complete = true;
                 $scope.ordersDone.push(order);
               }
             });
           },
           function errorCallback(response) {
             $scope.showloadDone = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
+          }
+        );
+    }
+
+    $scope.getDevolution = function () {
+      $scope.showloadDevolution = true;
+      $scope.devolutions = [];
+      ordersService.allReturns().
+        then(
+          function successCallback(response) {
+            $scope.showloadDevolution = false;
+            $scope.devolutions = response.data.data.devolutions;
+            console.log($scope.devolutions);
+          },
+          function errorCallback(response) {
+            $scope.showloadDevolution = false;
             if(response.data != null){
               var msg = "";
               for(var error of response.data){
@@ -122,11 +150,14 @@ angular.module('bodegaUninorteApp')
                 var items = [];
                 response.data.data.orders.map(function (order) {
                   items = getReturnableItems(order);
-                  if(order.order_status === "Entregado" && order.type !== "consumible" && items.length != 0){
+                  console.log(order);
+                  if(order.order_status === "Entregado" && order.type === "retornable" && items.length != 0){
+                    order.complete = false;
                     $scope.orders.items = items;
                     $scope.orders.push(order);
                   }
                 });
+                console.log($scope.orders);
               },
               function errorCallback(response) {
                 $scope.showload = false;
@@ -154,9 +185,11 @@ angular.module('bodegaUninorteApp')
                 response.data.data.orders.map(function (order) {
                   items = getReturnableItems(order);
                   if(order.order_status === "Entregado" && order.type !== "consumible" && items.length == 0){
+                    order.complete = true;
                     $scope.orders.push(order);
                   }
                 });
+                console.log($scope.orders);
               },
               function errorCallback(response) {
                 $scope.showload = false;
@@ -177,32 +210,6 @@ angular.module('bodegaUninorteApp')
 
           break;
       }
-    }
-
-    $scope.getDevolution = function () {
-      $scope.showloadDevolution = true;
-      $scope.devolutions = [];
-      ordersService.allReturns().
-        then(
-          function successCallback(response) {
-            $scope.showloadDevolution = false;
-            $scope.devolutions = response.data.data.devolutions;
-            console.log($scope.devolutions);   
-          },
-          function errorCallback(response) {
-            $scope.showloadDevolution = false;
-            if(response.data != null){
-              var msg = "";
-              for(var error of response.data){
-                msg += error + " ";
-              }
-              toastService.show(msg);
-            }
-            if(response.status == -1){
-              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
-            }
-          }
-        );
     }
 
     $scope.openAddNumber = function(ev, item, order) {
@@ -243,22 +250,6 @@ angular.module('bodegaUninorteApp')
 		    });
 	  };
 
-    function DialogController($scope, $mdDialog, item) {
-        $scope.item = item;
-        $scope.hide = function() {
-          $mdDialog.hide();
-        };
-
-        $scope.cancel = function() {
-          $mdDialog.cancel();
-        };
-
-        $scope.add = function(number) {
-          $mdDialog.hide(number);
-        };
-      }
-
-
     $scope.initTable = function () {
       $scope.selected = [];
       $scope.limitOptions = [15];
@@ -280,5 +271,20 @@ angular.module('bodegaUninorteApp')
         page: 1
       };
     }
+
+    function DialogController($scope, $mdDialog, item) {
+        $scope.item = item;
+        $scope.hide = function() {
+          $mdDialog.hide();
+        };
+
+        $scope.cancel = function() {
+          $mdDialog.cancel();
+        };
+
+        $scope.add = function(number) {
+          $mdDialog.hide(number);
+        };
+      }
 
   });

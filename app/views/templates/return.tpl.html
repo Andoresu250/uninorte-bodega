@@ -32,12 +32,16 @@
             <td md-cell>{{order.name_client}}</td>
             <td md-cell>{{order.event_name}}</td>
             <td md-cell>
-              <a ui-sref="dashboard.orders.return.view({orderId: order.id})">
+              <a ui-sref="dashboard.orders.return.view({orderId: order.id})" ng-hide="order.complete">
                 <md-button class="md-icon-button">
                   <md-icon md-font-set="material-icons"> remove_red_eye </md-icon>
                 </md-button>
               </a>
-
+              <a ui-sref="dashboard.orders.view({orderId: order.id})" ng-show="order.complete">
+                <md-button class="md-icon-button">
+                  <md-icon md-font-set="material-icons"> remove_red_eye </md-icon>
+                </md-button>
+              </a>
             </td>
           </tr>
         </tbody>
