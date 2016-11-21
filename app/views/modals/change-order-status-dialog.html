@@ -1,0 +1,32 @@
+<md-dialog aria-label="{{action}}">
+  <form name="addform" ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Esta seguro de que desea {{action}} este pedido?</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-font-set="material-icons"> close </md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+          <label>Comentario para {{action}} pedido</label>
+          <textarea ng-model="comment" md-maxlength="150" rows="5" md-select-on-focus></textarea>
+        </md-input-container>
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+        Cancelar
+      </md-button>
+      <md-button ng-click="accept(comment)" ng-disabled="!addform.$valid">
+        {{action}}
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

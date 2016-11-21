@@ -43,12 +43,17 @@ angular.module('bodegaUninorteApp')
     }
 
     $scope.editOrder = function () {
+      loadEditOrder();
+    }
+
+    function loadEditOrder() {
       $scope.loandignData = true;
       ordersService.get($stateParams.orderId).
       then(
         function successCallback(response) {
           $scope.order = response.data.data.order;
           $scope.order.orderType = ($scope.order.type !== "consumible") ? 1 : 2;
+          console.log($scope.order.orderType);
           $scope.order.orderTypeName = ($scope.order.type !== "consumible") ? "Retornable" : "No Retornable";
           $scope.order.items.map(function(item) {
             item.orderNumber = item.pivot.number;
@@ -57,7 +62,7 @@ angular.module('bodegaUninorteApp')
             }
           });
           $scope.loandignData = false;
-          loadItems($scope.order.orderType);
+          loadItemsEdit($scope.order.orderType);
         },
         function errorCallback(response) {
           $scope.loandignData = false;
@@ -342,6 +347,37 @@ angular.module('bodegaUninorteApp')
       );
     }
 
+    function loadItemsEdit (type) {
+      $scope.showload = true;
+      itemsService.getByType(type).
+      then(
+        function successCallback(response) {
+          $scope.items = [];
+          response.data.data.items.map(function(item) {
+            if (item.item_type_id == type) {
+              $scope.items.push(item);
+            }
+          });
+          $scope.showload = false;
+        },
+        function errorCallback(response) {
+          $scope.items = [];
+          $scope.showload = false;
+          $scope.loandignData = false;
+          if(response.data != null){
+            var msg = "";
+            for(var error of response.data){
+              msg += error + " ";
+            }
+            toastService.show(msg);
+          }
+          if(response.status == -1){
+            toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+          }
+        }
+      );
+    }
+
     $scope.loadItems = loadItems;
 
     $scope.getItemsType = function () {
@@ -438,6 +474,67 @@ angular.module('bodegaUninorteApp')
           toastService.show(msg);
         }
       );
+    }
+
+    $scope.openWarningDialog = function (ev, order, method, action) {
+      $mdDialog.show({
+        controller: WarningDialogController,
+        templateUrl: 'views/modals/change-order-status-dialog.html',
+        parent: angular.element(document.body),
+        targetEvent: ev,
+        clickOutsideToClose:true,
+        fullscreen: true,
+        locals: {
+          order: order,
+          method: method,
+          action: action,
+          loandignData: $scope.loandignData
+        }
+      });
+    }
+
+    function WarningDialogController ($scope, $mdDialog, order, method, action, loandignData) {
+      $scope.order = order; //object
+      $scope.method = method; //function
+      $scope.action = action; //string
+      $scope.loandignData = loandignData;
+      $scope.comment = "";
+      function editOrder(order) {
+        $scope.loandignData = true;
+        ordersService.edit(order).
+        then(
+          function successfullCallback(response) {
+            method(order.id);
+          },
+          function errorCallback(response) {
+            $scope.loandignData = false;
+            if(response.data != null){
+              var msg = "";
+              for(var error of response.data){
+                msg += error + " ";
+              }
+              toastService.show(msg);
+            }
+            if(response.status == -1){
+              toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+            }
+          }
+        );
+      }
+
+      $scope.hide = function() {
+        $mdDialog.hide();
+      };
+
+      $scope.cancel = function() {
+        $mdDialog.cancel();
+      };
+
+      $scope.accept = function(comment) {
+        $scope.order.comment += " " + comment;
+        editOrder($scope.order);
+        $mdDialog.hide(order);
+      };
 
     }
 
@@ -455,19 +552,25 @@ angular.module('bodegaUninorteApp')
           toastService.show("Pedido aprobado satisfactoriamente");
         },
         function errorCallback(response) {
+          console.log(response);
           $state.go('dashboard.orders.view', {
             orderId: orderId
           }, {
             reload: true
           });
           $scope.loandignData = false;
+          if(response.status == 404){
+            toastService.show("Este pedido no puede ser aprobado debido a que no se puede complir con la demantda de alguno de los articulos.");
+          }
           if(response.data != null){
             var msg = "";
             for(var error of response.data){
               msg += error + " ";
             }
+            console.log(msg);
             toastService.show(msg);
           }
+
           if(response.status == -1){
             toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
           }
@@ -579,7 +682,7 @@ angular.module('bodegaUninorteApp')
       $scope.loandignData = true;
       ordersService.edit(order).
       then(
-        function successfullCallback(response) {          
+        function successfullCallback(response) {
           toastService.show("Pedido guardado satisfactoriamente");
           ordersService.approve(order.id).
           then(

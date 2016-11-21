@@ -9,27 +9,30 @@
 
 <div flex layout="column" layout-align="center center" class="text-center" ng-hide="loading">
 	<div>
-		<div class="loginBox md-whiteframe-z1" layout="column">
-			<md-toolbar>
-				<h2 class="md-toolbar-tools"><span>Login</span></h2>
-			</md-toolbar>
-			<md-content class="md-padding" layout="column">
-				<md-input-container>
-					<label>Email</label>
-					<input type="email" ng-model="user.email" ng-change="disableLoginButton(user)">
-				</md-input-container>
-				<md-input-container>
-					<label>Contraseña</label>
-					<input type="password" ng-model="user.password">
-				</md-input-container>
-				<div layout="row" layout-aling="center center" style="padding-top:20px;">
-					<md-button class="md-raised md-primary" ng-click="login(user)" ng-disabled="disableLoginButton(user)">Login</md-button>
-					<div flex></div>
-					<md-checkbox ng-model="user.remember_me" aria-label="Recuerdame">
-						Recuerdame
-					</md-checkbox>
-				</div>
-			</md-content>
-		</div>
+		<form ng-submit="login(user)">
+			<div class="loginBox md-whiteframe-z1" layout="column">
+				<md-toolbar>
+					<h2 class="md-toolbar-tools"><span>Login</span></h2>
+				</md-toolbar>
+				<md-content class="md-padding" layout="column">
+					<md-input-container>
+						<label>Email</label>
+						<input type="email" ng-model="user.email" ng-change="disableLoginButton(user)">
+					</md-input-container>
+					<md-input-container>
+						<label>Contraseña</label>
+						<input type="password" ng-model="user.password">
+					</md-input-container>
+					<div layout="row" layout-aling="center center" style="padding-top:20px;">
+						<md-button class="md-raised md-primary" type="submit" ng-disabled="disableLoginButton(user)">Login</md-button>
+						<div flex></div>
+						<md-checkbox ng-model="user.remember_me" aria-label="Recuerdame">
+							Recuerdame
+						</md-checkbox>
+					</div>
+				</md-content>
+			</div>
+		</form>
+
 	</div>
 </div>

@@ -2,7 +2,7 @@
 
 angular.module('bodegaUninorteApp')
 	.controller('UsersCtrl', function ($scope, usersService, $state, $stateParams, $mdDialog, toastService) {
-		$scope.usersTypes = ['admin','director','gerente','bodega','asesor'];
+		$scope.usersTypes = ['admin','director','asistente','bodega','asesor'];
 
 		$scope.createUser = function (user) {
 			$scope.loading = true;

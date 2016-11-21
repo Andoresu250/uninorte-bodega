@@ -170,6 +170,12 @@
 						</md-card>
 					</md-content>
 
+					<md-input-container class="md-block">
+						<label>Comentario</label>
+						<textarea ng-model="order.comment" md-maxlength="250" rows="5" md-select-on-focus></textarea>
+					</md-input-container>
+
+
 
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">
 						<a ui-sref="dashboard.orders.index">

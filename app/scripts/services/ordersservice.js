@@ -24,7 +24,8 @@ angular.module('bodegaUninorteApp')
             })),
             event_id: orderData.event,
             order_status_id: 1,
-            type: orderData.type
+            type: orderData.type,
+            comment: orderData.comment
           }
         });
       },
@@ -73,7 +74,8 @@ angular.module('bodegaUninorteApp')
             })),
             event_id: orderData.event_id,
             order_status_id: 1,
-            type: orderData.type
+            type: orderData.type,
+            comment: orderData.comment
           },
           headers: {
             'Authorization': sessionService.get('token'),
@@ -141,7 +143,7 @@ angular.module('bodegaUninorteApp')
           }
         });
       },
-      addReturn: function (orderId, item_id, number) {        
+      addReturn: function (orderId, item_id, number) {
         return $http({
           method: 'POST',
           url: urlConstant + 'orders/' + orderId + '/devolucion',

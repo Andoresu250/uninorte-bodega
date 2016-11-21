@@ -10,7 +10,7 @@
 </br>
 
 <div ng-hide="loandignData">
-	<div layout="column" layout-align="center center" layout-fill class="">
+	<div layout="column" layout-align="center center">
 		<div class="orderBox md-whiteframe-z1" layout="column">
 			<md-toolbar>
 				<div layout="row">
@@ -175,7 +175,15 @@
 											</td>
 											<td md-cell ng-if="neworder.orderType === 1">
 												<md-input-container class="md-block">
-													<input mdc-datetime-picker="" date="true" time="false" type="text" placeholder="Fecha" ng-model="item.returnDate" class=" md-input" id="input_0" required>
+
+													<label>Fecha</label>
+													<md-datepicker ng-model="item.returnDate" name="dateField" md-min-date="minDate" md-max-date="maxDate" md-open-on-focus></md-datepicker>
+
+													<div ng-messages="neworderForm.dateField.$error">
+														<div ng-message="valid">{{item.returnDate}} no es una fecha valida.</div>
+														<div ng-message="required">Por favor ingrese una fecha.</div>
+													</div>
+
 												</md-input-container>
 											</td>
 											<td md-cell>{{item.number - item.number_on_hold - item.orderNumber}}</td>
@@ -189,6 +197,11 @@
 
 						</md-card>
 					</md-content>
+
+					<md-input-container class="md-block">
+						<label>Comentario</label>
+						<textarea ng-model="neworder.comment" md-maxlength="250" rows="5" md-select-on-focus></textarea>
+					</md-input-container>
 
 
 					<div layout="row" layout-aling="center center" style="padding-top:20px;">

@@ -79,3 +79,7 @@ md-grid-tile-footer figcaption h3 {
   text-align: center;
   margin-left: -2px !important;
 }
+
+div.md-dialog-container {}
+
+md-dialog {}
