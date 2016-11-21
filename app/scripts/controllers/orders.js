@@ -9,6 +9,8 @@ angular.module('bodegaUninorteApp')
       $state.go('dashboard.orders.edit', {orderId : orderid});
     }
 
+    
+
     $scope.viewOrder = function () {
       $scope.configTable();
       $scope.loandignData = true;

@@ -3,7 +3,7 @@
 <div ng-cloak ng-init="loadAllOrders();">
   <md-content>
     <md-tabs md-dynamic-height md-stretch-tabs="always" md-border-bottom>
-      <md-tab data-ng-if="role !== 'bodega'">
+      <md-tab data-ng-if="role !== 'admin'">
         <md-tab-label>
           <md-icon md-font-set="material-icons"> access_time </md-icon> <span hide show-gt-sm>Pendientes</span>
         </md-tab-label>
@@ -19,7 +19,7 @@
           <ordersstatus-directive orders="approveOrders" name="'Aprobados'" loading="loadingApproved" statusid="3"></ordersstatus-directive>
         </md-tab-body>
       </md-tab>
-      <md-tab>
+      <md-tab data-ng-if="role !== 'asesor'">
         <md-tab-label>
           <md-icon md-font-set="material-icons"> done_all </md-icon> <span hide show-gt-sm>Entregados</span>
         </md-tab-label>
@@ -43,7 +43,7 @@
           <ordersstatus-directive orders="rejectOrders" name="'Rechazados'" loading="loadingReject" statusid="2"></ordersstatus-directive>
         </md-tab-body>
       </md-tab>
-      <md-tab data-ng-if="role !== 'bodega'">
+      <md-tab data-ng-if="role !== 'asesor'">
         <md-tab-label>
           <md-icon md-font-set="material-icons"> home </md-icon> <span hide show-gt-sm>Todos</span>
         </md-tab-label>
@@ -56,7 +56,7 @@
 </div>
 
 <md-content>
-  <div ng-hide="role === 'bodega'">
+  <div ng-hide="role === 'admin' || role === 'director'">
     <a ui-sref="dashboard.orders.new">
       <md-button class="md-fab md-fab-bottom-right" ng-click="">
         <md-icon md-font-set="material-icons"> add_shopping_cart </md-icon>

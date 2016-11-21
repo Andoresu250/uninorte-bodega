@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-  .controller('ReturnCtrl', function ($scope, sessionService, ordersService, $mdDialog, $state, $stateParams) {
+  .controller('ReturnCtrl', function ($scope, sessionService, ordersService, $mdDialog, $state, $stateParams, toastService) {
     $scope.role = sessionService.get("type");
     $scope.showload = true;
 
@@ -225,8 +225,8 @@ angular.module('bodegaUninorteApp')
           }
 		    })
 		    .then(function(answer) {
-		    	item.number = answer;
-		      	ordersService.addReturn(order.id, item.id, answer).
+		    	item.number = answer.number;            
+		      	ordersService.addReturn(order.id, item.id, answer.number, answer.comment).
 		      		then(
 		      			function successfullCallback(response) {
 		      				$state.go('dashboard.orders.return.view',{orderId: order.id}, {reload: true});
@@ -274,6 +274,7 @@ angular.module('bodegaUninorteApp')
 
     function DialogController($scope, $mdDialog, item) {
         $scope.item = item;
+        $scope.comment = "";
         $scope.hide = function() {
           $mdDialog.hide();
         };
@@ -283,7 +284,11 @@ angular.module('bodegaUninorteApp')
         };
 
         $scope.add = function(number) {
-          $mdDialog.hide(number);
+          var obj = {
+            number: number,
+            comment: $scope.comment
+          };
+          $mdDialog.hide(obj);
         };
       }
 

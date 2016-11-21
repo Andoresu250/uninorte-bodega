@@ -16,10 +16,14 @@ angular.module('bodegaUninorteApp')
 					var token = response.data.token;
 					var type = response.data.type;
 					loginService.setToken(token, type ,data.remember_me);
-					$state.go('dashboard.orders');
-					/*if (!$rootScope.$$phase){
-					 	$rootScope.$apply();
-					}*/
+					switch (type) {
+						case "admin":
+							$state.go('dashboard.users');
+							break;
+						default:
+							$state.go('dashboard.orders');
+							break;
+					}
 				},
 				function errorCallBack (response) {
 					$scope.loading = false;

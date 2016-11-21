@@ -1,4 +1,4 @@
-<md-dialog aria-label="Agregar">
+<md-dialog aria-label="Agregar" style="min-width: 500px !important;">
   <form name="addform" ng-cloak>
     <md-toolbar>
       <div class="md-toolbar-tools">
@@ -20,6 +20,12 @@
             <div ng-message="min">Minimo una unidad.</div>
             <div ng-message="max">Solo puedes regresar maximo {{item.pivot.number - item.pivot.number_return}}.</div>
           </div>
+        </md-input-container>
+      </div>
+      <div class="md-dialog-content">
+        <md-input-container class="md-block">
+          <label>Comentario para {{action}} pedido</label>
+          <textarea ng-model="comment" md-maxlength="150" rows="5" md-select-on-focus></textarea>
         </md-input-container>
       </div>
     </md-dialog-content>

@@ -38,7 +38,7 @@
             <td md-cell>{{user.type}}</td>
             <td md-cell>
 
-              <a ui-sref="dashboard.users.edit({userId: user.id})">
+              <a ui-sref="dashboard.users.edit({userId: user.id})" ng-show="role === 'admin'">
                 <md-button class="md-icon-button">
                   <md-icon md-font-set="material-icons"> mode_edit </md-icon>
                 </md-button>

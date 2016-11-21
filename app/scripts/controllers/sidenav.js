@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('bodegaUninorteApp')
-	.controller('SidenavCtrl', function ($scope, $mdSidenav, $log, $state) {
+	.controller('SidenavCtrl', function ($scope, $mdSidenav, $log, $state, loginService) {
 
 		$scope.goTo = function (state) {
 			$state.go(state);
 			$scope.close();
+		}
+
+		$scope.logout = function () {
+			loginService.logout();
 		}
 
 

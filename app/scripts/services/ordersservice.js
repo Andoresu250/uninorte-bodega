@@ -143,7 +143,7 @@ angular.module('bodegaUninorteApp')
           }
         });
       },
-      addReturn: function (orderId, item_id, number) {
+      addReturn: function (orderId, item_id, number, comment) {
         return $http({
           method: 'POST',
           url: urlConstant + 'orders/' + orderId + '/devolucion',
@@ -153,7 +153,8 @@ angular.module('bodegaUninorteApp')
           },
           data: {
             item_id: item_id,
-            number: number
+            number: number,
+            comment: comment
           }
         });
       }

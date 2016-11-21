@@ -17,29 +17,29 @@
 
     <div hide show-gt-md>
 
-      <a ui-sref="dashboard.statistics" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
+      <a ui-sref="dashboard.statistics" ng-hide="role === 'asesor' || role === 'bodega' || role === 'admin'">
         <md-button> Estadistica </md-button>
       </a>
 
 
-      <a ui-sref="dashboard.users" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
+      <a ui-sref="dashboard.users" ng-hide="role === 'asesor' || role === 'bodega' || role === 'asistente'">
         <md-button> Usuarios </md-button>
       </a>
 
 
-      <a ui-sref="dashboard.orders">
+      <a ui-sref="dashboard.orders" ng-hide="role === 'admin'">
         <md-button> Pedidos </md-button>
       </a>
 
-      <a ui-sref="dashboard.orders.return">
+      <a ui-sref="dashboard.orders.return" ng-show="role === 'bodega' || role === 'asistente' || role === 'asesor'">
         <md-button> Devoluciones </md-button>
       </a>
 
-      <a ui-sref="dashboard.events" ng-hide="role === 'bodega'">
+      <a ui-sref="dashboard.events" ng-hide="role === 'admin'">
         <md-button> Eventos </md-button>
       </a>
 
-      <a ui-sref="dashboard.inventory" ng-hide="role === 'asesor' || role === 'gerente'">
+      <a ui-sref="dashboard.inventory" ng-show="role === 'bodega' || role === 'asistente'">
         <md-button> Inventario </md-button>
       </a>
 
@@ -61,12 +61,12 @@
 
     <md-list flex>
 
-      <md-list-item ng-click="goTo('dashboard.statistics')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
+      <md-list-item ng-click="goTo('dashboard.statistics')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'asistente'">
         <md-icon md-font-set="material-icons"> show_chart </md-icon>
         <p> Estadisticas </p>
       </md-list-item>
 
-      <md-list-item ng-click="goTo('dashboard.users')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'gerente'">
+      <md-list-item ng-click="goTo('dashboard.users')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'asistente'">
         <md-icon md-font-set="material-icons"> people </md-icon>
         <p> Usuarios </p>
       </md-list-item>
@@ -76,19 +76,25 @@
         <p> Pedidios</p>
       </md-list-item>
 
+      <md-list-item ng-click="goTo('dashboard.orders.return')">
+        <md-icon md-font-set="material-icons"> assignment_return </md-icon>
+        <p> Devoluciones</p>
+      </md-list-item>
+
+
       <md-list-item ng-click="goTo('dashboard.events')" ng-hide="role === 'bodega'">
         <md-icon md-font-set="material-icons"> event </md-icon>
         <p> Eventos </p>
       </md-list-item>
 
-      <md-list-item ng-click="goTo('dashboard.inventory')" ng-hide="role === 'asesor' || role === 'gerente'">
+      <md-list-item ng-click="goTo('dashboard.inventory')" ng-hide="role === 'asesor' || role === 'asistente'">
         <md-icon md-font-set="material-icons"> content_paste </md-icon>
         <p> Inventario </p>
       </md-list-item>
 
       <md-divider></md-divider>
 
-      <md-list-item ng-click="null">
+      <md-list-item ng-click="logout()">
         <md-icon md-font-set="material-icons"> exit_to_app </md-icon>
         <p> Cerrar Sesión </p>
       </md-list-item>

@@ -37,14 +37,14 @@
                   <md-icon md-font-set="material-icons"> remove_red_eye </md-icon>
                 </md-button>
               </a>
-              <a ui-sref="dashboard.orders.edit({orderId: order.id})" ng-hide="role === 'asesor' || role === 'bodega'">
+              <a ui-sref="dashboard.orders.edit({orderId: order.id})" ng-hide="role === 'asesor' || role === 'bodega' || role === 'director'">
                 <md-button class="md-icon-button">
                   <md-icon md-font-set="material-icons"> mode_edit </md-icon>
                 </md-button>
               </a>
-              <md-button class="md-icon-button" ng-click="deleteOrder(order.id)" ng-show="role === 'admin' || role === 'director'">
+              <!--<md-button class="md-icon-button" ng-click="deleteOrder(order.id)" ng-show="role === 'admin' || role === 'director'">
                 <md-icon md-font-set="material-icons"> delete_forever </md-icon>
-              </md-button>
+              </md-button>-->
 
             </td>
           </tr>
@@ -52,8 +52,6 @@
       </table>
     </md-table-container>
 
-    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{orders.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination">
-    </md-table-pagination>
-
+    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{orders.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </md-content>
