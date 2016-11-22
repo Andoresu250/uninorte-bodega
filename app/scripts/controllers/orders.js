@@ -9,7 +9,9 @@ angular.module('bodegaUninorteApp')
       $state.go('dashboard.orders.edit', {orderId : orderid});
     }
 
-    
+    $scope.goToView = function (orderid) {
+      $state.go('dashboard.orders.view', {orderId : orderid});
+    }
 
     $scope.viewOrder = function () {
       $scope.configTable();

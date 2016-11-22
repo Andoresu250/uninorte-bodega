@@ -16,7 +16,8 @@
     "angular-ui-router": "^0.3.1",
     "angular-material-data-table": "^0.10.9",
     "angular-material-datetimepicker": "^1.4.0",
-    "angular-chart.js": "^1.0.3"
+    "angular-chart.js": "^1.0.3",
+    "angular-md-pull-to-refresh": "infomofo/angular-md-pull-to-refresh"
   },
   "devDependencies": {
     "angular-mocks": "^1.4.0"

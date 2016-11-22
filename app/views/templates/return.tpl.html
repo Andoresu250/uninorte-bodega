@@ -1,6 +1,6 @@
 <md-content layout="column" flex>
 
-  <md-card>
+  <md-card hide show-gt-sm>
 
     <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
       <div class="md-toolbar-tools">
@@ -52,4 +52,47 @@
     </md-table-pagination>
 
   </md-card>
+
+  <!--Vista Mobil-->
+  <div hide-gt-sm>
+    <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+    <md-toolbar hide-gt-sm>
+      <div layout="row">
+        <h2 class="md-toolbar-tools">
+          <span>{{name}}</span>
+          <span flex></span>
+          <md-button class="md-icon-button" ng-click="getOrders()">
+            <md-icon md-font-set="material-icons"> refresh </md-icon>
+          </md-button>
+        </h2>
+      </div>
+    </md-toolbar>
+    <md-progress-linear md-mode="indeterminate" ng-show="loading"></md-progress-linear>
+
+    <md-content hide-gt-sm>
+      <md-list flex>
+        <div ng-repeat="order in orders">
+
+          <md-list-item class="md-3-line" ng-click="goToReturn(order)" class="noright">
+            <!--<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />-->
+            <md-icon md-font-set="material-icons" class="list-icon"> assignment_return </md-icon>
+            <div class="md-list-item-text" layout="column">
+
+              <h3>{{order.name_client}}</h3>
+              <h4>{{order.event_name}}</h4>
+              <p>{{order.order_status}}</p>
+
+            </div>
+          </md-list-item>
+
+          <md-divider></md-divider>
+        </div>
+      </md-list>
+      <div ng-if="orders.length === 0">
+        <center>
+          <p>No hay {{name}}.</p>
+        </center>
+      </div>
+    </md-content>
+  </div>
 </md-content>

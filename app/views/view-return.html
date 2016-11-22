@@ -36,7 +36,7 @@
 
         <md-content laout="column" flex ng-show="order.items.length > 0">
 
-          <md-card>
+          <md-card hide show-gt-sm>
 
             <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
               <div class="md-toolbar-tools">
@@ -82,6 +82,26 @@
             </md-table-pagination>
 
           </md-card>
+
+          <md-content hide-gt-sm>
+            <md-list flex>
+              <md-subheader class="md-no-sticky">Articulos:</md-subheader>
+              <div ng-repeat="item in order.items">
+                <md-list-item class="md-3-line" ng-click="null" class="noright">
+                  <div class="md-list-item-text" layout="column">
+                    <h3><b>Articulo:</b> {{ item.name }}</h3>
+                    <h4><b>Cantidad por regresar:</b> {{ item.pivot.number - item.pivot.number_return }}</h4>
+                    <p><b>Fecha de devolucion:</b> {{ item.pivot.date }}</p>
+
+                    <md-icon md-font-set="material-icons" class="md-secondary" style="padding: 0px 10px !important;" ng-show="role === 'admin'" ng-click="openAddNumber($event, item, order)"> add </md-icon>
+
+                  </div>
+                </md-list-item>
+                <md-divider></md-divider>
+              </div>
+            </md-list>
+          </md-content>
+
         </md-content>
 
         <div layout="row" layout-aling="center center" style="padding-top:20px;">

@@ -27,6 +27,78 @@ angular.module('bodegaUninorteApp')
 			page: 1
 		};
 
+		$scope.openNewItem = function (ev) {
+			console.log($scope.itemsTypes);
+			$mdDialog.show({
+	      controller: 'InventoryCtrl',
+	      templateUrl: 'views/templates/new-item.tpl.html',
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose:true,
+	      fullscreen: true // Only for -xs, -sm breakpoints.
+	    });
+		}
+
+
+
+		$scope.openEditItem = function (ev, itemId) {
+			$mdDialog.show({
+	      controller: EditItemController,
+	      templateUrl: 'views/templates/edit-item.tpl.html',
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose: true,
+	      fullscreen: true, // Only for -xs, -sm breakpoints.
+				locals:{
+					itemId: itemId,
+					itemsTypes: $scope.itemsTypes
+				}
+	    }).then(
+				function (item) {
+					$scope.saveItem(item);
+				},
+				function () {
+
+				}
+			);
+		}
+
+		function EditItemController($scope, itemId, itemsTypes) {
+
+			$scope.itemsTypes = itemsTypes;
+
+			$scope.loandignData = true;
+			itemsService.get(itemId).
+				then(
+					function successCallback(response) {
+						$scope.loandignData = false;
+						$scope.edititem = response.data.data.item;
+						$scope.loandignData = false;
+					},
+					function errorCallback(response) {
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
+					}
+				);
+
+			$scope.cancel = function() {
+				$mdDialog.hide();
+			};
+
+			$scope.saveItem = function (edititem) {
+				$mdDialog.hide(edititem);
+			}
+		}
+
 		$scope.openAddNumber = function(ev, item) {
 		    $mdDialog.show({
 		      controller: 'InventoryCtrl',
@@ -34,7 +106,7 @@ angular.module('bodegaUninorteApp')
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
 		      clickOutsideToClose:true,
-		      fullscreen: true // Only for -xs, -sm breakpoints.
+		      fullscreen: false // Only for -xs, -sm breakpoints.
 		    })
 		    .then(function(answer) {
 		    	item.number = answer;
@@ -93,6 +165,7 @@ angular.module('bodegaUninorteApp')
 
 		$scope.getItemsType = function () {
 			$scope.itemsTypes = [];
+			console.log("asd");
 			$scope.loandignData = true;
 			itemsService.getItemsType().
 				then(
@@ -163,10 +236,10 @@ angular.module('bodegaUninorteApp')
 				then(
 					function successCallback(response) {
 						$scope.loandignData = false;
-						$state.go('dashboard.inventory.index');
+						$state.go('dashboard.inventory.index',{},{reload:true});
 						toastService.show("Articulo creado satisfactoriamente");
 					},
-					function errorCallback(response) {						
+					function errorCallback(response) {
 						$scope.loandignData = false;
 						if(response.data != null){
 							var msg = "";
@@ -213,7 +286,7 @@ angular.module('bodegaUninorteApp')
 				then(
 					function successCallback(response) {
 						$scope.loandignData = false;
-						$state.go('dashboard.inventory.index');
+						$state.go('dashboard.inventory.index',{},{reload:true});
 						toastService.show("Articulo guardado satisfactoriamente");
 					},
 					function errorCallback(response) {

@@ -1,4 +1,4 @@
-<md-content laout="column" flex ng-init="loadEvents()">
+<md-content laout="column" flex ng-init="loadEvents()" hide show-gt-sm>
   <md-card>
 
     <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
@@ -61,6 +61,45 @@
     <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{events.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </md-content>
+
+<div hide-gt-sm>
+  <md-toolbar hide-gt-sm>
+    <div layout="row">
+      <md-icon md-font-set="material-icons" style="padding: 0px 20px"> people </md-icon>
+      <h2 class="md-toolbar-tools">
+        <span>Lista de Usuario</span>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="loadEvents()">
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </h2>
+    </div>
+  </md-toolbar>
+  <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+
+  <md-content hide-gt-sm>
+    <md-list flex>
+      <div ng-repeat="event in events">
+        <md-list-item class="md-3-line" ng-click="goToEdit(event.id)" class="noright">
+          <!--<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />-->
+          <md-icon md-font-set="material-icons" class="list-icon"> event </md-icon>
+          <div class="md-list-item-text" layout="column">
+            <h3><b>{{ event.name }}</b></h3>
+            <h4><b>Inicio:</b> {{ event.start_date + " " + event.start_time }}</h4>
+            <h4><b>Fin:</b> {{ event.finish_date + " " + event.finish_time }}</h4>
+
+          </div>
+        </md-list-item>
+        <md-divider></md-divider>
+      </div>
+    </md-list>
+  </md-content>
+  <md-content hide-gt-sm>
+    <md-button class="md-fab md-fab-bottom-right" ng-click="openNewUser($event)">
+      <md-icon md-font-set="material-icons"> person_add </md-icon>
+    </md-button>
+  </md-content>
+</div>
 
 <md-content>
   <a ui-sref="dashboard.events.new">

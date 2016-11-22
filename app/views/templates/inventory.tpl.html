@@ -1,4 +1,4 @@
-<md-content laout="column" flex ng-init="getItemsType()">
+<md-content layout="column" flex ng-init="getItemsType()" hide show-gt-sm>
 
   <md-card>
 
@@ -48,7 +48,7 @@
             <td md-cell>{{item.min_stock}}</td>
             <td md-cell>
 
-              <a ui-sref="dashboard.inventory.edit({itemId: item.id})">
+              <a ui-sref="dashboard.inventory.edit({itemId: item.id})" ng-show="role === 'asistente' || role === 'bodega'">
                 <md-button class="md-icon-button">
                   <md-icon md-font-set="material-icons"> mode_edit </md-icon>
                 </md-button>
@@ -58,7 +58,7 @@
                 <md-icon md-font-set="material-icons"> delete_forever </md-icon>
               </md-button>-->
 
-              <md-button class="md-icon-button" ng-click="openAddNumber($event, item)">
+              <md-button class="md-icon-button" ng-show="role === 'asistente' || role === 'bodega'" ng-click="openAddNumber($event, item)">
                 <md-icon md-font-set="material-icons"> add </md-icon>
               </md-button>
 
@@ -72,10 +72,52 @@
   </md-card>
 </md-content>
 
-<md-content>
+<md-content hide-gt-sm>
+  <md-toolbar hide-gt-sm>
+    <div layout="row">
+      <md-icon md-font-set="material-icons" style="padding: 0px 20px"> content_paste </md-icon>
+      <h2 class="md-toolbar-tools">
+        <span>Lista de Articulos</span>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="loadItems()">
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </h2>
+    </div>
+  </md-toolbar>
+  <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+  <md-list flex>
+    <div ng-repeat="item in items">
+      <md-list-item class="md-3-line" ng-click="null" class="noright">
+
+        <div class="md-list-item-text" layout="column">
+          <h3><b>{{ item.name }}</b></h3>
+          <h4><b>Cantidad Disponible: </b>{{ item.number }}</h4>
+          <p>{{ item.type }}</p>
+
+          <md-icon md-font-set="material-icons" class="md-secondary" style="padding: 0px 10px !important;" ng-click="openEditItem($event, item.id)" ng-show="role === 'asistente' || role === 'bodega'"> mode_edit </md-icon>
+          <md-icon md-font-set="material-icons" class="md-secondary" style="padding: 0px 10px !important;" ng-click="openAddNumber($event, item)" ng-show="role === 'asistente' || role === 'bodega'"> add </md-icon>
+
+        </div>
+      </md-list-item>
+      <md-divider></md-divider>
+    </div>
+  </md-list>
+</md-content>
+
+
+<md-content hide show-gt-sm>
   <a ui-sref="dashboard.inventory.new">
     <md-button class="md-fab md-fab-bottom-right" ng-click="">
       <md-icon md-font-set="material-icons"> note_add </md-icon>
     </md-button>
   </a>
+</md-content>
+
+<md-content hide-gt-sm>
+
+  <md-button class="md-fab md-fab-bottom-right" ng-click="openNewItem($event)">
+    <md-icon md-font-set="material-icons"> note_add </md-icon>
+  </md-button>
+
 </md-content>

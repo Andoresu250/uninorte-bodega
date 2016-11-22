@@ -37,6 +37,7 @@ module.exports = function(config) {
       'bower_components/angular-material-datetimepicker/js/angular-material-datetimepicker.min.js',
       'bower_components/chart.js/dist/Chart.js',
       'bower_components/angular-chart.js/dist/angular-chart.js',
+      'bower_components/angular-md-pull-to-refresh/angular-md-pull-to-refresh.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

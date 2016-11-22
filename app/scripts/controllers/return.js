@@ -5,6 +5,19 @@ angular.module('bodegaUninorteApp')
     $scope.role = sessionService.get("type");
     $scope.showload = true;
 
+    $scope.goToReturn = function (order) {
+      if(order.complete){
+          $state.go('dashboard.orders.view', {orderId: order.id});
+      }else{
+          $state.go('dashboard.orders.return.view', {orderId: order.id});
+      }
+
+    }
+
+    $scope.goToView = function (orderId) {
+
+    }
+
     if ($stateParams.orderId !== undefined) {
       $scope.loandignData = true;
       ordersService.get($stateParams.orderId).
@@ -219,13 +232,13 @@ angular.module('bodegaUninorteApp')
 		      parent: angular.element(document.body),
 		      targetEvent: ev,
 		      clickOutsideToClose:true,
-		      fullscreen: true,
+		      fullscreen: false,
           locals: {
             item : item
           }
 		    })
 		    .then(function(answer) {
-		    	item.number = answer.number;            
+		    	item.number = answer.number;
 		      	ordersService.addReturn(order.id, item.id, answer.number, answer.comment).
 		      		then(
 		      			function successfullCallback(response) {

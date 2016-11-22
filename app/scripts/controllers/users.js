@@ -56,7 +56,7 @@ angular.module('bodegaUninorteApp')
 			usersService.edit(user).
 				then(
 					function successCallback(response) {
-						$state.go('dashboard.users.index');
+						$state.go('dashboard.users.index',{},{reload: true});
 						toastService.show("Usuario ha sido guardado satisfactoriamente");
 					},
 					function errorCallback(response) {
@@ -77,14 +77,85 @@ angular.module('bodegaUninorteApp')
 
 		//Dialog config
 
-		 $scope.deleteUser = function(ev, id, email) {
+		$scope.openNewUser = function (ev) {
+			$mdDialog.show({
+	      controller: 'UsersCtrl',
+	      templateUrl: 'views/templates/new-user.tpl.html',
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose:true,
+	      fullscreen: true // Only for -xs, -sm breakpoints.
+	    });
+		}
+
+		$scope.openEditUser = function (ev, user_id) {
+			$mdDialog.show({
+	      controller: EditUserController,
+	      templateUrl: 'views/templates/edit-user.tpl.html',
+	      parent: angular.element(document.body),
+	      targetEvent: ev,
+	      clickOutsideToClose: true,
+	      fullscreen: true, // Only for -xs, -sm breakpoints.
+				locals:{
+					user_id: user_id
+				}
+	    }).then(
+				function (user) {
+					$scope.saveUser(user);
+				},
+				function () {
+
+				}
+			);
+		}
+
+		function EditUserController($scope, $mdDialog, user_id) {
+
+			$scope.usersTypes = ['admin','director','asistente','bodega','asesor'];
+
+			$scope.loandignData = true;
+			usersService.get(user_id).
+				then(
+					function successCallback(response) {
+						$scope.editUser = response.data.data.user;
+						$scope.loandignData = false;
+					},
+					function errorCallback(response) {
+						$scope.loandignData = false;
+						if(response.data != null){
+							var msg = "";
+							for(var error of response.data){
+								msg += error + " ";
+							}
+							toastService.show(msg);
+						}
+						if(response.status == -1){
+							toastService.show("Error en la conexion con el servidor. verifique su conexion de internet y refresque la pagina, si el error persiste comuniquese con el administrador del sistema");
+						}
+					}
+				);
+
+			$scope.cancel = function () {
+				$mdDialog.cancel()
+			}
+
+			$scope.saveUser = function (user) {
+				$mdDialog.hide(user);
+			}
+		}
+
+		$scope.cancel = function () {
+			$mdDialog.cancel()
+		}
+
+	 	$scope.deleteUser = function(ev, id, email) {
 
 		    var confirm = $mdDialog.confirm()
 		          .title('Esta seguro de eliminar al usuario con email: ' + email)
 		          .textContent('Una vez hecho esto no habra no prodras deshacer los cambios.')
 		          .ariaLabel('Borrar usuario')
 		          .targetEvent(ev)
-		          .ok('Elimiar')
+		          .ok('Eliminar')
 		          .cancel('Cancelar');
 
 		    $mdDialog.show(confirm).then(function() {
@@ -147,6 +218,7 @@ angular.module('bodegaUninorteApp')
 					function successCallback(response){
 						$scope.users = response.data.data.Users;
 						$scope.showload = false;
+						
 					},
 					function errorCallback(response){
 						$scope.showload = false;

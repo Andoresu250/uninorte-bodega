@@ -61,7 +61,7 @@
 
     <md-list flex>
 
-      <md-list-item ng-click="goTo('dashboard.statistics')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'asistente'">
+      <md-list-item ng-click="goTo('dashboard.statistics')" ng-hide="role === 'asesor' || role === 'bodega' || role === 'admin'">
         <md-icon md-font-set="material-icons"> show_chart </md-icon>
         <p> Estadisticas </p>
       </md-list-item>
@@ -71,23 +71,23 @@
         <p> Usuarios </p>
       </md-list-item>
 
-      <md-list-item ng-click="goTo('dashboard.orders')">
+      <md-list-item ng-click="goTo('dashboard.orders')" ng-hide="role === 'admin'">
         <md-icon md-font-set="material-icons"> local_grocery_store </md-icon>
         <p> Pedidios</p>
       </md-list-item>
 
-      <md-list-item ng-click="goTo('dashboard.orders.return')">
+      <md-list-item ng-click="goTo('dashboard.orders.return')" ng-show="role === 'bodega' || role === 'asistente' || role === 'asesor'">
         <md-icon md-font-set="material-icons"> assignment_return </md-icon>
         <p> Devoluciones</p>
       </md-list-item>
 
 
-      <md-list-item ng-click="goTo('dashboard.events')" ng-hide="role === 'bodega'">
+      <md-list-item ng-click="goTo('dashboard.events')" ng-hide="role === 'admin'">
         <md-icon md-font-set="material-icons"> event </md-icon>
         <p> Eventos </p>
       </md-list-item>
 
-      <md-list-item ng-click="goTo('dashboard.inventory')" ng-hide="role === 'asesor' || role === 'asistente'">
+      <md-list-item ng-click="goTo('dashboard.inventory')" ng-show="role === 'bodega' || role === 'asistente'">
         <md-icon md-font-set="material-icons"> content_paste </md-icon>
         <p> Inventario </p>
       </md-list-item>

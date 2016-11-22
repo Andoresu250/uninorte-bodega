@@ -80,6 +80,12 @@ md-grid-tile-footer figcaption h3 {
   margin-left: -2px !important;
 }
 
-div.md-dialog-container {}
+.list-icon {
+  margin-top: -15px !important;
+  margin-left: -10px !important;
+  font-size: 300% !important;
+}
 
-md-dialog {}
+md-progress-linear.im-pull-to-refresh-progress-bar {
+  padding-left: -10000px !important;
+}

@@ -1,4 +1,4 @@
-<md-content layout="column" flex ng-init="loadUsers()">
+<md-content layout="column" flex ng-init="loadUsers()" hide show-gt-sm>
 
   <md-card>
 
@@ -57,10 +57,53 @@
   </md-card>
 </md-content>
 
-<md-content>
+<md-content hide show-gt-sm>
   <a ui-sref="dashboard.users.new">
     <md-button class="md-fab md-fab-bottom-right" ng-click="">
       <md-icon md-font-set="material-icons"> person_add </md-icon>
     </md-button>
   </a>
 </md-content>
+
+<!--Vista Mobil-->
+<div hide-gt-sm>
+  <md-toolbar hide-gt-sm>
+    <div layout="row">
+      <md-icon md-font-set="material-icons" style="padding: 0px 20px"> people </md-icon>
+      <h2 class="md-toolbar-tools">
+        <span>Lista de Usuario</span>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="loadUsers()">
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </h2>
+    </div>
+  </md-toolbar>
+  <md-progress-linear md-mode="indeterminate" ng-show="showload"></md-progress-linear>
+
+  <md-content hide-gt-sm>
+    <md-list flex>
+      <div ng-repeat="user in users">
+        <md-list-item class="md-3-line" ng-click="null" class="noright">
+          <!--<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />-->
+          <md-icon md-font-set="material-icons" class="list-icon"> person </md-icon>
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ user.name }}</h3>
+            <h4>{{ user.email }}</h4>
+            <p>{{ user.type }}</p>
+
+            <md-icon md-font-set="material-icons" class="md-secondary" style="padding: 0px 10px !important;" ng-show="role === 'admin'" ng-click="openEditUser($event, user.id)"> mode_edit </md-icon>
+            <md-icon md-font-set="material-icons" class="md-secondary" style="padding: 0px 10px !important;" ng-show="role === 'admin'" ng-click="deleteUser($event, user.id, user.email)"> delete_forever </md-icon>
+
+          </div>
+        </md-list-item>
+        <md-divider></md-divider>
+      </div>
+    </md-list>
+  </md-content>
+  <md-content hide-gt-sm>
+    <md-button class="md-fab md-fab-bottom-right" ng-click="openNewUser($event)">
+      <md-icon md-font-set="material-icons"> person_add </md-icon>
+    </md-button>
+  </md-content>
+</div>

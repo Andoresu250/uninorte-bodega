@@ -1,4 +1,4 @@
-<md-content layout="column" flex>
+<md-content layout="column" flex hide show-gt-sm>
   <md-card>
 
     <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
@@ -55,3 +55,43 @@
     <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{orders.length}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
   </md-card>
 </md-content>
+
+<!--Vista Mobil-->
+<div hide-gt-sm>
+  <md-toolbar hide-gt-sm>
+    <div layout="row">
+      <h2 class="md-toolbar-tools">
+        <span>Lista de Pedidos {{name}}</span>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="loadOrders()">
+          <md-icon md-font-set="material-icons"> refresh </md-icon>
+        </md-button>
+      </h2>
+    </div>
+  </md-toolbar>
+  <md-progress-linear md-mode="indeterminate" ng-show="loading"></md-progress-linear>
+
+  <md-content hide-gt-sm>
+    <md-list flex>
+      <div ng-repeat="order in orders">
+        <md-list-item class="md-3-line" ng-click="goToView(order.id)" class="noright">
+          <!--<img ng-src="{{item.face}}?{{$index}}" class="md-avatar" alt="{{item.who}}" />-->
+          <md-icon md-font-set="material-icons" class="list-icon"> shopping_cart </md-icon>
+          <div class="md-list-item-text" layout="column">
+
+            <h3>{{order.name_client}}</h3>
+            <h4>{{order.event_name}}</h4>
+            <p>{{order.order_status}}</p>
+
+          </div>
+        </md-list-item>
+        <md-divider></md-divider>
+      </div>
+    </md-list>
+    <div ng-if="orders.length === 0">
+      <center>
+        <p>No hay pedidos {{name}}.</p>
+      </center>
+    </div>
+  </md-content>
+</div>

@@ -1,98 +1,194 @@
-<div ng-init="getItemsType();"></div>
-<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData">
-	<div>
-		<div layout="row" layout-sm="column" layout-align="space-around">
-			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+<div ng-init="getItemsType();" hide show-gt-sm>
+	<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData">
+		<div>
+			<div layout="row" layout-sm="column" layout-align="space-around">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+			</div>
 		</div>
 	</div>
-</div>
 
-</br>
+	</br>
 
-<div ng-hide="loandignData">
-	<div layout="column" layout-align="center center" layout-fill class="">
-		<div class="loginBox md-whiteframe-z1" layout="column">
-			<md-toolbar>
-				<div layout="row">
-					<md-icon md-font-set="material-icons" style="padding: 0px 20px"> mode_edit </md-icon>
-					<h2 class="md-toolbar-tools"><span>Editar Articulo</span></h2>
-				</div>
-			</md-toolbar>
-			<md-content class="md-padding" layout="column">
-
-				<form name="editItemForm" ng-submit="saveItem(edititem)">
-
-					<md-input-container class="md-block">
-						<label>Nombre</label>
-						<input type="text" name="itemName" ng-model="edititem.name" required>
-						<div ng-messages="editItemForm.itemName.$error">
-							<div ng-message="required">Campo requerido.</div>
-						</div>
-					</md-input-container>
-
-					<md-input-container class="md-block">
-						<label>Cantidad del articulo</label>
-						<input type="number" name="itemNumber" ng-model="edititem.number" min="1" required>
-						<div ng-messages="editItemForm.itemNumber.$error">
-							<div ng-message="required">Campo requerido.</div>
-							<div ng-message="min">Minimo una unidad.</div>
-						</div>
-					</md-input-container>
-
-					<md-input-container class="md-block">
-						<label>Precio del articulo</label>
-						<input type="number" name="itemPrice" ng-model="edititem.price" min="1" required>
-						<div ng-messages="editItemForm.itemPrice.$error">
-							<div ng-message="required">Campo requerido.</div>
-							<div ng-message="min">Solo costos mayores a 0.</div>
-						</div>
-					</md-input-container>
-
-					<md-input-container class="md-block">
-						<label>Re-Orden del articulo</label>
-						<input type="number" name="itemReorder" ng-model="edititem.reorder" min="1" required>
-						<div ng-messages="editItemForm.itemReorder.$error">
-							<div ng-message="required">Campo requerido.</div>
-							<div ng-message="min">Solo valores mayores a 0.</div>
-						</div>
-					</md-input-container>
-
-					<md-input-container class="md-block">
-						<label>Stock minimo del articulo</label>
-						<input type="number" name="itemMinStock" ng-model="edititem.min_stock" min="1" required>
-						<div ng-messages="editItemForm.itemMinStock.$error">
-							<div ng-message="required">Campo requerido.</div>
-							<div ng-message="min">Solo valores mayores a 0.</div>
-						</div>
-					</md-input-container>
-
-					<md-input-container class="md-block">
-						<label>Tipo de articulo</label>
-						<md-select ng-model="edititem.item_type_id" name="edititemType" required>
-							<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
-								{{type.name}}
-							</md-option>
-						</md-select>
-						<div ng-messages="editItemForm.edititemType.$error">
-							<div ng-message="required">Campo requerido.</div>
-						</div>
-					</md-input-container>
-
-
-					<div layout="row" layout-aling="center center" style="padding-top:20px;">
-						<a ui-sref="dashboard.inventory.index">
-							<md-button class="md-raised md-accent">
-								<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
-								Volver
-							</md-button>
-						</a>
-						<div flex></div>
-						<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!editItemForm.$valid">Guardar Articulo</md-button>
+	<div ng-hide="loandignData">
+		<div layout="column" layout-align="center center" layout-fill class="">
+			<div class="loginBox md-whiteframe-z1" layout="column">
+				<md-toolbar>
+					<div layout="row">
+						<md-icon md-font-set="material-icons" style="padding: 0px 20px"> mode_edit </md-icon>
+						<h2 class="md-toolbar-tools"><span>Editar Articulo</span></h2>
 					</div>
+				</md-toolbar>
+				<md-content class="md-padding" layout="column">
 
-				</form>
+					<form name="editItemForm" ng-submit="saveItem(edititem)">
 
-			</md-content>
+						<md-input-container class="md-block">
+							<label>Nombre</label>
+							<input type="text" name="itemName" ng-model="edititem.name" required>
+							<div ng-messages="editItemForm.itemName.$error">
+								<div ng-message="required">Campo requerido.</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+							<label>Cantidad del articulo</label>
+							<input type="number" name="itemNumber" ng-model="edititem.number" min="1" required>
+							<div ng-messages="editItemForm.itemNumber.$error">
+								<div ng-message="required">Campo requerido.</div>
+								<div ng-message="min">Minimo una unidad.</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+							<label>Precio del articulo</label>
+							<input type="number" name="itemPrice" ng-model="edititem.price" min="1" required>
+							<div ng-messages="editItemForm.itemPrice.$error">
+								<div ng-message="required">Campo requerido.</div>
+								<div ng-message="min">Solo costos mayores a 0.</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+							<label>Re-Orden del articulo</label>
+							<input type="number" name="itemReorder" ng-model="edititem.reorder" min="1" required>
+							<div ng-messages="editItemForm.itemReorder.$error">
+								<div ng-message="required">Campo requerido.</div>
+								<div ng-message="min">Solo valores mayores a 0.</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+							<label>Stock minimo del articulo</label>
+							<input type="number" name="itemMinStock" ng-model="edititem.min_stock" min="1" required>
+							<div ng-messages="editItemForm.itemMinStock.$error">
+								<div ng-message="required">Campo requerido.</div>
+								<div ng-message="min">Solo valores mayores a 0.</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container class="md-block">
+							<label>Tipo de articulo</label>
+							<md-select ng-model="edititem.item_type_id" name="edititemType" required>
+								<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
+									{{type.name}}
+								</md-option>
+							</md-select>
+							<div ng-messages="editItemForm.edititemType.$error">
+								<div ng-message="required">Campo requerido.</div>
+							</div>
+						</md-input-container>
+
+
+						<div layout="row" layout-aling="center center" style="padding-top:20px;">
+							<a ui-sref="dashboard.inventory.index">
+								<md-button class="md-raised md-accent">
+									<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+									Volver
+								</md-button>
+							</a>
+							<div flex></div>
+							<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!editItemForm.$valid">Guardar Articulo</md-button>
+						</div>
+
+					</form>
+
+				</md-content>
+			</div>
 		</div>
 	</div>
 </div>
+
+<!--Vista mobil-->
+
+
+
+<md-dialog hide-gt-sm>
+	<form name="editItemForm" ng-submit="saveItem(edititem)">
+		<md-toolbar>
+			<div layout="row">
+				<md-icon md-font-set="material-icons" style="padding: 0px 20px"> mode_edit </md-icon>
+				<h2 class="md-toolbar-tools"><span>Editar Articulo</span></h2>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+
+			<div flex layout="column" layout-align="center center" class="text-center" ng-show="loandignData" hide-gt-sm>
+				<div>
+					<div layout="row" layout-sm="column" layout-align="space-around">
+						<md-progress-circular md-mode="indeterminate" style="margin-top: 200px !important;"></md-progress-circular>
+					</div>
+				</div>
+			</div>
+
+			<div class="md-dialog-content" ng-hide="loandignData">
+
+				<md-input-container class="md-block">
+					<label>Nombre</label>
+					<input type="text" name="itemName" ng-model="edititem.name" required>
+					<div ng-messages="editItemForm.itemName.$error">
+						<div ng-message="required">Campo requerido.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Cantidad del articulo</label>
+					<input type="number" name="itemNumber" ng-model="edititem.number" min="1" required>
+					<div ng-messages="editItemForm.itemNumber.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="min">Minimo una unidad.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Precio del articulo</label>
+					<input type="number" name="itemPrice" ng-model="edititem.price" min="1" required>
+					<div ng-messages="editItemForm.itemPrice.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="min">Solo costos mayores a 0.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Re-Orden del articulo</label>
+					<input type="number" name="itemReorder" ng-model="edititem.reorder" min="1" required>
+					<div ng-messages="editItemForm.itemReorder.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="min">Solo valores mayores a 0.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Stock minimo del articulo</label>
+					<input type="number" name="itemMinStock" ng-model="edititem.min_stock" min="1" required>
+					<div ng-messages="editItemForm.itemMinStock.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="min">Solo valores mayores a 0.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Tipo de articulo</label>
+					<md-select ng-model="edititem.item_type_id" name="edititemType" required>
+						<md-option ng-repeat="type in itemsTypes" ng-value="type.id">
+							{{type.name}}
+						</md-option>
+					</md-select>
+					<div ng-messages="editItemForm.edititemType.$error">
+						<div ng-message="required">Campo requerido.</div>
+					</div>
+				</md-input-container>
+
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row" style="position: fixed !important; bottom: 0 !important; width: 100%;">
+			<md-button ng-click="cancel()">
+				Cancelar
+			</md-button>
+			<span flex></span>
+			<md-button type="submit" ng-disabled="!editItemForm.$valid">
+				Guardar Cambios
+			</md-button>
+		</md-dialog-actions>
+	</form>
+</md-dialog>

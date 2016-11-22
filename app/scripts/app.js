@@ -15,7 +15,8 @@ angular
     'ui.router',
     'md.data.table',
     'ngMaterialDatePicker',
-    'chart.js'
+    'chart.js',
+    'infomofo.angularMdPullToRefresh'
   ])
   .constant('urlConstant', 'http://localhost:3000/api/v1/')
   .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {

@@ -6,6 +6,10 @@ angular.module('bodegaUninorteApp')
 
 		$scope.role = sessionService.get("type");
 
+		$scope.goToEdit = function (event_id) {
+			$state.go('dashboard.events.edit',{eventId: event_id});
+		}
+
 		//TABLE CONFIG
   	$scope.selected = [];
 		$scope.limitOptions = [15];

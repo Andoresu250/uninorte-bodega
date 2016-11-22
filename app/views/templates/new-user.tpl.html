@@ -1,94 +1,174 @@
-<div flex layout="column" layout-align="center center" class="text-center" ng-show="loading">
-	<div>
-		<div layout="row" layout-sm="column" layout-align="space-around">
-			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+<div hide show-gt-sm>
+	<div flex layout="column" layout-align="center center" class="text-center" ng-show="loading">
+		<div>
+			<div layout="row" layout-sm="column" layout-align="space-around">
+				<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+			</div>
 		</div>
 	</div>
-</div>
-</br>
-<div flex layout="column" ng-hide="loading">
-	<div>
-		<div layout="column" layout-align="center center" layout-fill class="">
-			<div class="loginBox md-whiteframe-z1" layout="column">
-				<md-toolbar>
-					<div layout="row">
-						<md-icon md-font-set="material-icons" style="padding: 0px 20px"> person_add </md-icon>
-						<h2 class="md-toolbar-tools"><span>Nuevo Usuario</span></h2>
-					</div>
-				</md-toolbar>
-				<md-content class="md-padding" layout="column">
-
-					<form name="newUserForm" ng-submit="createUser(newuser)">
-
-						<md-input-container class="md-block">
-							<label>Nombre</label>
-							<md-icon md-font-set="material-icons"> person </md-icon>
-							<input type="text" name="userName" ng-model="newuser.name" required>
-							<div ng-messages="newUserForm.userName.$error">
-								<div ng-message="required">Campo requerido.</div>
-								<div ng-message="minlength">Campo requerido.</div>
-							</div>
-						</md-input-container>
-
-						<md-input-container class="md-block">
-							<label>Email</label>
-							<md-icon md-font-set="material-icons"> email </md-icon>
-							<input type="email" name="userEmail" ng-model="newuser.email" ng-pattern="/^.+@.+\..+$/" required>
-							<div ng-messages="newUserForm.userEmail.$error">
-								<div ng-message="required">Campo requerido.</div>
-								<div ng-message="pattern">Email invalido.</div>
-							</div>
-						</md-input-container>
-
-						<md-input-container class="md-block">
-							<label>Contraseña</label>
-							<md-icon md-font-set="material-icons"> lock_open </md-icon>
-							<input type="password" name="userPassword" ng-model="newuser.password" minlength="6" required>
-							<div ng-messages="newUserForm.userPassword.$error">
-								<div ng-message="required">Campo requerido.</div>
-								<div ng-message="minlength">Contraseña muy corta.</div>
-							</div>
-						</md-input-container>
-
-						<md-input-container class="md-block">
-							<label>Confirmar Contraseña</label>
-							<md-icon md-font-set="material-icons"> lock </md-icon>
-							<input type="password" name="passwordConfirmation" ng-model="newuser.repassword" ng-pattern="{{newuser.password}}" required>
-							<div ng-messages="newUserForm.passwordConfirmation.$error">
-								<div ng-message="required">Campo requerido.</div>
-								<div ng-message="pattern">La contraseña no coincide.</div>
-							</div>
-						</md-input-container>
-
-						<md-input-container class="md-block">
-							<label>Tipo de usuario</label>
-							<md-icon md-font-set="material-icons"> fingerprint </md-icon>
-							<md-select ng-model="newuser.type" name="newUserType" required>
-								<md-option ng-repeat="type in usersTypes" ng-value="type">
-									{{type}}
-								</md-option>
-							</md-select>
-							<div ng-messages="newUserForm.newUserType.$error">
-								<div ng-message="required">Campo requerido.</div>
-							</div>
-						</md-input-container>
-
-
-						<div layout="row" layout-aling="center center" style="padding-top:20px;">
-							<a ui-sref="dashboard.users.index">
-								<md-button class="md-raised md-accent">
-									<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
-									Volver
-								</md-button>
-							</a>
-							<div flex></div>
-							<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!newUserForm.$valid">Crear Usuario</md-button>
+	</br>
+	<div flex layout="column" ng-hide="loading">
+		<div>
+			<div layout="column" layout-align="center center" layout-fill class="">
+				<div class="loginBox md-whiteframe-z1" layout="column">
+					<md-toolbar>
+						<div layout="row">
+							<md-icon md-font-set="material-icons" style="padding: 0px 20px"> person_add </md-icon>
+							<h2 class="md-toolbar-tools"><span>Nuevo Usuario</span></h2>
 						</div>
+					</md-toolbar>
+					<md-content class="md-padding" layout="column">
 
-					</form>
+						<form name="newUserForm" ng-submit="createUser(newuser)">
 
-				</md-content>
+							<md-input-container class="md-block">
+								<label>Nombre</label>
+								<md-icon md-font-set="material-icons"> person </md-icon>
+								<input type="text" name="userName" ng-model="newuser.name" required>
+								<div ng-messages="newUserForm.userName.$error">
+									<div ng-message="required">Campo requerido.</div>
+									<div ng-message="minlength">Campo requerido.</div>
+								</div>
+							</md-input-container>
+
+							<md-input-container class="md-block">
+								<label>Email</label>
+								<md-icon md-font-set="material-icons"> email </md-icon>
+								<input type="email" name="userEmail" ng-model="newuser.email" ng-pattern="/^.+@.+\..+$/" required>
+								<div ng-messages="newUserForm.userEmail.$error">
+									<div ng-message="required">Campo requerido.</div>
+									<div ng-message="pattern">Email invalido.</div>
+								</div>
+							</md-input-container>
+
+							<md-input-container class="md-block">
+								<label>Contraseña</label>
+								<md-icon md-font-set="material-icons"> lock_open </md-icon>
+								<input type="password" name="userPassword" ng-model="newuser.password" minlength="6" required>
+								<div ng-messages="newUserForm.userPassword.$error">
+									<div ng-message="required">Campo requerido.</div>
+									<div ng-message="minlength">Contraseña muy corta.</div>
+								</div>
+							</md-input-container>
+
+							<md-input-container class="md-block">
+								<label>Confirmar Contraseña</label>
+								<md-icon md-font-set="material-icons"> lock </md-icon>
+								<input type="password" name="passwordConfirmation" ng-model="newuser.repassword" ng-pattern="{{newuser.password}}" required>
+								<div ng-messages="newUserForm.passwordConfirmation.$error">
+									<div ng-message="required">Campo requerido.</div>
+									<div ng-message="pattern">La contraseña no coincide.</div>
+								</div>
+							</md-input-container>
+
+							<md-input-container class="md-block">
+								<label>Tipo de usuario</label>
+								<md-icon md-font-set="material-icons"> fingerprint </md-icon>
+								<md-select ng-model="newuser.type" name="newUserType" required>
+									<md-option ng-repeat="type in usersTypes" ng-value="type">
+										{{type}}
+									</md-option>
+								</md-select>
+								<div ng-messages="newUserForm.newUserType.$error">
+									<div ng-message="required">Campo requerido.</div>
+								</div>
+							</md-input-container>
+
+
+							<div layout="row" layout-aling="center center" style="padding-top:20px;">
+								<a ui-sref="dashboard.users.index">
+									<md-button class="md-raised md-accent">
+										<md-icon md-font-set="material-icons"> keyboard_backspace </md-icon>
+										Volver
+									</md-button>
+								</a>
+								<div flex></div>
+								<md-button type="submit" class="md-raised md-primary" ng-click="" ng-disabled="!newUserForm.$valid">Crear Usuario</md-button>
+							</div>
+
+						</form>
+
+					</md-content>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
+<md-dialog hide-gt-sm>
+	<form name="newUserForm" ng-submit="createUser(newuser)">
+		<md-toolbar>
+			<div layout="row">
+				<md-icon md-font-set="material-icons" style="padding: 0px 20px"> person_add </md-icon>
+				<h2 class="md-toolbar-tools"><span>Nuevo Usuario</span></h2>
+			</div>
+		</md-toolbar>
+		<md-dialog-content>
+			<div class="md-dialog-content">
+
+				<md-input-container class="md-block">
+					<label>Nombre</label>
+					<md-icon md-font-set="material-icons"> person </md-icon>
+					<input type="text" name="userName" ng-model="newuser.name" required>
+					<div ng-messages="newUserForm.userName.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="minlength">Campo requerido.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Email</label>
+					<md-icon md-font-set="material-icons"> email </md-icon>
+					<input type="email" name="userEmail" ng-model="newuser.email" ng-pattern="/^.+@.+\..+$/" required>
+					<div ng-messages="newUserForm.userEmail.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="pattern">Email invalido.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Contraseña</label>
+					<md-icon md-font-set="material-icons"> lock_open </md-icon>
+					<input type="password" name="userPassword" ng-model="newuser.password" minlength="6" required>
+					<div ng-messages="newUserForm.userPassword.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="minlength">Contraseña muy corta.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Confirmar Contraseña</label>
+					<md-icon md-font-set="material-icons"> lock </md-icon>
+					<input type="password" name="passwordConfirmation" ng-model="newuser.repassword" ng-pattern="{{newuser.password}}" required>
+					<div ng-messages="newUserForm.passwordConfirmation.$error">
+						<div ng-message="required">Campo requerido.</div>
+						<div ng-message="pattern">La contraseña no coincide.</div>
+					</div>
+				</md-input-container>
+
+				<md-input-container class="md-block">
+					<label>Tipo de usuario</label>
+					<md-icon md-font-set="material-icons"> fingerprint </md-icon>
+					<md-select ng-model="newuser.type" name="newUserType" required>
+						<md-option ng-repeat="type in usersTypes" ng-value="type">
+							{{type}}
+						</md-option>
+					</md-select>
+					<div ng-messages="newUserForm.newUserType.$error">
+						<div ng-message="required">Campo requerido.</div>
+					</div>
+				</md-input-container>
+			</div>
+		</md-dialog-content>
+
+		<md-dialog-actions layout="row" style="position: fixed !important; bottom: 0 !important; width: 100%;">
+			<md-button ng-click="cancel()">
+				Cancelar
+			</md-button>
+			<span flex></span>
+			<md-button type="submit" ng-disabled="!newUserForm.$valid">
+				Crear Usuario
+			</md-button>
+		</md-dialog-actions>
+
+	</form>
+</md-dialog>
