@@ -9,7 +9,8 @@ angular.module('bodegaUninorteApp')
 		}
 
 		$scope.logout = function () {
-			loginService.logout();
+			console.log("salir");
+			loginService.logout();						
 		}
 
 

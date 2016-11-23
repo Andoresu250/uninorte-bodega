@@ -199,7 +199,11 @@ angular
         var isLogin = toState.name === "login";
         if(isLogin && loginService.islogged()){
           e.preventDefault(); // stop current execution
-          $state.go('dashboard'); // go to dashboard root
+          if(sessionService.get('type') === 'admin'){
+            $state.go('dashboard.users');
+          }else{
+              $state.go('dashboard.orders'); // go to dashboard root
+          }          
         }
 
         if(isLogin && !loginService.islogged()){
