@@ -18,7 +18,7 @@ angular
     'chart.js',
     'infomofo.angularMdPullToRefresh'
   ])
-  .constant('urlConstant', 'http://localhost:3000/api/v1/')
+  .constant('urlConstant', 'http://10.20.37.38:8000/api/v1/')
   .config(function (loginServiceProvider, $stateProvider, $urlRouterProvider, $mdThemingProvider) {
 
     $mdThemingProvider.theme('default')

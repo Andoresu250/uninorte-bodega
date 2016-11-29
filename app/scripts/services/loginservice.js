@@ -49,9 +49,10 @@ angular.module('bodegaUninorteApp')
               $cookieStore.put('token', undefined);
               $cookieStore.put('type', undefined);
             });
+          $state.go('login');
         }
         console.log("redireccionando");
-        $state.go('login');
+        
       },
       islogged:function(){
         if(sessionService.get('token')){
