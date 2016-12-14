@@ -24,8 +24,11 @@
       <md-button ng-click="cancel()">
         Cancelar
       </md-button>
-      <md-button ng-click="accept(comment)" ng-disabled="!addform.$valid">
+      <md-button ng-click="accept(comment)" ng-disabled="!addform.$valid" ng-if="action != 'CANCELAR'">
         {{action}}
+      </md-button>
+      <md-button ng-click="accept(comment)" ng-disabled="!addform.$valid" ng-if="action == 'CANCELAR'">
+        ENVIAR
       </md-button>
     </md-dialog-actions>
   </form>

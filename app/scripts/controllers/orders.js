@@ -107,7 +107,7 @@ angular.module('bodegaUninorteApp')
     $scope.configTable = function () {
       //TABLE CONFIG
       $scope.selected = [];
-      $scope.limitOptions = [15];
+      $scope.limitOptions = [50];
 
       $scope.options = {
         rowSelection: false,
@@ -122,7 +122,7 @@ angular.module('bodegaUninorteApp')
 
       $scope.query = {
         order: 'name',
-        limit: 20,
+        limit: 50,
         page: 1
       };
     }
